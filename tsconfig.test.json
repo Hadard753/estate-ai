@@ -1,0 +1,9 @@
+{
+    "extends": "./tsconfig.json",
+    "exclude": [
+        "estateai-client", // <-- We removed the spec files in order to compile them as well
+        "src/tests",
+        "node_modules",
+        "dist"
+    ]
+}

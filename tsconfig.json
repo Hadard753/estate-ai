@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["es2016", "DOM", "ESNext.AsyncIterable"],
+    "baseUrl": "./",
+    "declaration": true,
+    "types": ["reflect-metadata", "node", "mocha", "chai"],
+    "typeRoots": ["./node_modules/@types"],
+    "outDir": "dist",
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
+    "paths": {
+      "@shared": ["shared/index.ts"],
+      "@shared/*": ["shared/*"],
+      "@models": ["src/models/index.ts"],
+      "@models/*": ["src/models/*"],
+      "@config": ["src/config.ts"]
+    }
+  },
+  "exclude": [
+    /*
+    Because we want to allow intellisense on tests, we don't exclude any test files (*.spec.ts).
+    Instead we only on build using tsconfig.prod.json in order exclude the test files.
+    */
+    "estateai-client",
+    "src/tests",
+    "node_modules",
+    "dist"
+  ]
+}

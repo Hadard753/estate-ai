@@ -1,0 +1,10 @@
+{
+    "extends": "./tsconfig.json",
+    "exclude": [
+        "**/*.spec.ts",
+        "estateai-client",
+        "src/tests",
+        "node_modules",
+        "dist"
+    ]
+}
