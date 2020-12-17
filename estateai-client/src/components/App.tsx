@@ -1,13 +1,19 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 
+import BodyWrapper from './BodyWrapper';
 import Header from './header/Header';
-import Router from './Router';
+import Routes from './Routes';
 
 function App() {
   return (
     <div className="App">
-      <Header />
-      <Router />
+      <Router>
+        <Header />
+        <BodyWrapper>
+          <Routes />
+        </BodyWrapper>
+      </Router>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { Button } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
@@ -24,17 +25,24 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    cursor: 'pointer'
   },
 }));
 
 export const Header = () => {
-  const classes = useStyles();
-  const [auth, setAuth] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+   let history = useHistory();
 
-  const handleMenu = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    setAnchorEl((event.currentTarget as any));
+   const classes = useStyles();
+   const [auth, setAuth] = React.useState(false);
+   const [anchorEl, setAnchorEl] = React.useState(null);
+   const open = Boolean(anchorEl);
+
+   function navigate(to: string) {
+     history.push(to);
+   }
+
+   const handleMenu = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+     setAnchorEl((event.currentTarget as any));
   };
 
   const handleClose = () => {
@@ -47,7 +55,7 @@ export const Header = () => {
         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" className={classes.title}>
+        <Typography variant="h6" className={classes.title} onClick={()=> navigate('/')}>
           React App
         </Typography>
         {auth ? (
@@ -82,8 +90,8 @@ export const Header = () => {
           </div>
         ) : (
           <>
-            <Button>Login</Button>
-            <Button>Register</Button>
+            <Button onClick={() => navigate('/login')}>Login</Button>
+            <Button onClick={() => navigate('/register')}>Register</Button>
           </>
         )}
       </Toolbar>
