@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
-import { useFormStyles } from '../common';
+import { handleBlur, handleChange, useFormStyles } from '../common';
 
 export default function Login() {
   const classes = useFormStyles();
@@ -17,10 +17,10 @@ export default function Login() {
     password: '',
     showPassword: false,
   });
-
-  const handleChange = (prop: string) => (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+  const [errors, setErrors] = React.useState({
+    email: false,
+    password: false,
+  });
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
@@ -41,12 +41,14 @@ export default function Login() {
                 id="outlined-basic"
                 label="Email"
                 value={values.email}
-                onChange={handleChange('email')}
+                onChange={handleChange('email', values, setValues)}
+                onBlur={handleBlur('email', values, errors, setErrors)}
                 variant="outlined"
                 name="email"
                 type="email"
                 aria-describedby="emailHelp"
-                required />
+                required
+                error={errors['email']} />
             </FormControl>
             <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
@@ -54,8 +56,10 @@ export default function Login() {
                     id="outlined-adornment-password"
                     type={values.showPassword ? 'text' : 'password'}
                     value={values.password}
-                    onChange={handleChange('password')}
+                    onChange={handleChange('password', values, setValues)}
+                    onBlur={handleBlur('password', values, errors, setErrors)}
                     required
+                    error={errors['password']}
                     endAdornment={
                     <InputAdornment position="end">
                         <IconButton

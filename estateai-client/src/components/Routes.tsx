@@ -15,7 +15,7 @@ export default function Routes() {
   return (
         <Switch>
             {RoutesList.map(r => (
-                <Route path={r.path} component={r.component} />
+                <Route key={r.label} path={r.path} component={r.component} />
             ))}
         </Switch>
   );
