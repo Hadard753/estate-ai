@@ -99,7 +99,7 @@ To work with this template **locally (debug mode)**, follow these commands:
 
     npm run install:all # Install all dependencies required for both NodeJS and Angular
     npm run node # Run the NodeJS on debug mode
-    npm run angular # Run Angular
+    npm run react # Run React
 
 We don't run the `npm start` command as it is reserved only for the compiled code to run on a production server.
 
