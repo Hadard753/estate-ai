@@ -8,6 +8,7 @@ import Discover from './discover/Discover';
 import AboutUs from "./aboutus/AboutUs";
 import RecommendedByProperty from './recommended/RecommendedByProperty';
 import RecommendedByZone from './recommended/RecommendedByZone';
+import Calculated from "./calculated/Calculated";
 
 export const RoutesList = [
     {label: 'Login', path: '/login', component: Login},
@@ -16,6 +17,7 @@ export const RoutesList = [
     {label: 'AboutUs', path: '/aboutus', component: AboutUs},
     {label: 'RecommendedByProperty', path: '/recommendedbyproperty', component: RecommendedByProperty},
     {label: 'RecommendedByZone', path: '/recommendedbyzone', component: RecommendedByZone},
+    {label: 'Calculated', path: '/Calculated', component: Calculated},
     {label: 'Home', path: '/', component: Home},
 ]
 
