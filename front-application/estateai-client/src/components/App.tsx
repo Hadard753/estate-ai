@@ -10,9 +10,7 @@ function App() {
     <div className="App">
       <Router>
         <Header />
-        <BodyWrapper >
           <Routes />
-        </BodyWrapper>
       </Router>
     </div>
   );
