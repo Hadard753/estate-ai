@@ -43,7 +43,7 @@ export default function ReccomendedByZone() {
         <Grid container alignContent='flex-start' direction='row' spacing={2} >
 
           <Grid item className={classes.space} alignContent='center' alignItems='center' direction='column' spacing={2} justify='center' xs={3}>
-            <Typography variant="h6" gutterBottom >
+            <Typography variant="h6" gutterBottom>
               The following map will present to you the most recomendded areas for potential profit, feel free to zoom in/out for a specfic city/neighberhood
               You can also search a specfic zone
             </Typography>
@@ -56,7 +56,7 @@ export default function ReccomendedByZone() {
               <TextField className={classes.btn} label="Neigberhood" variant="filled" />
             </Grid>
 
-            <GoogleMapWrapper width='71%' height='84%' ></GoogleMapWrapper>
+            <GoogleMapWrapper width='70%' height='78%'></GoogleMapWrapper>
           </Grid>
 
         </Grid>
