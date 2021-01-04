@@ -1,6 +1,7 @@
-import React from 'react';
+//@ts-nocheck
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Typography, Toolbar, makeStyles, CssBaseline, Button, Box, Grid, TextField } from '@material-ui/core';
+import { Typography, makeStyles, CssBaseline, Button, Grid, TextField } from '@material-ui/core';
 import GoogleMapWrapper from './../googlemaps/GoogleMapWrapper';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +33,53 @@ export default function ReccomendedByZone() {
   }
   let history = useHistory();
   const classes = useStyles();
+
+  const [showingInfoWindow, setshowingInfoWindow] = useState(false);
+  const [getposition, setgetposition] = useState({});
+  const [cityFoundLat, setcityFoundLat] = useState();
+  const [cityFoundLng, setcityFoundLng] = useState();
+  const [zoom, setzoom] = useState(8);
+
+
+  const togglewindow = () => {
+    setshowingInfoWindow(!showingInfoWindow)
+}
+
+const positions = [
+  { lat: 31.0461, lng: 34.8516, weight: 4 },
+  { lat: 31.0470, lng: 34.8516, weight: 15 },
+  { lat: 31.0500, lng: 34.8516, weight: 5 },
+  { lat: 31.0550, lng: 34.8516, weight: 10 }
+]
+
+const citiescordinates = [
+  { name: "raanana" , lat: 32.184448, lng: 34.87076},
+  { name: "jerusalem", lat: 31.771959, lng: 35.217018},
+  { name: "ashdod", lat: 31.801447	, lng: 	34.643497},
+]
+
+const cityEntered = (event: React) => {
+  const found = citiescordinates.find((data => data.name == event.target.value))
+  if (found)
+   {
+    setcityFoundLat(found.lat)
+    setcityFoundLng(found.lng)
+    setzoom(13)
+   }
+  }
+
+const israelView = (event: React) => {
+    setcityFoundLat(31.0461)
+    setcityFoundLng(34.8516)
+    setzoom(8)
+   }
+
+const setMarker = (map : any, b: any, event: any) => {
+  togglewindow()
+  setgetposition(event.latLng)
+}
+
+
   return (
     <>
       <div className={classes.root}>
@@ -52,11 +100,14 @@ export default function ReccomendedByZone() {
           <Grid item direction='column' xs={8} >
 
             <Grid item direction='row'>
-              <TextField className={classes.btn} label="City" variant="filled" />
-              <TextField className={classes.btn} label="Neigberhood" variant="filled" />
+              <TextField className={classes.btn} label="City" variant="filled" onChange={(e) => cityEntered(e)} />
+              <Button className={classes.btn} size="large" onClick={(e) => israelView(e)}>Back to Israel view</Button>
             </Grid>
 
-            <GoogleMapWrapper width='70%' height='78%'></GoogleMapWrapper>
+            <GoogleMapWrapper width='70%' height='78%' mapClicked={setMarker} showingInfoWindow={showingInfoWindow} clickedPosition={getposition} heatmapPositions={positions}
+            citySearchedLat={cityFoundLat} citySearchedLng={cityFoundLng} zoom={zoom}
+            
+            ></GoogleMapWrapper>
           </Grid>
 
         </Grid>

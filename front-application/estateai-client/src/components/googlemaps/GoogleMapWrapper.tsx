@@ -1,6 +1,6 @@
 //@ts-nocheck
 import React, { EventHandler, useState } from 'react';
-import { Map, GoogleApiWrapper, InfoWindow, mapEventHandler, HeatMap, Polygon } from 'google-maps-react';
+import { Map, GoogleApiWrapper, InfoWindow, HeatMap } from 'google-maps-react';
 
 const mapStyles = {
   width: '100%',
@@ -14,32 +14,31 @@ interface GoogleMapWrapperProps {
   width?: string,
   position?: string,
   mapClicked?: mapEventHandler,
+  showingInfoWindow?: boolean,
+  clickedPosition?: Object,
+  heatmapPositions?: Object,
+  citySearchedLat?: number,
+  citySearchedLng?: Object,
+  zoom?: number,
 }
 
 function GoogleMapWrapper(props: GoogleMapWrapperProps) {
 
-  const [showingInfoWindow, setshowingInfoWindow] = useState(false);
-  const [getposition, setgetposition] = useState({});
+  // const [showingInfoWindow, setshowingInfoWindow] = useState(false);
+  // const [getposition, setgetposition] = useState({});
 
   mapStyles.height = props.height || mapStyles.height;
   mapStyles.width = props.width || mapStyles.width;
   mapStyles.position = props.position || mapStyles.position;
 
-  const positions = [
-    { lat: 31.0461, lng: 34.8516 , weight: 4},
-    { lat: 31.0470, lng: 34.8516 ,weight: 15 },
-    { lat: 31.0500, lng: 34.8516 ,weight: 5},
-    { lat: 31.0550, lng: 34.8516 ,weight: 10}
-  ]
+  // const togglewindow = () => {
+  //   setshowingInfoWindow(!showingInfoWindow)
+  // }
 
-  const togglewindow = (props) => {
-      setshowingInfoWindow(!showingInfoWindow)
-  }
-
-  const setMarker = (map, b, event) => {
-    togglewindow()
-    setgetposition(event.latLng)
-  }
+  // const setMarker = (map, b, event) => {
+  //   togglewindow()
+  //   setgetposition(event.latLng)
+  // }
 
 
   return (
@@ -47,13 +46,14 @@ function GoogleMapWrapper(props: GoogleMapWrapperProps) {
       google={props.google}
       style={mapStyles}
       initialCenter={{ lat: 31.0461, lng: 34.8516, }}
-      zoom={8}
-      onClick={setMarker}
+      zoom={props.zoom}
+      onClick={props.mapClicked}
+      center={{lat: props.citySearchedLat, lng: props.citySearchedLng}}
     >
       <InfoWindow
-        position={getposition}
-        visible={showingInfoWindow}
-        onClose={togglewindow}  >
+        position={props.clickedPosition}
+        visible={props.showingInfoWindow}
+      >
         <div>
           <h3>Zone Name </h3>
           <h4>Zone Score </h4>
@@ -63,7 +63,7 @@ function GoogleMapWrapper(props: GoogleMapWrapperProps) {
 
       <HeatMap
         opacity={0.4}
-        positions={positions}
+        positions={props.heatmapPositions}
       // radius={10}
       />
 
