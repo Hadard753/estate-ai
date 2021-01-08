@@ -14,8 +14,8 @@ interface GoogleMapWrapperProps {
   width?: string,
   position?: string,
   mapClicked?: mapEventHandler,
-  showingInfoWindow?: boolean,
-  clickedPosition?: Object,
+  infoWindoVisible?: boolean,
+  clickedPosition?: Function,
   heatmapPositions?: Object,
   citySearchedLat?: number,
   citySearchedLng?: Object,
@@ -25,8 +25,6 @@ interface GoogleMapWrapperProps {
 function GoogleMapWrapper(props: GoogleMapWrapperProps) {
 
   // const [showingInfoWindow, setshowingInfoWindow] = useState(false);
-  // const [getposition, setgetposition] = useState({});
-
   mapStyles.height = props.height || mapStyles.height;
   mapStyles.width = props.width || mapStyles.width;
   mapStyles.position = props.position || mapStyles.position;
@@ -52,10 +50,11 @@ function GoogleMapWrapper(props: GoogleMapWrapperProps) {
     >
       <InfoWindow
         position={props.clickedPosition}
-        visible={props.showingInfoWindow}
+        visible={props.infoWindoVisible}
       >
         <div>
-          <h3>Zone Name </h3>
+          <h3> Lat: {props.clickedPosition.lat()} </h3>
+          <h3> Lng: {props.clickedPosition.lng()} </h3>
           <h4>Zone Score </h4>
           <h4>Average profit made </h4>
         </div>

@@ -36,29 +36,24 @@ export default function ReccomendedByZone() {
 
   const [showingInfoWindow, setshowingInfoWindow] = useState(false);
   const [getposition, setgetposition] = useState({});
-  const [cityFoundLat, setcityFoundLat] = useState();
-  const [cityFoundLng, setcityFoundLng] = useState();
+  const [cityFoundLat, setcityFoundLat] = useState({});
+  const [cityFoundLng, setcityFoundLng] = useState({});
   const [zoom, setzoom] = useState(8);
 
-
-  const togglewindow = () => {
-    setshowingInfoWindow(!showingInfoWindow)
-}
-
-const positions = [
+const positions = [ //Was it right to place it here and not in "GoogleMapWrapper"?
   { lat: 31.0461, lng: 34.8516, weight: 4 },
   { lat: 31.0470, lng: 34.8516, weight: 15 },
   { lat: 31.0500, lng: 34.8516, weight: 5 },
   { lat: 31.0550, lng: 34.8516, weight: 10 }
 ]
 
-const citiescordinates = [
+const citiescordinates = [ //"Search DB" need to be replaced with Google auto complete API with cordinations
   { name: "raanana" , lat: 32.184448, lng: 34.87076},
   { name: "jerusalem", lat: 31.771959, lng: 35.217018},
   { name: "ashdod", lat: 31.801447	, lng: 	34.643497},
 ]
 
-const cityEntered = (event: React) => {
+const cityEntered = (event: React) => { //Was it right to place it here and not in "GoogleMapWrapper"?
   const found = citiescordinates.find((data => data.name == event.target.value))
   if (found)
    {
@@ -68,17 +63,19 @@ const cityEntered = (event: React) => {
    }
   }
 
-const israelView = (event: React) => {
+const israelView = (event: React) => { //Was it right to place it here and not in "GoogleMapWrapper"?
     setcityFoundLat(31.0461)
     setcityFoundLng(34.8516)
     setzoom(8)
    }
 
-const setMarker = (map : any, b: any, event: any) => {
+const presentInfoWindo = (map : any, b: any, event: any) => { //Was it right to place it here and not in "GoogleMapWrapper"?
   togglewindow()
   setgetposition(event.latLng)
 }
-
+const togglewindow = () => { //Was it right to place it here and not in "GoogleMapWrapper"?
+  setshowingInfoWindow(!showingInfoWindow)
+}
 
   return (
     <>
@@ -104,7 +101,7 @@ const setMarker = (map : any, b: any, event: any) => {
               <Button className={classes.btn} size="large" onClick={(e) => israelView(e)}>Back to Israel view</Button>
             </Grid>
 
-            <GoogleMapWrapper width='70%' height='78%' mapClicked={setMarker} showingInfoWindow={showingInfoWindow} clickedPosition={getposition} heatmapPositions={positions}
+            <GoogleMapWrapper width='70%' height='78%' mapClicked={presentInfoWindo} infoWindoVisible={showingInfoWindow} clickedPosition={getposition} heatmapPositions={positions}
             citySearchedLat={cityFoundLat} citySearchedLng={cityFoundLng} zoom={zoom}
             
             ></GoogleMapWrapper>
