@@ -1,6 +1,6 @@
 {
-    "DB_URI": "mongodb://root:root@localhost:27017/?authSource=admin",
-    "CLIENT_URL": "http://localhost:4200",
+    "DB_URI": "mongodb://localhost:27017/",
+    "CLIENT_URL": "http://localhost:3000",
     "JWT": {
         "SECRET": "T{qVK:zv:4[y'GMPvRBkA3>!BP$C5hnakvZP[f=['.f]Lg9SUJ*Y{:b*G4`3^S/C"
     },

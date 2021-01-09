@@ -11,7 +11,7 @@ import { AuthService } from '../services/auth.service';
 
 @Controller('/')
 export class ApiController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @Get('/test')
   test(): ActionResponse<void> {
@@ -25,9 +25,9 @@ export class ApiController {
 
   @Get('/say-something')
   saySomething(
-    @QueryParams('whatToSay') whatToSay: string
+    @QueryParams('whatToSay') asdsa: string
   ): ActionResponse<string> {
-    return responses.getOkayResponse<string>(whatToSay);
+    return responses.getOkayResponse<string>(asdsa);
   }
 
   @Post('/login')
@@ -55,7 +55,7 @@ export class ApiController {
   @UseBefore(AuthMiddleware)
   getProfile(@RequestUser() user: UserProfile): UserProfile {
     return user;
-  }
+  }ß
 
   @Get('/admin')
   @UseBefore(AuthMiddleware)
@@ -68,6 +68,17 @@ export class ApiController {
   logout(): Promise<ActionResponse<void>> {
     // TODO: Implement your own logout mechanisem (JWT token blacklists, etc...)
     return Promise.reject(`Logout has not been implemented!`);
+  }
+
+  @Get('/heatmaprequest')
+  heatmaprequest(): ActionResponse<Object> {
+    const positions = [ //Was it right to place it here and not in "GoogleMapWrapper"?
+      { lat: 31.0461, lng: 34.8516, weight: 4 },
+      { lat: 31.0470, lng: 34.8516, weight: 15 },
+      { lat: 31.0500, lng: 34.8516, weight: 5 },
+      { lat: 31.0550, lng: 34.8516, weight: 10 }
+    ]
+    return responses.getOkayResponse(positions);
   }
 
   // TODO: Maybe move to model validations of Ts.ED? http://v4.tsed.io/docs/model.html#example

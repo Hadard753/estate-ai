@@ -1,8 +1,9 @@
 //@ts-nocheck
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState,useEffect } from 'react';
 import { Typography, makeStyles, CssBaseline, Button, Grid, TextField } from '@material-ui/core';
 import GoogleMapWrapper from './../googlemaps/GoogleMapWrapper';
+import {urlConstants } from '../../api_urls';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: '100vh',
@@ -28,10 +29,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ReccomendedByZone() {
-  function navigate(to: string) {
-    history.push(to);
-  }
-  let history = useHistory();
   const classes = useStyles();
 
   const [showingInfoWindow, setshowingInfoWindow] = useState(false);
@@ -39,13 +36,15 @@ export default function ReccomendedByZone() {
   const [cityFoundLat, setcityFoundLat] = useState({});
   const [cityFoundLng, setcityFoundLng] = useState({});
   const [zoom, setzoom] = useState(8);
+  const [heatmapPositions, setheatmapPositions] = useState({});
+  const [loading, setloading] = useState(false);
 
-const positions = [ //Was it right to place it here and not in "GoogleMapWrapper"?
-  { lat: 31.0461, lng: 34.8516, weight: 4 },
-  { lat: 31.0470, lng: 34.8516, weight: 15 },
-  { lat: 31.0500, lng: 34.8516, weight: 5 },
-  { lat: 31.0550, lng: 34.8516, weight: 10 }
-]
+useEffect(() => {
+  fetch(urlConstants.heatmapcordURL)
+  .then(response => response.json())
+  .then(data => setheatmapPositions(data.data))
+  .then(setloading(true))
+},[]);
 
 const citiescordinates = [ //"Search DB" need to be replaced with Google auto complete API with cordinations
   { name: "raanana" , lat: 32.184448, lng: 34.87076},
@@ -54,7 +53,7 @@ const citiescordinates = [ //"Search DB" need to be replaced with Google auto co
 ]
 
 const cityEntered = (event: React) => { //Was it right to place it here and not in "GoogleMapWrapper"?
-  const found = citiescordinates.find((data => data.name == event.target.value))
+  const found = citiescordinates.find((data => data.name === event.target.value))
   if (found)
    {
     setcityFoundLat(found.lat)
@@ -79,8 +78,10 @@ const togglewindow = () => { //Was it right to place it here and not in "GoogleM
 
   return (
     <>
+
       <div className={classes.root}>
         <CssBaseline />
+        
         <Typography variant="h3" className={classes.space} gutterBottom>
           Reccomendedation By Zone
         </Typography>
@@ -91,24 +92,31 @@ const togglewindow = () => { //Was it right to place it here and not in "GoogleM
             <Typography variant="h6" gutterBottom>
               The following map will present to you the most recomendded areas for potential profit, feel free to zoom in/out for a specfic city/neighberhood
               You can also search a specfic zone
+             
             </Typography>
           </Grid>
-
           <Grid item direction='column' xs={8} >
 
             <Grid item direction='row'>
               <TextField className={classes.btn} label="City" variant="filled" onChange={(e) => cityEntered(e)} />
               <Button className={classes.btn} size="large" onClick={(e) => israelView(e)}>Back to Israel view</Button>
             </Grid>
-
-            <GoogleMapWrapper width='70%' height='78%' mapClicked={presentInfoWindo} infoWindoVisible={showingInfoWindow} clickedPosition={getposition} heatmapPositions={positions}
+            {loading ? 
+            <GoogleMapWrapper width='70%' height='78%' mapClicked={presentInfoWindo} infoWindoVisible={showingInfoWindow} clickedPosition={getposition} heatmapPositions={heatmapPositions}
             citySearchedLat={cityFoundLat} citySearchedLng={cityFoundLng} zoom={zoom}
             
             ></GoogleMapWrapper>
+
+            :
+            <div> Loading Map... </div>
+         }
           </Grid>
 
         </Grid>
+       
+      
       </div>
+
     </>
   );
 }

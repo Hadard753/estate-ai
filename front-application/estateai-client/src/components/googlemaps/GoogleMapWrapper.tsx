@@ -1,6 +1,7 @@
 //@ts-nocheck
 import React, { EventHandler, useState } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, HeatMap } from 'google-maps-react';
+import {applicationConstants } from '../../constants';
 
 const mapStyles = {
   width: '100%',
@@ -24,19 +25,9 @@ interface GoogleMapWrapperProps {
 
 function GoogleMapWrapper(props: GoogleMapWrapperProps) {
 
-  // const [showingInfoWindow, setshowingInfoWindow] = useState(false);
   mapStyles.height = props.height || mapStyles.height;
   mapStyles.width = props.width || mapStyles.width;
   mapStyles.position = props.position || mapStyles.position;
-
-  // const togglewindow = () => {
-  //   setshowingInfoWindow(!showingInfoWindow)
-  // }
-
-  // const setMarker = (map, b, event) => {
-  //   togglewindow()
-  //   setgetposition(event.latLng)
-  // }
 
 
   return (
@@ -53,8 +44,6 @@ function GoogleMapWrapper(props: GoogleMapWrapperProps) {
         visible={props.infoWindoVisible}
       >
         <div>
-          <h3> Lat: {props.clickedPosition.lat()} </h3>
-          <h3> Lng: {props.clickedPosition.lng()} </h3>
           <h4>Zone Score </h4>
           <h4>Average profit made </h4>
         </div>
@@ -71,6 +60,6 @@ function GoogleMapWrapper(props: GoogleMapWrapperProps) {
 }
 
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyAfUgH5eeVvn-TG9Cmrx7BTDUNV22NfORc',
+  apiKey: applicationConstants.googleApiKey,
   libraries: ["visualization"]
 })(GoogleMapWrapper);
