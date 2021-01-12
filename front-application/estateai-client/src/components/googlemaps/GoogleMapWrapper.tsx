@@ -3,11 +3,13 @@ import React, { EventHandler, useState } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, HeatMap } from 'google-maps-react';
 import { applicationConstants } from '../../constants';
 
+
 const mapStyles = {
   width: '100%',
   height: '100%',
   position: 'relative',
 };
+
 
 interface GoogleMapWrapperProps {
   google: any,
@@ -20,7 +22,7 @@ interface GoogleMapWrapperProps {
   heatmapPositions?: Object,
   citySearchedLat?: number,
   citySearchedLng?: Object,
-  zoom?: number,
+  zoom?: number 
 }
 
 function GoogleMapWrapper(props: GoogleMapWrapperProps) {
@@ -29,8 +31,8 @@ function GoogleMapWrapper(props: GoogleMapWrapperProps) {
   mapStyles.width = props.width || mapStyles.width;
   mapStyles.position = props.position || mapStyles.position;
 
-
   return (
+    
     <Map
       google={props.google}
       style={mapStyles}
