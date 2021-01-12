@@ -4,28 +4,15 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        {
-            "name": "Example",
-            "type": "node",
-            "request": "launch",
-            "runtimeExecutable": "node",
-            "runtimeArgs": ["-r", "ts-node/register"],
-      
-            "args": ["${workspaceFolder}/front-application/src/index.ts"],
-            
-            "cwd": "${workspaceRoot}",
-            "internalConsoleOptions": "openOnSessionStart",
-            "skipFiles": ["<node_internals>/**", "node_modules/**"]
-          },
           {
-            "name": "Current TS File",
             "type": "node",
             "request": "launch",
-            "args": ["${relativeFile}"],
-            "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+            "name": "Launch Program",
+            "preLaunchTask": "npm: build:node",            
             "sourceMaps": true,
-            "cwd": "${workspaceRoot}",
-            "protocol": "inspector",
-        }
+            "program": "${workspaceFolder}/front-application/src/index.ts",
+            "outFiles": ["${workspaceFolder}/front-application/dist/**/*.js"],
+            "outputCapture": "std"
+          }
     ]
 }

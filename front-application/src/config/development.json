@@ -1,5 +1,5 @@
 {
-    "DB_URI": "mongodb://localhost:27017/",
+    "DB_URI": "mongodb://localhost:27017/local",
     "CLIENT_URL": "http://localhost:3000",
     "JWT": {
         "SECRET": "T{qVK:zv:4[y'GMPvRBkA3>!BP$C5hnakvZP[f=['.f]Lg9SUJ*Y{:b*G4`3^S/C"

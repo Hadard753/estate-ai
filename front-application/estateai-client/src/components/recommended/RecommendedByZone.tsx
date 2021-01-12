@@ -37,13 +37,15 @@ export default function ReccomendedByZone() {
   const [cityFoundLng, setcityFoundLng] = useState({});
   const [zoom, setzoom] = useState(8);
   const [heatmapPositions, setheatmapPositions] = useState({});
-  const [loading, setloading] = useState(false);
+  const [isMapLoaded, setisMapLoaded] = useState(false);
 
 useEffect(() => {
   fetch(urlConstants.heatmapcordURL)
   .then(response => response.json())
-  .then(data => setheatmapPositions(data.data))
-  .then(setloading(true))
+  .then(data => {
+    setheatmapPositions(data.data);
+    setisMapLoaded(true)
+  });
 },[]);
 
 const citiescordinates = [ //"Search DB" need to be replaced with Google auto complete API with cordinations
@@ -101,7 +103,7 @@ const togglewindow = () => { //Was it right to place it here and not in "GoogleM
               <TextField className={classes.btn} label="City" variant="filled" onChange={(e) => cityEntered(e)} />
               <Button className={classes.btn} size="large" onClick={(e) => israelView(e)}>Back to Israel view</Button>
             </Grid>
-            {loading ? 
+            {isMapLoaded ? 
             <GoogleMapWrapper width='70%' height='78%' mapClicked={presentInfoWindo} infoWindoVisible={showingInfoWindow} clickedPosition={getposition} heatmapPositions={heatmapPositions}
             citySearchedLat={cityFoundLat} citySearchedLng={cityFoundLng} zoom={zoom}
             

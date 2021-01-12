@@ -1,7 +1,7 @@
 //@ts-nocheck
 import React, { EventHandler, useState } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, HeatMap } from 'google-maps-react';
-import {applicationConstants } from '../../constants';
+import { applicationConstants } from '../../constants';
 
 const mapStyles = {
   width: '100%',
@@ -37,7 +37,7 @@ function GoogleMapWrapper(props: GoogleMapWrapperProps) {
       initialCenter={{ lat: 31.0461, lng: 34.8516, }}
       zoom={props.zoom}
       onClick={props.mapClicked}
-      center={{lat: props.citySearchedLat, lng: props.citySearchedLng}}
+      center={{ lat: props.citySearchedLat, lng: props.citySearchedLng }}
     >
       <InfoWindow
         position={props.clickedPosition}

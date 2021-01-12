@@ -1,3 +1,6 @@
+// if development
+const baseServerUrl = 'http://localhost:5000/' || process.env.SERVER_URL
+
 export const urlConstants = {
-    heatmapcordURL: 'http://localhost:5000/api/heatmapRequest'
+    heatmapcordURL: `${baseServerUrl}api/heatmapRequest`
 }

@@ -7,7 +7,7 @@
         "build": "bash ./build.sh",
         "react": "cd estateai-client && npm start",
         "start": "node dist/src/index.js",
-        "build:node": "rm -rf dist && tsc -p .",
+        "build:node": "rm -rf dist && tsc -p . && cp -R src/config dist/config",
         "build:nodelive": "./node_modules/.bin/nodemon --ignore estateai-client --exec ./node_modules/.bin/ts-node -- ./src/index.ts -debug",
         "build:react": "cd estateai-client && npm run build --aot --prod",
         "node": "npm run predebug && npm run build:nodelive",

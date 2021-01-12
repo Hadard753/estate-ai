@@ -1,6 +1,8 @@
 import { ActionResponse, LoginActionResponse, UserProfile } from '@shared';
 import { BodyParams, Controller, Get, Post, QueryParams, UseBefore } from '@tsed/common';
 import { BadRequest } from '@tsed/exceptions';
+import { system } from 'faker';
+import { Schema } from 'mongoose';
 
 import { RequestUser } from '../decorators/request-user.decorator';
 import { RegisterForm } from '../forms';
@@ -8,10 +10,14 @@ import { AuthMiddleware } from '../middlewares/auth.middleware';
 import { UserProfileDbModel } from '../models';
 import * as responses from '../responses';
 import { AuthService } from '../services/auth.service';
+import { HeatMapService } from '../services/heatmap.service';
+
 
 @Controller('/')
 export class ApiController {
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private heatmapservice: HeatMapService) { }
 
   @Get('/test')
   test(): ActionResponse<void> {
@@ -71,14 +77,10 @@ export class ApiController {
   }
 
   @Get('/heatmaprequest')
-  heatmaprequest(): ActionResponse<Object> {
-    const positions = [ //Was it right to place it here and not in "GoogleMapWrapper"?
-      { lat: 31.0461, lng: 34.8516, weight: 4 },
-      { lat: 31.0470, lng: 34.8516, weight: 15 },
-      { lat: 31.0500, lng: 34.8516, weight: 5 },
-      { lat: 31.0550, lng: 34.8516, weight: 10 }
-    ]
-    return responses.getOkayResponse(positions);
+  async heatmaprequest(): Promise<ActionResponse<Object>> {
+
+    const results = await this.heatmapservice.getHeatMap();
+    return responses.getOkayResponse(results);
   }
 
   // TODO: Maybe move to model validations of Ts.ED? http://v4.tsed.io/docs/model.html#example
