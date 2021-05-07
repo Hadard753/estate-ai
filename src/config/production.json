@@ -1,4 +1,4 @@
 {
-  "DB_URI": "production-mongo-uri",
-  "CLIENT_URL": "http://yourwebsite.com"
+  "DB_URI": "mongodb://estate-ai:T2sji4f6@estate-ai/myFirstDatabase?ssl=true&replicaSet=atlas-13nu3e-shard-0&authSource=admin&retryWrites=true&w=majority",
+  "CLIENT_URL": "https://estate-ai.herokuapp.com/"
 }
