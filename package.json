@@ -5,7 +5,7 @@
     "scripts": {
         "install:all": "bash ./install_all.sh",
         "build": "bash ./build.sh",
-        "react": "cd estateai-client && npm start",
+        "react": "cd estateai-client && npm start --port 3001",
         "start": "node dist/src/index.js",
         "build:node": "rm -rf dist && tsc -p .",
         "build:nodelive": "./node_modules/.bin/nodemon --ignore estateai-client --exec ./node_modules/.bin/ts-node -- ./src/index.ts -debug",
