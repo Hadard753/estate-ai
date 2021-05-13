@@ -13,18 +13,18 @@ import styles from '../../assets/tableStyle.js';
 
 const useStyles = makeStyles(styles as any);
 
-export enum TableColors {
-    "warning",
-    "primary",
-    "danger",
-    "success",
-    "info",
-    "rose",
-    "gray",
+export enum ColorsEnum {
+    "warning" = "warning",
+    "primary" = "primary",
+    "danger" = "danger",
+    "success" = "success",
+    "info" = "info",
+    "rose" = "rose",
+    "gray" = "gray",
 }
 
 interface TableProps {
-    tableHeaderColor: TableColors,
+    tableHeaderColor: ColorsEnum,
     tableHead: string[],
     tableData: string[][],
 }

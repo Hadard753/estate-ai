@@ -7,33 +7,27 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 // core components
-import styles from '../../assets/cardHeaderStyle';
+import styles from '../../assets/cardIconStyle.js';
 import { ColorsEnum } from '../Table/Table';
 
 const useStyles = makeStyles(styles as any);
 
-interface CardHeaderProps {
+interface CardIconProps {
     className?: string,
-    color: ColorsEnum,
-    plain?: boolean,
-    stats?: boolean,
-    icon?: boolean,
+    color?: ColorsEnum,
     children?: any,
 }
 
-export default function CardHeader(props: CardHeaderProps) {
+export default function CardIcon(props: CardIconProps) {
   const classes = useStyles();
-  const { className, children, color, plain, stats, icon, ...rest } = props;
-  const cardHeaderClasses = classNames({
-    [classes.cardHeader]: true,
+  const { className, children, color, ...rest } = props;
+  const cardIconClasses = classNames({
+    [classes.cardIcon]: true,
     [classes[color + "CardHeader"]]: color,
-    [classes.cardHeaderPlain]: plain,
-    [classes.cardHeaderStats]: stats,
-    [classes.cardHeaderIcon]: icon,
     [className || '']: className !== undefined,
   });
   return (
-    <div className={cardHeaderClasses} {...rest}>
+    <div className={cardIconClasses} {...rest}>
       {children}
     </div>
   );

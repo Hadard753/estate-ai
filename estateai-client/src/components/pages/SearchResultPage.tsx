@@ -8,36 +8,36 @@ import { makeStyles } from '@material-ui/core/styles';
 import Accessibility from '@material-ui/icons/Accessibility';
 import AccessTime from '@material-ui/icons/AccessTime';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
-import BugReport from '@material-ui/icons/BugReport';
-import Cloud from '@material-ui/icons/Cloud';
-import Code from '@material-ui/icons/Code';
+// import BugReport from '@material-ui/icons/BugReport';
+// import Cloud from '@material-ui/icons/Cloud';
+// import Code from '@material-ui/icons/Code';
 import DateRange from '@material-ui/icons/DateRange';
 import LocalOffer from '@material-ui/icons/LocalOffer';
 // @material-ui/icons
 import Store from '@material-ui/icons/Store';
 import Update from '@material-ui/icons/Update';
-import Warning from '@material-ui/icons/Warning';
 
+// import Warning from '@material-ui/icons/Warning';
 import styles from '../../assets/dashboardStyle';
 import {
     completedTasksChart, dailySalesChart, emailsSubscriptionChart
 } from '../../variables/charts';
-import { bugs, server, website } from '../../variables/general';
+// import { bugs, server, website } from '../../variables/general';
 import Card from '../Card/Card';
 import CardBody from '../Card/CardBody';
-// import CardFooter from '../Card/CardFooter.js';
-// import CardHeader from '../Card/CardHeader.js';
-// import CardIcon from '../Card/CardIcon.js';
+import CardFooter from '../Card/CardFooter';
+import CardHeader from '../Card/CardHeader';
+import CardIcon from '../Card/CardIcon';
 // import CustomTabs from '../CustomTabs/CustomTabs.js';
 import GridContainer from '../Grid/GridContainer';
 // core components
-import GridItem from '../Grid/GridItem.js';
-import Table, { TableColors } from '../Table/Table.js';
+import GridItem from '../Grid/GridItem';
+import Table, { ColorsEnum } from '../Table/Table';
 
 // import Tasks from '../Tasks/Tasks.js';
 // import Danger from '../Typography/Danger.js';
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles(styles as any);
 
 export default function Dashboard() {
   const classes = useStyles();
@@ -46,8 +46,8 @@ export default function Dashboard() {
       <GridContainer>
         <GridItem xs={12} sm={6} md={3}>
           <Card>
-            <CardHeader color="warning" stats icon>
-              <CardIcon color="warning">
+            <CardHeader color={ColorsEnum.warning} stats icon>
+              <CardIcon color={ColorsEnum.warning}>
                 <Icon>content_copy</Icon>
               </CardIcon>
               <p className={classes.cardCategory}>Used Space</p>
@@ -57,9 +57,9 @@ export default function Dashboard() {
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
-                <Danger>
+                {/* <Danger>
                   <Warning />
-                </Danger>
+                </Danger> */}
                 <a href="#pablo" onClick={(e) => e.preventDefault()}>
                   Get more space
                 </a>
@@ -69,8 +69,8 @@ export default function Dashboard() {
         </GridItem>
         <GridItem xs={12} sm={6} md={3}>
           <Card>
-            <CardHeader color="success" stats icon>
-              <CardIcon color="success">
+            <CardHeader color={ColorsEnum.success} stats icon>
+              <CardIcon color={ColorsEnum.success}>
                 <Store />
               </CardIcon>
               <p className={classes.cardCategory}>Revenue</p>
@@ -86,8 +86,8 @@ export default function Dashboard() {
         </GridItem>
         <GridItem xs={12} sm={6} md={3}>
           <Card>
-            <CardHeader color="danger" stats icon>
-              <CardIcon color="danger">
+            <CardHeader color={ColorsEnum.danger} stats icon>
+              <CardIcon color={ColorsEnum.danger}>
                 <Icon>info_outline</Icon>
               </CardIcon>
               <p className={classes.cardCategory}>Fixed Issues</p>
@@ -103,8 +103,8 @@ export default function Dashboard() {
         </GridItem>
         <GridItem xs={12} sm={6} md={3}>
           <Card>
-            <CardHeader color="info" stats icon>
-              <CardIcon color="info">
+            <CardHeader color={ColorsEnum.info} stats icon>
+              <CardIcon color={ColorsEnum.info}>
                 <Accessibility />
               </CardIcon>
               <p className={classes.cardCategory}>Followers</p>
@@ -122,7 +122,7 @@ export default function Dashboard() {
       <GridContainer>
         <GridItem xs={12} sm={12} md={4}>
           <Card chart>
-            <CardHeader color="success">
+            <CardHeader color={ColorsEnum.success}>
               <ChartistGraph
                 className="ct-chart"
                 data={dailySalesChart.data}
@@ -149,7 +149,7 @@ export default function Dashboard() {
         </GridItem>
         <GridItem xs={12} sm={12} md={4}>
           <Card chart>
-            <CardHeader color="warning">
+            <CardHeader color={ColorsEnum.warning}>
               <ChartistGraph
                 className="ct-chart"
                 data={emailsSubscriptionChart.data}
@@ -172,7 +172,7 @@ export default function Dashboard() {
         </GridItem>
         <GridItem xs={12} sm={12} md={4}>
           <Card chart>
-            <CardHeader color="danger">
+            <CardHeader color={ColorsEnum.danger}>
               <ChartistGraph
                 className="ct-chart"
                 data={completedTasksChart.data}
@@ -195,7 +195,7 @@ export default function Dashboard() {
       </GridContainer>
       <GridContainer>
         <GridItem xs={12} sm={12} md={6}>
-          <CustomTabs
+          {/* <CustomTabs
             title="Tasks:"
             headerColor="primary"
             tabs={[
@@ -233,11 +233,11 @@ export default function Dashboard() {
                 ),
               },
             ]}
-          />
+          /> */}
         </GridItem>
         <GridItem xs={12} sm={12} md={6}>
           <Card>
-            <CardHeader color="warning">
+            <CardHeader color={ColorsEnum.warning}>
               <h4 className={classes.cardTitleWhite}>Employees Stats</h4>
               <p className={classes.cardCategoryWhite}>
                 New employees on 15th September, 2016
@@ -245,7 +245,7 @@ export default function Dashboard() {
             </CardHeader>
             <CardBody>
               <Table
-                tableHeaderColor={TableColors.warning}
+                tableHeaderColor={ColorsEnum.warning}
                 tableHead={["ID", "Name", "Salary", "Country"]}
                 tableData={[
                   ["1", "Dakota Rice", "$36,738", "Niger"],
