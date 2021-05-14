@@ -1,0 +1,4 @@
+{
+  "DB_URI": "mongodb+srv://estate-ai:T2sji4f6@cluster0.cxifj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "CLIENT_URL": "https://estate-ai.herokuapp.com/"
+}

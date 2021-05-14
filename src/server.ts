@@ -17,7 +17,6 @@ import {
 
 import config from './config';
 import { AuthService } from './services/auth.service';
-import socialAuth from './social-auth';
 
 const rootDir = __dirname;
 
@@ -77,7 +76,6 @@ export class Server extends ServerLoader {
     }
 
     AuthService.initMiddleware(this.expressApp);
-    socialAuth.init(this.expressApp);
 
     return null;
   }
