@@ -81,6 +81,9 @@ export class ApiController {
 
     const results = await this.heatmapservice.getHeatMap();
     return responses.getOkayResponse(results);
+    //return responses.getOkayResponse({
+    //  "doron":"asdsad"
+    //});
   }
 
   // TODO: Maybe move to model validations of Ts.ED? http://v4.tsed.io/docs/model.html#example

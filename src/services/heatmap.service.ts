@@ -2,32 +2,34 @@ import { Model, Schema, Document } from 'mongoose';
 import { Service } from '@tsed/di';
 import { DatabaseService } from './db.service';
 
-export interface IHeatMap extends Document {
-  lat: Number;
-  lng: Number;
-  weight: Number;
+export interface ISale extends Document {
+  LATITUDE: String;
+  LONGITUDE: String;
+  PERCENTAGE_SCORE: String;
+  R2_SCORE_GROUP: String;
 }
 
 @Service()
 export class HeatMapService {
-  private heatMapModel: Model<IHeatMap, {}>;
+  private saleModel: Model<ISale, {}>;
 
   constructor(private databaseService: DatabaseService) { 
   }
 
   async getHeatMap() {
-    if (this.heatMapModel === undefined) {
-      const heatmapSchema: Schema = new Schema(
+    if (this.saleModel === undefined) {
+      const saleSchema: Schema = new Schema(
         { 
-          lat : {type:Number},
-          lng : {type:Number},
-          weight :{type:Number},
+          LATITUDE : {type:String},
+          LONGITUDE : {type:String},
+          PERCENTAGE_SCORE :{type:String},
+          R2_SCORE_GROUP :{type:String},
         });
 
-      this.heatMapModel = this.databaseService.db.model<IHeatMap>('HeatMap',heatmapSchema,'HeatMaps');
+      this.saleModel = this.databaseService.db.model<ISale>('sale',saleSchema,'sales');
     }
 
-    const result = await this.heatMapModel.find({});
+    const result = await this.saleModel.find({"DEALID":"33986"});
     return result
   }
 }
