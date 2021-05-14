@@ -21,7 +21,7 @@ import { AuthService } from './services/auth.service';
 const rootDir = __dirname;
 
 // Configurations we want to load
-const httpPort = process.env.PORT || 3000;
+const httpPort = process.env.PORT || 5000;
 const httpsPort = process.env.PORT || 443;
 
 let httpsOptions: ServerOptions = null;
