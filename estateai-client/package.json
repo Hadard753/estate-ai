@@ -13,15 +13,11 @@
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
     "bootstrap": "^4.5.3",
-<<<<<<< HEAD
     "chartist": "^0.10.1",
     "classnames": "^2.3.1",
     "google-map-react": "^2.1.9",
     "google-maps-react": "^2.0.6",
     "lodash": "^4.17.20",
-=======
-    "google-maps-react": "^2.0.6",
->>>>>>> ca3a204311ed3ddc1bd8eb69f5336ed08d67bd32
     "react": "^17.0.1",
     "react-chartist": "^0.14.4",
     "react-dom": "^17.0.1",
