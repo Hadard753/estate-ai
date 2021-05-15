@@ -33,7 +33,7 @@ const MapSpot = (props: MapSpotProps) => {
                 {props.text}
             </div>
         </a>
-        <ReactTooltipAny id={props.neighborhood.NEIGHBORHOOD_ID.toString()} aria-haspopup='true' role='example'>
+        <ReactTooltipAny id={props.neighborhood.NEIGHBORHOOD_ID.toString()} aria-haspopup='true' role='example' type="info">
             <p>Name: {props.neighborhood.NEIGHBORHOOD}</p>
             <p>General Score: {props.neighborhood.GENERAL_SCORE}</p>
         </ReactTooltipAny>

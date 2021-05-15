@@ -3,7 +3,6 @@ import GoogleMapReact from 'google-map-react';
 import React from 'react';
 
 import neighborhoods from '../../assets/neighborhoods.json';
-import { Neighborhood } from '../../models/neighborhood';
 import MapSpot from './MapSpot';
 
 interface SimpleMapProps {
@@ -42,7 +41,7 @@ SimpleMap.defaultProps = {
     lat: 32.0879267,
     lng: 34.8322654
   },
-  defaultZoom: 11
+  defaultZoom: 13
 };
 
 export default SimpleMap;
