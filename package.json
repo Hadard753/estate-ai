@@ -93,6 +93,7 @@
         "passport-google-token": "^0.1.2",
         "passport-local": "^1.0.0",
         "randomstring": "^1.1.5",
+        "react-tooltip": "^4.2.19",
         "tedious": "^2.3.1",
         "uuid": "^3.4.0"
     }
