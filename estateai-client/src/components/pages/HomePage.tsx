@@ -1,12 +1,14 @@
 import React from 'react';
 
-import HeatMap from '../Map/HeatMap';
+// import GoogleMapWrapper from '../googlemaps/GoogleMapWrapper';
+// import HeatMap from '../Map/HeatMap';
+import SimpleMap from '../Map/SimpleMap';
 
 export default function HomePage(props: any) {
     return (
         <React.Fragment>
             <div>Home Page</div>
-            <HeatMap />
+            <SimpleMap />
         </React.Fragment>
     )
 }
