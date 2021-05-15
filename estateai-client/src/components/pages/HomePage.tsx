@@ -4,11 +4,10 @@ import React from 'react';
 // import HeatMap from '../Map/HeatMap';
 import SimpleMap from '../Map/SimpleMap';
 
-export default function HomePage(props: any) {
+export default function HomePage(props: {bedrooms: string}) {
     return (
         <React.Fragment>
-            <div>Home Page</div>
-            <SimpleMap />
+            <SimpleMap bedrooms={props.bedrooms}/>
         </React.Fragment>
     )
 }

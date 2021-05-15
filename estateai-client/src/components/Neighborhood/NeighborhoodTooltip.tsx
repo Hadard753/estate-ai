@@ -1,7 +1,9 @@
 import React from 'react';
 
-const Neighborhood = () => {
-
+const NeighborhoodTooltip = () => {
+    return (
+        <div></div>
+    );
 }
 
-export default Neighborhood;
+export default NeighborhoodTooltip;
