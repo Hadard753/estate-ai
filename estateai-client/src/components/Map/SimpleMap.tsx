@@ -94,6 +94,8 @@ const SimpleMap = (props: SimpleMapProps) => {
           group={score}
           radius={100}
           neighborhood={n}
+          bedrooms={props.bedrooms}
+          scoreType={props.scoreType}
         />)})}
       </GoogleMapReact>
     </div>

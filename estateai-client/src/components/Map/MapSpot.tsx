@@ -1,6 +1,5 @@
-import React from 'react';
 import ReactTooltip from 'react-tooltip';
-import Grid from '@material-ui/core/Grid';
+import React, { useEffect, useState } from 'react';
 
 import { GroupToColorDict } from '../../models/GroupEnum';
 import { Neighborhood } from '../../models/neighborhood';
@@ -17,10 +16,51 @@ interface MapSpotProps {
     onClick?: (event: any) => void,
     text?: string,
     group: "A" | "B" | "C" | "D" | "0",
-    neighborhood: Neighborhood
+    neighborhood: Neighborhood,
+    bedrooms?: string,
+    scoreType?: string
 }
 
 const MapSpot = (props: MapSpotProps) => {
+    const getScore = (n: Neighborhood) => {
+        if(props.bedrooms == "All") return { 
+            overallScore: n.GENERAL_SCORE,
+            precentageScore: n.PRECENTAGE_SCORE,
+            percisionScore: n.PERCISION_SCORE,
+            trendScore: n.TREND_SCORE
+        }
+        else if(props.bedrooms == "One")return  { 
+            overallScore: n.ONEBR_GENERAL_SCORE,
+            precentageScore: n.ONEBR_PRECENTAGE_SCORE,
+            percisionScore: n.ONEBR_PERCISION_SCORE,
+            trendScore: n.ONEBR_TREND_SCORE
+        }
+        else if(props.bedrooms == "Two") return { 
+            overallScore: n.TWOBR_GENERAL_SCORE,
+            precentageScore: n.TWOBR_PRECENTAGE_SCORE,
+            percisionScore: n.TWOBR_PERCISION_SCORE,
+            trendScore: n.TWOBR_TREND_SCORE
+        }
+        else if(props.bedrooms == "Three") return { 
+            overallScore: n.THREEBR_GENERAL_SCORE,
+            precentageScore:n.THREEBR_PRECENTAGE_SCORE,
+            percisionScore: n.THREEBR_PERCISION_SCORE,
+            trendScore: n.THREEBR_TREND_SCORE
+        }
+        else if(props.bedrooms == "Four") return { 
+            overallScore: n.FOURBR_GENERAL_SCORE,
+            precentageScore:n.FOURBR_PRECENTAGE_SCORE,
+            percisionScore: n.FOURBR_PERCISION_SCORE,
+            trendScore: n.FOURBR_TREND_SCORE
+        }
+        else return{ 
+            overallScore: n.FIVEBR_GENERAL_SCORE,
+            precentageScore: n.FIVEBR_PRECENTAGE_SCORE,
+            percisionScore: n.FIVEBR_PERCISION_SCORE,
+            trendScore: n.FIVEBR_TREND_SCORE
+        }
+      }
+      const score = getScore(props.neighborhood) 
     return <div>
         <a data-tip data-for={props.neighborhood.NEIGHBORHOOD_ID.toString()}>
             <div
@@ -36,12 +76,12 @@ const MapSpot = (props: MapSpotProps) => {
             </div>
         </a>
         <ReactTooltipAny id={props.neighborhood.NEIGHBORHOOD_ID.toString()} aria-haspopup='true' role='example' type="info">
-        <Typography variant="h6">Neighberhood scores</Typography>
         <Typography>{props.neighborhood.NEIGHBORHOOD}</Typography>
-        <Typography>Overall Score: {props.neighborhood.GENERAL_SCORE}</Typography>
-        <Typography>Percentage Increase Score: {props.neighborhood.PRECENTAGE_SCORE}</Typography>
-        <Typography>Precision Score: {props.neighborhood.PERCISION_SCORE}</Typography>
-        <Typography>Sales Score: {props.neighborhood.TREND_SCORE}</Typography>
+        <Typography>{props.bedrooms} Bedrooms</Typography>
+        <Typography>Overall Score: {score.overallScore}</Typography>
+        <Typography>Percentage Increase Score: {score.precentageScore}</Typography>
+        <Typography>Precision Score: {score.percisionScore}</Typography>
+        <Typography>Sales Score: {score.trendScore}</Typography>
         </ReactTooltipAny>
     </div>;
 }
