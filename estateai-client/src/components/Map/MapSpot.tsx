@@ -39,7 +39,7 @@ const MapSpot = (props: MapSpotProps) => {
         <Typography variant="h6">Neighberhood scores</Typography>
         <Typography>{props.neighborhood.NEIGHBORHOOD}</Typography>
         <Typography>Overall Score: {props.neighborhood.GENERAL_SCORE}</Typography>
-        <Typography>Percentage Increase Score: {props.neighborhood.PERCISION_SCORE}</Typography>
+        <Typography>Percentage Increase Score: {props.neighborhood.PRECENTAGE_SCORE}</Typography>
         <Typography>Precision Score: {props.neighborhood.PERCISION_SCORE}</Typography>
         <Typography>Sales Score: {props.neighborhood.TREND_SCORE}</Typography>
         </ReactTooltipAny>
