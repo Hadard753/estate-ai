@@ -1,8 +1,9 @@
 
 import GoogleMapReact from 'google-map-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import neighborhoods from '../../assets/neighborhoods.json';
+import { urlConstants } from '../../api_urls';
+// import neighborhoods from '../../assets/neighborhoods.json';
 import { Neighborhood } from '../../models/neighborhood';
 import MapSpot from './MapSpot';
 
@@ -13,6 +14,15 @@ interface SimpleMapProps {
 }
 
 const SimpleMap = (props: SimpleMapProps) => {
+  const [neighborhoods, setNeighborhoods] = useState([])
+  useEffect(() => {
+    fetch(urlConstants.heatmapcordURL)
+      .then((response) => response.json())
+      .then((data) => {
+        setNeighborhoods(data.data)
+      });
+  }, [])
+
   const getScore = (n: Neighborhood) => {
     switch(props.bedrooms) {
       case "All": return n.GENERAL_SCORE;
