@@ -26,10 +26,10 @@ export class HeatMapService {
           R2_SCORE_GROUP :{type:String},
         });
 
-      this.saleModel = this.databaseService.db.model<ISale>('sale',saleSchema,'sales');
+      this.saleModel = this.databaseService.db.model<ISale>('neighborhood',saleSchema,'neighborhoods');
     }
 
-    const result = await this.saleModel.find({"DEALID":"33986"});
+    const result = await this.saleModel.find({});
     return result
   }
 }
