@@ -79,7 +79,7 @@ const SimpleMap = (props: SimpleMapProps) => {
   return (
     <div style={{ height: '88vh', width: '100vw' }}>
       <GoogleMapReact
-        bootstrapURLKeys={{ key: 'AIzaSyAwNtnyyfWcM_TyD7m6WImqsL2Uae-x_5M' }}
+        bootstrapURLKeys={{ key: 'AIzaSyCULl-nlhWneAnyEm5MJ3SrxaYkp535r7Q' }}
         defaultCenter={props.defaultCenter}
         defaultZoom={props.defaultZoom}
       >
@@ -106,7 +106,7 @@ SimpleMap.defaultProps = {
     lat: 32.0879267,
     lng: 34.8322654
   },
-  defaultZoom: 13
+  defaultZoom: 14
 };
 
 export default SimpleMap;
