@@ -44,12 +44,15 @@ const useStyles = makeStyles((theme) => ({
 
 interface HeaderProps {
   bedrooms: string,
-  setBedrooms: any
+  setBedrooms: any,
+  scoreType: string,
+  setScoreType: any
 }
 
 export default function Header(props: HeaderProps) {
   const classes = useStyles();
-  const bedroomsOptions = ["All", "One", "Two", "Three", "Four"];
+  const bedroomsOptions = ["All", "One", "Two", "Three", "Four","Five"];
+  const scoreOptions = ["By overall", "By percentage increase", "By precision", "By sales"];
 
   return (
     <div>
@@ -66,6 +69,14 @@ export default function Header(props: HeaderProps) {
           <Typography className={classes.title} variant="h6" noWrap>
             Estate-AI
           </Typography>
+          <span>Score type:</span>
+          <div className={classes.search}>
+            <ButtonGroup size="small" aria-label="small outlined button group">
+              {scoreOptions.map(option => (
+                <Button key={option} className={option === props.scoreType ? classes.active : ''} onClick={() => props.setScoreType(option)}>{option}</Button>
+              ))}
+            </ButtonGroup>
+          </div>
           <span>Bedrooms:</span>
           <div className={classes.search}>
             <ButtonGroup size="small" aria-label="small outlined button group">
