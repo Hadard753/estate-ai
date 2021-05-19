@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
+import Grid from '@material-ui/core/Grid';
 
 import { GroupToColorDict } from '../../models/GroupEnum';
 import { Neighborhood } from '../../models/neighborhood';
+import { Typography } from '@material-ui/core';
 
 const ReactTooltipAny = ReactTooltip as any;
 
@@ -34,8 +36,12 @@ const MapSpot = (props: MapSpotProps) => {
             </div>
         </a>
         <ReactTooltipAny id={props.neighborhood.NEIGHBORHOOD_ID.toString()} aria-haspopup='true' role='example' type="info">
-            <p>Name: {props.neighborhood.NEIGHBORHOOD}</p>
-            <p>Score: {props.neighborhood.GENERAL_SCORE}</p>
+        <Typography variant="h6">Neighberhood scores</Typography>
+        <Typography>{props.neighborhood.NEIGHBORHOOD}</Typography>
+        <Typography>Overall Score: {props.neighborhood.GENERAL_SCORE}</Typography>
+        <Typography>Percentage Increase Score: {props.neighborhood.PERCISION_SCORE}</Typography>
+        <Typography>Precision Score: {props.neighborhood.PERCISION_SCORE}</Typography>
+        <Typography>Sales Score: {props.neighborhood.TREND_SCORE}</Typography>
         </ReactTooltipAny>
     </div>;
 }
