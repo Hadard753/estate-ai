@@ -16,7 +16,7 @@ export class HeatMapService {
   constructor(private databaseService: DatabaseService) { 
   }
 
-  async getHeatMap() {
+  async getHeatMap(year: string) {
     if (this.saleModel === undefined) {
       const saleSchema: Schema = new Schema(
         { 
@@ -29,7 +29,7 @@ export class HeatMapService {
       this.saleModel = this.databaseService.db.model<ISale>('neighborhood',saleSchema,'neighborhoods');
     }
 
-    const result = await this.saleModel.find({});
+    const result = await this.saleModel.find({"YEAR": year});
     return result
   }
 }

@@ -1,6 +1,7 @@
 import { ActionResponse, LoginActionResponse, UserProfile } from '@shared';
 import { BodyParams, Controller, Get, Post, QueryParams, UseBefore } from '@tsed/common';
 import { BadRequest } from '@tsed/exceptions';
+import { request } from 'express';
 import { system } from 'faker';
 import { Schema } from 'mongoose';
 
@@ -77,9 +78,9 @@ export class ApiController {
   }
 
   @Get('/heatmaprequest')
-  async heatmaprequest(): Promise<ActionResponse<Object>> {
+  async heatmaprequest(@QueryParams('year') year: string): Promise<ActionResponse<Object>> {
 
-    const results = await this.heatmapservice.getHeatMap();
+    const results = await this.heatmapservice.getHeatMap(year);
     return responses.getOkayResponse(results);
     //return responses.getOkayResponse({
     //  "doron":"asdsad"
