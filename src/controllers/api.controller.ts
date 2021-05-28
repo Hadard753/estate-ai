@@ -92,10 +92,28 @@ export class ApiController {
   @Get('/distances')
   async distancesrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
     
-    const results =  await this.distancesservice.getBusDistances(LATITUDE, LONGITUDE);
+    const results =  await this.distancesservice.getBusMinDistance(LATITUDE, LONGITUDE);
     return responses.getOkayResponse(results);
 
   }
+  
+
+  @Get('/distances/bus')
+  async distancesbusrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
+    
+    const results =  await this.distancesservice.getBusMinDistance(LATITUDE, LONGITUDE);
+    return responses.getOkayResponse(results);
+
+  }
+
+  @Get('/distances/beach')
+  async distancesbeachrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
+    
+    const results =  await this.distancesservice.getBeachMinDistance(LATITUDE, LONGITUDE);
+    return responses.getOkayResponse(results);
+
+  }
+  
 
   @Get('/assetscore')
   async assetscorerequest(@QueryParams('roomNum') roomNum: string, @QueryParams('lat') lat: string, @QueryParams('lon') lon: string ): Promise<ActionResponse<Object>> {

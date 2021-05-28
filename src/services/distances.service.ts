@@ -12,12 +12,15 @@ export interface ICOORDINATES extends Document {
 export class DistancesService {
   private busModel: Model<ICOORDINATES, {}>;
   private beachModel: Model<ICOORDINATES, {}>;
+  private schoolModel: Model<ICOORDINATES, {}>;
+  private trainModel: Model<ICOORDINATES, {}>;
+  private highwayModel: Model<ICOORDINATES, {}>;
 
   constructor(private databaseService: DatabaseService) { 
   }
 
   
-  async getBusDistances(LATITUDE: number, LONGITUDE: number) {
+  async getBusMinDistance(LATITUDE: number, LONGITUDE: number) {
     if (this.busModel === undefined) {
       const busSchema: Schema = new Schema(
         { 
@@ -33,7 +36,31 @@ export class DistancesService {
     return result;
   }
 
+  async getBeachMinDistance(LATITUDE: number, LONGITUDE: number) {
+    if (this.beachModel === undefined) {
+      const beachSchema: Schema = new Schema(
+        { 
+          LATITUDE : {type:String},
+          LONGITUDE : {type:String},
+        });
 
+      this.beachModel = this.databaseService.db.model<ICOORDINATES>('beach_coordinate',beachSchema,'beach_coordinates');
+    }
+
+   
+    const result = this.getMinDist(await this.beachModel.find({}), LATITUDE, LONGITUDE);
+    return result;
+  }
+
+
+
+
+
+
+
+
+
+//to get the minimum distanation from the entire list
 getMinDist(coor:ICOORDINATES[],LATITUDE: number, LONGITUDE: number ):number{ 
 const distances = coor.map((doc:any) => {
     return this.calcDistance(LATITUDE, LONGITUDE, doc.LATITUDE, doc.LONGITUDE)
@@ -42,7 +69,7 @@ const distances = coor.map((doc:any) => {
 return Math.min(...distances);
 }
 
-
+//function to calc distance Aviri
  calcDistance(LATITUDE1 : number, LONGITUDE1  : number, LATITUDE2 : number, LONGITUDE2  : number ): number{
         
     const dLONGITUDE = this.toRad(LONGITUDE2) - this.toRad(LONGITUDE1);
@@ -52,6 +79,7 @@ return Math.min(...distances);
     return 6371* c
 
     }
+    //to radians
     private toRad(x:number):number {return x * Math.PI /180;}
 }
 
