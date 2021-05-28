@@ -1,11 +1,18 @@
 import { Model, Schema, Document } from 'mongoose';
 import { Service } from '@tsed/di';
 import { DatabaseService } from './db.service';
+import { parse } from 'superagent';
 
 
 export interface ICOORDINATES extends Document {
     LATITUDE: String;
     LONGITUDE: String;
+}
+export interface IQUARTERS extends Document {
+    EREA: String;
+    Q1: String;
+    Q2: String;
+    Q3: String;
 }
 
 @Service()
@@ -15,6 +22,7 @@ export class DistancesService {
     private schoolModel: Model<ICOORDINATES, {}>;
     private trainModel: Model<ICOORDINATES, {}>;
     private highwayModel: Model<ICOORDINATES, {}>;
+    private quartersModel: Model<IQUARTERS, {}>;
 
     constructor(private databaseService: DatabaseService) {
     }
@@ -32,8 +40,8 @@ export class DistancesService {
         }
 
 
-        const result = this.getMinDist(await this.busModel.find({}), LATITUDE, LONGITUDE);
-        return result;
+        var AreaQ = await this.getQs('BUS')
+        return this.getScore(AreaQ, this.getMinDist(await this.busModel.find({}), LATITUDE, LONGITUDE))
     }
     //Beach
     async getBeachMinDistance(LATITUDE: number, LONGITUDE: number) {
@@ -47,9 +55,8 @@ export class DistancesService {
             this.beachModel = this.databaseService.db.model<ICOORDINATES>('beach_coordinate', beachSchema, 'beach_coordinates');
         }
 
-
-        const result = this.getMinDist(await this.beachModel.find({}), LATITUDE, LONGITUDE);
-        return result;
+        var AreaQ = await this.getQs('BEACH')
+        return this.getScore(AreaQ, this.getMinDist(await this.beachModel.find({}), LATITUDE, LONGITUDE))
     }
     //School
     async getSchoolMinDistance(LATITUDE: number, LONGITUDE: number) {
@@ -64,8 +71,8 @@ export class DistancesService {
         }
 
 
-        const result = this.getMinDist(await this.schoolModel.find({}), LATITUDE, LONGITUDE);
-        return result;
+        var AreaQ = await this.getQs('SCHOOL')
+        return this.getScore(AreaQ, this.getMinDist(await this.schoolModel.find({}), LATITUDE, LONGITUDE))
     }
     //Train
     async getTrainMinDistance(LATITUDE: number, LONGITUDE: number) {
@@ -80,8 +87,8 @@ export class DistancesService {
         }
 
 
-        const result = this.getMinDist(await this.trainModel.find({}), LATITUDE, LONGITUDE);
-        return result;
+        var AreaQ = await this.getQs('TRAIN')
+        return this.getScore(AreaQ, this.getMinDist(await this.trainModel.find({}), LATITUDE, LONGITUDE))
     }
     //Train
     async getHighwayMinDistance(LATITUDE: number, LONGITUDE: number) {
@@ -96,17 +103,44 @@ export class DistancesService {
         }
 
 
-        const result = this.getMinDist(await this.highwayModel.find({}), LATITUDE, LONGITUDE);
-        return result;
+        var AreaQ = await this.getQs('HIGHWAY')
+        return this.getScore(AreaQ, this.getMinDist(await this.highwayModel.find({}), LATITUDE, LONGITUDE))
+    }
+
+    async getQs(AREA: String) {
+        if (this.quartersModel === undefined) {
+            const quartersSchema: Schema = new Schema(
+                {
+                    AREA: { type: String },
+                    Q1: { type: String },
+                    Q2: { type: String },
+                    Q3: { type: String },
+                });
+
+            this.quartersModel = this.databaseService.db.model<IQUARTERS>('quarters_life_styles', quartersSchema, 'quarters_life_style');
+        }
+
+        return await this.quartersModel.find({}).where('AREA').equals(AREA)
+
     }
 
 
 
 
 
-
-
-
+    getScore(Qa: IQUARTERS[], distance: number): String {
+        return Qa.map((doc: any) => {
+        if (distance < parseFloat(doc.Q1))
+            return "A";
+        else if (distance < parseFloat(doc.Q2))
+            return "B";
+        else if (distance < parseFloat(doc.Q3))
+            return "C";
+        return "D";
+        }
+        )[0];
+       
+    }
 
 
     //to get the minimum distanation from the entire list

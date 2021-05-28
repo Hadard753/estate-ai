@@ -138,6 +138,13 @@ export class ApiController {
     return responses.getOkayResponse(results);
 
   }
+  @Get('/getQs')
+  async getQsrequest(@QueryParams('AREA') AREA: string): Promise<ActionResponse<Object>> {
+    
+    const results =  await this.distancesservice.getQs(AREA);
+    return responses.getOkayResponse(results);
+
+  }
   
 
   @Get('/assetscore')
