@@ -10,8 +10,8 @@
             "name": "Launch Program",
             "preLaunchTask": "npm: build:node",            
             "sourceMaps": true,
-            "program": "${workspaceFolder}/front-application/src/index.ts",
-            "outFiles": ["${workspaceFolder}/front-application/dist/**/*.js"],
+            "program": "${workspaceFolder}/src/index.ts",
+            "outFiles": ["${workspaceFolder}/dist/**/*.js"],
             "outputCapture": "std"
           }
     ]

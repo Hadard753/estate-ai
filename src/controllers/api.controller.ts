@@ -5,6 +5,7 @@ import { request } from 'express';
 import { system } from 'faker';
 import { Schema } from 'mongoose';
 
+import { DistancesService } from '../services/distances.service';
 import { RequestUser } from '../decorators/request-user.decorator';
 import { RegisterForm } from '../forms';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
@@ -18,7 +19,9 @@ import { HeatMapService } from '../services/heatmap.service';
 export class ApiController {
   constructor(
     private authService: AuthService,
-    private heatmapservice: HeatMapService) { }
+    private heatmapservice: HeatMapService,
+    private distancesservice: DistancesService
+    ) { }
 
   @Get('/test')
   test(): ActionResponse<void> {
@@ -85,6 +88,13 @@ export class ApiController {
     //return responses.getOkayResponse({
     //  "doron":"asdsad"
     //});
+  }
+  @Get('/distances')
+  async distancesrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
+    
+    const results =  await this.distancesservice.getBusDistances(LATITUDE, LONGITUDE);
+    return responses.getOkayResponse(results);
+
   }
 
   // TODO: Maybe move to model validations of Ts.ED? http://v4.tsed.io/docs/model.html#example
