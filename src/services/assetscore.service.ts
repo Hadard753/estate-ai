@@ -29,7 +29,7 @@ export class AssetScoreService {
       this.saleModel = this.databaseService.db.model<ISale>('neighborhood',saleSchema,'neighborhoods');
     }
 
-    const result = await this.saleModel.find({"YEAR": 2021});
+    const result = await this.saleModel.find({"YEAR": 2022});
     return result
   }
 
