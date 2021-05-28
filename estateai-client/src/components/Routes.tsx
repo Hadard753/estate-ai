@@ -1,21 +1,19 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Login from './auth/login/Login';
-import Register from './auth/register/Register';
-import Home from './home/Home';
+import SimpleMap from './Map/SimpleMap';
+import SearchResultPage from './pages/SearchResultPage';
 
 export const RoutesList = [
-    {label: 'Login', path: '/login', component: Login},
-    {label: 'Register', path: '/register', component: Register},
-    {label: 'Home', path: '/', component: Home},
+    {label: 'Result', path: '/result', component: SearchResultPage},
+    {label: 'Home', path: '/', component: SimpleMap},
 ]
 
-export default function Routes() {
+export default function Routes(props: { scoreType:string, bedrooms: string }) {
   return (
         <Switch>
             {RoutesList.map(r => (
-                <Route key={r.label} path={r.path} component={r.component} />
+                <Route key={r.label} path={r.path} component={() => <r.component {...props} />} />
             ))}
         </Switch>
   );

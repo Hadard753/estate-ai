@@ -5,9 +5,9 @@
     "scripts": {
         "install:all": "bash ./install_all.sh",
         "build": "bash ./build.sh",
-        "react": "cd estateai-client && npm start",
+        "react": "cd estateai-client && npm start --port 3001",
         "start": "node dist/src/index.js",
-        "build:node": "rm -rf dist && tsc -p .",
+        "build:node": "rm -rf dist && tsc -p . && cp -R src/config dist/config",
         "build:nodelive": "./node_modules/.bin/nodemon --ignore estateai-client --exec ./node_modules/.bin/ts-node -- ./src/index.ts -debug",
         "build:react": "cd estateai-client && npm run build --aot --prod",
         "node": "npm run predebug && npm run build:nodelive",
@@ -93,6 +93,7 @@
         "passport-google-token": "^0.1.2",
         "passport-local": "^1.0.0",
         "randomstring": "^1.1.5",
+        "react-tooltip": "^4.2.19",
         "tedious": "^2.3.1",
         "uuid": "^3.4.0"
     }

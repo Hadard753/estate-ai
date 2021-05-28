@@ -1,6 +1,9 @@
 import { ActionResponse, LoginActionResponse, UserProfile } from '@shared';
 import { BodyParams, Controller, Get, Post, QueryParams, UseBefore } from '@tsed/common';
 import { BadRequest } from '@tsed/exceptions';
+import { request } from 'express';
+import { system } from 'faker';
+import { Schema } from 'mongoose';
 
 import { RequestUser } from '../decorators/request-user.decorator';
 import { RegisterForm } from '../forms';
@@ -8,10 +11,14 @@ import { AuthMiddleware } from '../middlewares/auth.middleware';
 import { UserProfileDbModel } from '../models';
 import * as responses from '../responses';
 import { AuthService } from '../services/auth.service';
+import { HeatMapService } from '../services/heatmap.service';
+
 
 @Controller('/')
 export class ApiController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private heatmapservice: HeatMapService) { }
 
   @Get('/test')
   test(): ActionResponse<void> {
@@ -25,9 +32,9 @@ export class ApiController {
 
   @Get('/say-something')
   saySomething(
-    @QueryParams('whatToSay') whatToSay: string
+    @QueryParams('whatToSay') asdsa: string
   ): ActionResponse<string> {
-    return responses.getOkayResponse<string>(whatToSay);
+    return responses.getOkayResponse<string>(asdsa);
   }
 
   @Post('/login')
@@ -55,7 +62,7 @@ export class ApiController {
   @UseBefore(AuthMiddleware)
   getProfile(@RequestUser() user: UserProfile): UserProfile {
     return user;
-  }
+  }ß
 
   @Get('/admin')
   @UseBefore(AuthMiddleware)
@@ -68,6 +75,28 @@ export class ApiController {
   logout(): Promise<ActionResponse<void>> {
     // TODO: Implement your own logout mechanisem (JWT token blacklists, etc...)
     return Promise.reject(`Logout has not been implemented!`);
+  }
+
+  @Get('/heatmaprequest')
+  async heatmaprequest(@QueryParams('year') year: string): Promise<ActionResponse<Object>> {
+
+    const results = await this.heatmapservice.getHeatMap(year);
+    return responses.getOkayResponse(results);
+    //return responses.getOkayResponse({
+    //  "doron":"asdsad"
+    //});
+  }
+
+  @Get('/assetscore')
+  async assetscorerequest(@QueryParams('roomNum') roomNum: string, @QueryParams('lat') lat: string, @QueryParams('lon') lon: string ): Promise<ActionResponse<Object>> {
+
+    // const results = await this.heatmapservice.getHeatMap(year);
+    // return responses.getOkayResponse(results);
+    return responses.getOkayResponse({
+      roomNum : roomNum,
+      lat     : lat,
+      lon     : lon,
+    });
   }
 
   // TODO: Maybe move to model validations of Ts.ED? http://v4.tsed.io/docs/model.html#example

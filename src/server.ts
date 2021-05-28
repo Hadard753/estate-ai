@@ -17,12 +17,11 @@ import {
 
 import config from './config';
 import { AuthService } from './services/auth.service';
-import socialAuth from './social-auth';
 
 const rootDir = __dirname;
 
 // Configurations we want to load
-const httpPort = process.env.PORT || 3000;
+const httpPort = process.env.PORT || 5000;
 const httpsPort = process.env.PORT || 443;
 
 let httpsOptions: ServerOptions = null;
@@ -77,7 +76,6 @@ export class Server extends ServerLoader {
     }
 
     AuthService.initMiddleware(this.expressApp);
-    socialAuth.init(this.expressApp);
 
     return null;
   }
