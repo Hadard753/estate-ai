@@ -38,12 +38,23 @@ export class AssetScoreService {
     return result
   }
 
-  getMinDist(coor:ICOORDINATES[],LATITUDE: number, LONGITUDE: number ):number{ 
-    const distances = coor.map((doc:any) => {
-        return this.calcDistance(LATITUDE, LONGITUDE, doc.LAT, doc.LONG)
+  getMinDist(coor:ICOORDINATES[],LATITUDE: number, LONGITUDE: number ): any { 
+    var minNi: any = coor[0];
+    const latsS = parseFloat(minNi._doc.LAT);
+    const longsS = parseFloat(minNi._doc.LONG);
+   
+    var minDist = this.calcDistance(LATITUDE,LONGITUDE,latsS,longsS)
+    coor.forEach((doc:any) => {
+          const latS = parseFloat(doc._doc.LAT);
+          const longS = parseFloat(doc._doc.LONG);
+          const dist = this.calcDistance(LATITUDE, LONGITUDE, latS, longS)
+          if (dist < minDist) {
+            minDist = dist;
+            minNi = doc;
+          }
         }
     );
-    return Math.min(...distances);
+    return minNi;
   }
     
     
