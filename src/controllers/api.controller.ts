@@ -13,6 +13,7 @@ import { UserProfileDbModel } from '../models';
 import * as responses from '../responses';
 import { AuthService } from '../services/auth.service';
 import { HeatMapService } from '../services/heatmap.service';
+import { AssetScoreService } from '../services/assetscore.service';
 
 
 @Controller('/')
@@ -20,7 +21,8 @@ export class ApiController {
   constructor(
     private authService: AuthService,
     private heatmapservice: HeatMapService,
-    private distancesservice: DistancesService
+    private distancesservice: DistancesService,
+    private assetscoreservice: AssetScoreService
     ) { }
 
   @Get('/test')
@@ -98,15 +100,10 @@ export class ApiController {
   }
 
   @Get('/assetscore')
-  async assetscorerequest(@QueryParams('roomNum') roomNum: string, @QueryParams('lat') lat: string, @QueryParams('lon') lon: string ): Promise<ActionResponse<Object>> {
+  async assetscorerequest(@QueryParams('roomNum') roomNum: string, @QueryParams('lat') lat: number, @QueryParams('lon') lon: number ): Promise<ActionResponse<Object>> {
 
-    // const results = await this.heatmapservice.getHeatMap(year);
-    // return responses.getOkayResponse(results);
-    return responses.getOkayResponse({
-      roomNum : roomNum,
-      lat     : lat,
-      lon     : lon,
-    });
+    const results = await this.assetscoreservice.getAssetScore(roomNum, lat, lon);
+    return responses.getOkayResponse(results);
   }
 
   // TODO: Maybe move to model validations of Ts.ED? http://v4.tsed.io/docs/model.html#example
