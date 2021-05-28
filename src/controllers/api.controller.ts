@@ -94,7 +94,7 @@ export class ApiController {
   @Get('/distances')
   async distancesrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
     
-    const results =  await this.distancesservice.getBusMinDistance(LATITUDE, LONGITUDE);
+    const results =  await this.distancesservice.geAllMinDistance(LATITUDE, LONGITUDE);
     return responses.getOkayResponse(results);
 
   }
