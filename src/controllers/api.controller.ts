@@ -115,6 +115,29 @@ export class ApiController {
     return responses.getOkayResponse(results);
 
   }
+
+  @Get('/distances/train')
+  async distancestrainrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
+    
+    const results =  await this.distancesservice.getTrainMinDistance(LATITUDE, LONGITUDE);
+    return responses.getOkayResponse(results);
+
+  }
+
+  @Get('/distances/school')
+  async distancesschoolhrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
+    
+    const results =  await this.distancesservice.getSchoolMinDistance(LATITUDE, LONGITUDE);
+    return responses.getOkayResponse(results);
+
+  }
+  @Get('/distances/highway')
+  async distanceshighwayrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
+    
+    const results =  await this.distancesservice.getHighwayMinDistance(LATITUDE, LONGITUDE);
+    return responses.getOkayResponse(results);
+
+  }
   
 
   @Get('/assetscore')
