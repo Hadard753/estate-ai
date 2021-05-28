@@ -97,6 +97,18 @@ export class ApiController {
 
   }
 
+  @Get('/assetscore')
+  async assetscorerequest(@QueryParams('roomNum') roomNum: string, @QueryParams('lat') lat: string, @QueryParams('lon') lon: string ): Promise<ActionResponse<Object>> {
+
+    // const results = await this.heatmapservice.getHeatMap(year);
+    // return responses.getOkayResponse(results);
+    return responses.getOkayResponse({
+      roomNum : roomNum,
+      lat     : lat,
+      lon     : lon,
+    });
+  }
+
   // TODO: Maybe move to model validations of Ts.ED? http://v4.tsed.io/docs/model.html#example
   @Post('/register')
   register(
