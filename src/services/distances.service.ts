@@ -26,13 +26,13 @@ export class DistancesService {
 
     constructor(private databaseService: DatabaseService) {
     }
-    async geAllMinDistance(LATITUDE: number, LONGITUDE: number) {
+    async getAllMinDistance(LATITUDE: number, LONGITUDE: number) {
         var bus = await this.getBusMinDistance(LATITUDE, LONGITUDE)
         var beach = await this.getBeachMinDistance(LATITUDE, LONGITUDE)
         var highway = await this.getHighwayMinDistance(LATITUDE, LONGITUDE)
         var school = await this.getSchoolMinDistance(LATITUDE, LONGITUDE)
         var train = await this.getTrainMinDistance(LATITUDE, LONGITUDE)
-        return {bus, beach, highway, school, train}
+        return  { bus, beach, highway, school, train, LATITUDE, LONGITUDE }
     }
     //Bus
     async getBusMinDistance(LATITUDE: number, LONGITUDE: number) {
@@ -114,6 +114,15 @@ export class DistancesService {
         return this.getScore(AreaQ, this.getMinDist(await this.highwayModel.find({}), LATITUDE, LONGITUDE))
     }
 
+
+
+
+
+
+
+
+
+
     async getQs(AREA: String) {
         if (this.quartersModel === undefined) {
             const quartersSchema: Schema = new Schema(
@@ -134,19 +143,19 @@ export class DistancesService {
 
 
 
-
+    //returns quarters for scores 
     getScore(Qa: IQUARTERS[], distance: number): String {
         return Qa.map((doc: any) => {
-        if (distance < parseFloat(doc.Q1))
-            return "A";
-        else if (distance < parseFloat(doc.Q2))
-            return "B";
-        else if (distance < parseFloat(doc.Q3))
-            return "C";
-        return "D";
+            if (distance < parseFloat(doc.Q1))
+                return "A";
+            else if (distance < parseFloat(doc.Q2))
+                return "B";
+            else if (distance < parseFloat(doc.Q3))
+                return "C";
+            return "D";
         }
         )[0];
-       
+
     }
 
 

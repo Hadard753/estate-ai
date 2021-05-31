@@ -14,7 +14,7 @@ import * as responses from '../responses';
 import { AuthService } from '../services/auth.service';
 import { HeatMapService } from '../services/heatmap.service';
 import { AssetScoreService } from '../services/assetscore.service';
-
+import {CombinationService} from '../services/combination.service';
 
 @Controller('/')
 export class ApiController {
@@ -22,7 +22,8 @@ export class ApiController {
     private authService: AuthService,
     private heatmapservice: HeatMapService,
     private distancesservice: DistancesService,
-    private assetscoreservice: AssetScoreService
+    private assetscoreservice: AssetScoreService,
+    private combinationservice: CombinationService,
     ) { }
 
   @Get('/test')
@@ -94,7 +95,7 @@ export class ApiController {
   @Get('/distances')
   async distancesrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
     
-    const results =  await this.distancesservice.geAllMinDistance(LATITUDE, LONGITUDE);
+    const results =  await this.distancesservice.getAllMinDistance(LATITUDE, LONGITUDE);
     return responses.getOkayResponse(results);
 
   }
@@ -145,7 +146,15 @@ export class ApiController {
     return responses.getOkayResponse(results);
 
   }
-  
+
+
+  @Get('/combinations')
+  async getcombinationsrequest(@QueryParams('ROOMS') ROOMS: string,@QueryParams('SCORE') SCORE: string,@QueryParams('AREASCORE') AREASCORE: string ): Promise<ActionResponse<Object>> {
+    
+    const results =  await this.combinationservice.getDistancesByNeiborhood(ROOMS,SCORE,AREASCORE);
+    return responses.getOkayResponse(results);
+
+  }
 
   @Get('/assetscore')
   async assetscorerequest(@QueryParams('roomNum') roomNum: string, @QueryParams('lat') lat: number, @QueryParams('lon') lon: number ): Promise<ActionResponse<Object>> {
