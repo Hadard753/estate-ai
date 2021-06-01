@@ -3,8 +3,9 @@ import GoogleMapReact from 'google-map-react';
 import React, { useEffect, useState } from 'react';
 
 import { urlConstants } from '../../api_urls';
-// import neighborhoods from '../../assets/neighborhoods.json';
 import { Neighborhood } from '../../models/neighborhood';
+import SearchBtn from '../Searc/SearchBtn';
+import SearchModal from '../Searc/SearchModal';
 import MapSpot from './MapSpot';
 
 interface SimpleMapProps {
@@ -16,7 +17,9 @@ interface SimpleMapProps {
 }
 
 const SimpleMap = (props: SimpleMapProps) => {
-  const [neighborhoods, setNeighborhoods] = useState([])
+  const [neighborhoods, setNeighborhoods] = useState([]);
+  const [open, setOpen] = React.useState(false);
+
   useEffect(() => {
     fetch(urlConstants.heatmapcordURL+"?year="+props.year)
       .then((response) => response.json())
@@ -87,6 +90,8 @@ const SimpleMap = (props: SimpleMapProps) => {
           scoreType={props.scoreType}
         />)})}
       </GoogleMapReact>
+      <SearchBtn onClick={() => setOpen(true)} />
+      <SearchModal open={open} setOpen={setOpen} />
     </div>
   );
 }
