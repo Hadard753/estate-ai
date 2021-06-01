@@ -3,6 +3,7 @@ import React from 'react';
 import { Button, ButtonGroup } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -45,7 +46,9 @@ const useStyles = makeStyles((theme) => ({
 interface HeaderProps {
   bedrooms: string,
   setBedrooms: any,
+  setYear: any,
   scoreType: string,
+  year: number,
   setScoreType: any
 }
 
@@ -69,6 +72,12 @@ export default function Header(props: HeaderProps) {
           <Typography className={classes.title} variant="h6" noWrap>
             Estate-AI
           </Typography>
+          <span>Year:</span>
+          <Input
+            style={{ color: 'white', marginRight: '15%', marginLeft: '4px', width: '70px', textAlign: 'center', paddingLeft: '5px' }}
+            inputProps={{ type: 'number', min: 2006, max: 2022}}
+            value={props.year}
+            onChange={(e) => props.setYear(e.target.value)}/>
           <span>Score type:</span>
           <div className={classes.search}>
             <ButtonGroup size="small" aria-label="small outlined button group">

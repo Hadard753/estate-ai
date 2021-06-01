@@ -10,34 +10,23 @@ import MapSpot from './MapSpot';
 interface SimpleMapProps {
     defaultCenter?: any,
     defaultZoom?: number,
-    bedrooms?: string
+    bedrooms?: string,
+    year?: number,
     scoreType?:string
 }
 
 const SimpleMap = (props: SimpleMapProps) => {
   const [neighborhoods, setNeighborhoods] = useState([])
   useEffect(() => {
-    fetch(urlConstants.heatmapcordURL)
+    fetch(urlConstants.heatmapcordURL+"?year="+props.year)
       .then((response) => response.json())
       .then((data) => {
         setNeighborhoods(data.data)
       });
-  }, [])
-
-  // const getRoomScore = (n: Neighborhood) => {
-  //   switch(props.bedrooms) {
-  //     case "All": return n.GENERAL_SCORE;
-  //     case "One": return n.ONEBR_GENERAL_SCORE;
-  //     case "Two": return n.TWOBR_GENERAL_SCORE;
-  //     case "Three": return n.THREEBR_GENERAL_SCORE;
-  //     case "Four": return n.FOURBR_GENERAL_SCORE;
-  //     case "Five": return n.FIVEBR_GENERAL_SCORE;
-  //     default: return "0";
-  //   }
-  // }
+  }, [props.year])
 
   const getScore = (n: Neighborhood) => {
-      if(props.scoreType == "By overall") { 
+      if(props.scoreType == "By overall") {
         switch(props.bedrooms) {
           case "All": return n.GENERAL_SCORE;
           case "One": return n.ONEBR_GENERAL_SCORE;

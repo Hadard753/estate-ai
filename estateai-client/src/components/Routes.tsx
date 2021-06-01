@@ -9,7 +9,7 @@ export const RoutesList = [
     {label: 'Home', path: '/', component: SimpleMap},
 ]
 
-export default function Routes(props: { scoreType:string, bedrooms: string }) {
+export default function Routes(props: { scoreType:string, bedrooms: string, year: number }) {
   return (
         <Switch>
             {RoutesList.map(r => (

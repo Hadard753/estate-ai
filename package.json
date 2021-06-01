@@ -43,6 +43,7 @@
         "@types/passport-facebook-token": "^0.4.34",
         "@types/passport-local": "^1.0.33",
         "@types/randomstring": "^1.1.6",
+        "@types/react-slider": "^1.1.2",
         "@types/request": "^2.48.5",
         "@types/superagent": "^3.8.7",
         "@typescript-eslint/eslint-plugin": "^3.9.0",

@@ -19,15 +19,16 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
+  const [year, setYear] = useState(2021);
   const [bedrooms, setBedrooms] = useState("All");
   const [scoreType, setScoreType] = useState("By overall");
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Header bedrooms={bedrooms} setBedrooms={setBedrooms} scoreType={scoreType} setScoreType={setScoreType}/>
+      <Header year={year} setYear={setYear} bedrooms={bedrooms} setBedrooms={setBedrooms} scoreType={scoreType} setScoreType={setScoreType}/>
       <Router>
-          <Routes scoreType={scoreType} bedrooms={bedrooms} />
+          <Routes year={year} scoreType={scoreType} bedrooms={bedrooms} />
       </Router>
       <Footer />
     </div>

@@ -1,13 +1,11 @@
 import React from 'react';
 
-// import GoogleMapWrapper from '../googlemaps/GoogleMapWrapper';
-// import HeatMap from '../Map/HeatMap';
 import SimpleMap from '../Map/SimpleMap';
 
-export default function HomePage(props: {bedrooms: string}) {
+export default function HomePage(props: {bedrooms: string, year: number}) {
     return (
         <React.Fragment>
-            <SimpleMap bedrooms={props.bedrooms}/>
+            <SimpleMap bedrooms={props.bedrooms} year={props.year}/>
         </React.Fragment>
     )
 }

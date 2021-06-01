@@ -33,6 +33,7 @@ const HeatMap = () => {
         <React.Fragment>
             {!isEmpty(places) && (
                 <SimpleMap
+                    year={2021}
                 defaultZoom={10}
                 defaultCenter={{lat: 32.0879267, lng: 34.8322654}}
                 />
