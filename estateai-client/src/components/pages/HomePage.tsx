@@ -5,6 +5,6 @@ import SimpleMap from '../Map/SimpleMap';
 
 export default function HomePage() {
     return (
-        <Grid> Welcome to Estate AI </Grid>
+        <Grid style={{ flex: 1 }}> Welcome to Estate AI </Grid>
     )
 }

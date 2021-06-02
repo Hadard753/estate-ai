@@ -56,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
       width: 'auto',
     },
   }
@@ -243,6 +242,12 @@ const SimpleMap = (props: SimpleMapProps) => {
     <Grid container style={{ flex: 1, padding: 5, overflow: 'hidden' }}>
 
       <Grid item xs={12} sm={4} style={{ padding: 10 }} >
+        <Typography variant="h3" noWrap>
+          Main Title- edit me
+          </Typography>
+        <Typography variant="h4" noWrap>
+          subTitle- edit me
+          </Typography>
         <div>
           <Typography className={classes.title} variant="h6" noWrap>
             Select Year

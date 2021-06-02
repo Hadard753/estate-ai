@@ -20,7 +20,7 @@ import Update from '@material-ui/icons/Update';
 // import Warning from '@material-ui/icons/Warning';
 import styles from '../../assets/dashboardStyle';
 import {
-    completedTasksChart, dailySalesChart, emailsSubscriptionChart
+  completedTasksChart, dailySalesChart, emailsSubscriptionChart
 } from '../../variables/charts';
 // import { bugs, server, website } from '../../variables/general';
 import Card from '../Card/Card';
@@ -42,7 +42,7 @@ const useStyles = makeStyles(styles as any);
 export default function Dashboard() {
   const classes = useStyles();
   return (
-    <div>
+    <div style={{ flex: 1 }}>
       <GridContainer>
         <GridItem xs={12} sm={6} md={3}>
           <Card>

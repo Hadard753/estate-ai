@@ -5,6 +5,6 @@ import SimpleMap from '../Map/SimpleMap';
 
 export default function SearchPage() {
     return (
-        <Grid> Search page</Grid>
+        <Grid style={{ flex: 1 }}> Search page</Grid>
     )
 }
