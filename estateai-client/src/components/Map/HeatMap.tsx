@@ -6,15 +6,10 @@ import placesRequest from '../../assets/places.json';
 import SimpleMap from './SimpleMap';
 
 const HeatMap = () => {
-  const [places, setPlaces] = useState(placesRequest.results);
-
-    //   useEffect(() => {
-    //     fetch('places.json')
-    //       .then((response) => response.json())
-    //       .then((data) => setPlaces(data.results));
-    //   }, [])
-
-    //   debugger;
+    const [places, setPlaces] = useState(placesRequest.results);
+    const [year, setYear] = useState(2021);
+    const [bedrooms, setBedrooms] = useState("All");
+    const [scoreType, setScoreType] = useState("By overall");
 
     const data = places.map((place: any) => ({
         lat: place.geometry.location.lat,
@@ -33,10 +28,10 @@ const HeatMap = () => {
         <React.Fragment>
             {!isEmpty(places) && (
                 <SimpleMap
-                    year={2021}
-                defaultZoom={10}
-                defaultCenter={{lat: 32.0879267, lng: 34.8322654}}
-                
+                    year={year} scoreType={scoreType} bedrooms={bedrooms} setYear={setYear} setBedrooms={setBedrooms} setScoreType={setScoreType}
+                    defaultZoom={13}
+                    defaultCenter={{ lat: 32.0854267, lng: 34.8422654 }}
+
                 />
             )}
         </React.Fragment>

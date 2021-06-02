@@ -10,6 +10,9 @@ import SearchModal from '../Searc/SearchModal';
 import MapSpot from './MapSpot';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
+import Slider from '@material-ui/core/Slider';
+
+
 interface SimpleMapProps {
     defaultCenter?: any,
     defaultZoom?: number,
@@ -22,6 +25,11 @@ interface SimpleMapProps {
 }
 
 const useStyles = makeStyles((theme) => ({
+  slider: {
+    root: {
+      width: 300,
+    },
+  },
   active: {
     backgroundColor: "#0000004d"
   },
@@ -70,7 +78,74 @@ const SimpleMap = (props: SimpleMapProps) => {
       });
   }, [props.year])
 
- 
+  
+
+  const marks = [
+    {
+      value: 2006,
+      label: '06',
+    },
+    {
+      value: 2007,
+      label: '07',
+    },
+    {
+      value: 2008,
+      label: '08',
+    },
+    {
+      value: 2009,
+      label: '09',
+    },
+    {
+      value: 2010,
+      label: '10',
+    },
+    {
+      value: 2011,
+      label: '11',
+    },
+    {
+      value: 2012,
+      label: '12',
+    },
+    {
+      value: 2013,
+      label: '13',
+    },
+    {
+      value: 2014,
+      label: '14',
+    },
+    {
+      value: 2015,
+      label: '15',
+    },
+    {
+      value: 2016,
+      label: '16',
+    },
+    {
+      value: 2017,
+      label: '17',
+    },
+    {
+      value: 2018,
+      label: '18',
+    },
+    {
+      value: 2019,
+      label: '19',
+    },
+    {
+      value: 2020,
+      label: '20',
+    },
+    {
+      value: 2021,
+      label: '21',
+    },
+  ];
 
   const getScore = (n: Neighborhood) => {
       if(props.scoreType == "By overall") {
@@ -116,16 +191,23 @@ const SimpleMap = (props: SimpleMapProps) => {
     
     <Grid container spacing={3} style={{height: "100vh",padding: 5}}>
 
-      <Grid item xs={12} sm={3} >
+      <Grid item xs={12} sm={4} >
         <div>
           <Typography className={classes.title} variant="h6" noWrap>
-          Year
+          Select Year
           </Typography>
-          <Input
-            style={{ color: 'black', marginRight: '15%', marginLeft: '4px', width: '70px', textAlign: 'center', paddingLeft: '5px' }}
-            inputProps={{ type: 'number', min: 2006, max: 2022}}
-            value={props.year}
-            onChange={(e) => props.setYear(e.target.value)}/>
+          <Slider
+            min={2006}
+            max={2021}
+            className={classes.slider}
+            defaultValue={props.year}
+            step={1}
+            valueLabelDisplay="auto"
+            marks={marks}
+            onChangeCommitted={(_,newValue) => {
+              props.setYear(newValue)
+            }}
+          />
         </div>
         <Typography className={classes.title} variant="h6" noWrap>
         Score type
@@ -155,8 +237,11 @@ const SimpleMap = (props: SimpleMapProps) => {
 
 
 
-        <Grid item xs={12} sm={9}>
+        <Grid item xs={12} sm={8}>
     <div style={{   height: "100%"}}>
+    <Typography className={classes.title} variant="h6" noWrap align="center">
+          The map
+     </Typography>
       <GoogleMapReact
         bootstrapURLKeys={{ key: 'AIzaSyCULl-nlhWneAnyEm5MJ3SrxaYkp535r7Q' }}
         defaultCenter={props.defaultCenter}

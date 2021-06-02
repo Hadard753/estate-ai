@@ -26,7 +26,6 @@ function App() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      {/* <Header year={year} setYear={setYear} bedrooms={bedrooms} setBedrooms={setBedrooms} scoreType={scoreType} setScoreType={setScoreType}/> */}
       <Header/>
       <Router>
           <Routes year={year} scoreType={scoreType} bedrooms={bedrooms} setYear={setYear} setBedrooms={setBedrooms} setScoreType={setScoreType} />
