@@ -16,21 +16,19 @@ import Slider from '@material-ui/core/Slider';
 
 
 interface SimpleMapProps {
-    defaultCenter?: any,
-    defaultZoom?: number,
-    bedrooms?: string,
-    year?: number,
-    scoreType?:string,
-    setYear?: any,
-    setScoreType?: any,
-    setBedrooms?: any
+  defaultCenter?: any,
+  defaultZoom?: number,
+  bedrooms?: string,
+  year?: number,
+  scoreType?: string,
+  setYear?: any,
+  setScoreType?: any,
+  setBedrooms?: any
 }
 
 const useStyles = makeStyles((theme) => ({
   slider: {
-    root: {
-      width: 300,
-    },
+    transform: 'scaleX(0.95)'
   },
   active: {
     backgroundColor: "#0000004d"
@@ -66,38 +64,43 @@ const useStyles = makeStyles((theme) => ({
 
 const colorBarData = [
   {
-      value: 0,
-      color: '#4fa34c',
-      legendLabel: 'Highly Recommended',
-      tooltip: 'Highly Recommended',
+    value: 400,
+    color: '#a44b4d',
+    legendLabel: 'red',
+    legendValue: 400,
+    tooltip: 'red is $300',
   }, {
-    value: 0,
-    color: '#ffec00',
-    legendLabel: 'Recommended',
-    tooltip: 'Recommended',
-}, {
-      value: 0,
-      color: '#ff8d00de',
-      legendLabel: 'Ok',
-      tooltip: 'Ok',
+    value: 300,
+    color: '#ab7b52',
+    legendLabel: 'orange',
+    legendValue: 300,
+    tooltip: 'orange is $300',
   }, {
-      value: 0,
-      color: '#e0403d',
-      legendLabel: 'Not Recommended',
-      tooltip: 'Not Recommended',
+    value: 200,
+    color: '#e0d63a',
+    legendLabel: 'yellow',
+    legendValue: 200,
+    tooltip: 'yellow is $200',
+  }, {
+    value: 100,
+    color: '#4fa34c',
+    legendLabel: 'green',
+    legendValue: 100,
+    tooltip: 'green is $100',
   }, {
     value: 0,
     color: '#737373',
-    legendLabel: 'No Data',
-    tooltip: 'No Data',
-},
+    legendLabel: 'gray',
+    legendValue: 0,
+    tooltip: 'gray is $100',
+  },
 ];
 
 const SimpleMap = (props: SimpleMapProps) => {
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
-  const bedroomsOptions = ["All", "One", "Two", "Three", "Four","Five"];
+  const bedroomsOptions = ["All", "One", "Two", "Three", "Four", "Five"];
   const scoreOptions = [
     {
       option: "By overall",
@@ -119,14 +122,14 @@ const SimpleMap = (props: SimpleMapProps) => {
   //const scoreOptions = ["By overall", "By percentage increase", "By precision", "By sales"];
 
   useEffect(() => {
-    fetch(urlConstants.heatmapcordURL+"?year="+props.year)
+    fetch(urlConstants.heatmapcordURL + "?year=" + props.year)
       .then((response) => response.json())
       .then((data) => {
         setNeighborhoods(data.data)
       });
   }, [props.year])
 
-  
+
 
   const marks = [
     {
@@ -196,53 +199,53 @@ const SimpleMap = (props: SimpleMapProps) => {
   ];
 
   const getScore = (n: Neighborhood) => {
-      if(props.scoreType == "By overall") {
-        switch(props.bedrooms) {
-          case "All": return n.GENERAL_SCORE;
-          case "One": return n.ONEBR_GENERAL_SCORE;
-          case "Two": return n.TWOBR_GENERAL_SCORE;
-          case "Three": return n.THREEBR_GENERAL_SCORE;
-          case "Four": return n.FOURBR_GENERAL_SCORE;
-          case "Five": return n.FIVEBR_GENERAL_SCORE;
-        }
+    if (props.scoreType == "By overall") {
+      switch (props.bedrooms) {
+        case "All": return n.GENERAL_SCORE;
+        case "One": return n.ONEBR_GENERAL_SCORE;
+        case "Two": return n.TWOBR_GENERAL_SCORE;
+        case "Three": return n.THREEBR_GENERAL_SCORE;
+        case "Four": return n.FOURBR_GENERAL_SCORE;
+        case "Five": return n.FIVEBR_GENERAL_SCORE;
       }
-      else if(props.scoreType ==  "By percentage increase")
-        switch(props.bedrooms) {
-          case "All": return n.PRECENTAGE_SCORE;
-          case "One": return n.ONEBR_PRECENTAGE_SCORE;
-          case "Two": return n.TWOBR_PRECENTAGE_SCORE;
-          case "Three": return n.THREEBR_PRECENTAGE_SCORE;
-          case "Four": return n.FOURBR_PRECENTAGE_SCORE;
-          case "Five": return n.FIVEBR_PRECENTAGE_SCORE;
-        }
-      else if(props.scoreType == "By precision") 
-        switch(props.bedrooms) {
-          case "All": return n.PERCISION_SCORE;
-          case "One": return n.ONEBR_PERCISION_SCORE;
-          case "Two": return n.TWOBR_PERCISION_SCORE;
-          case "Three": return n.THREEBR_PERCISION_SCORE;
-          case "Four": return n.FOURBR_PERCISION_SCORE;
-          case "Five": return n.FIVEBR_PERCISION_SCORE;
-        }
-      else if(props.scoreType == "By sales") 
-        switch(props.bedrooms) {
-          case "All": return n.TREND_SCORE;
-          case "One": return n.ONEBR_TREND_SCORE;
-          case "Two": return n.TWOBR_TREND_SCORE;
-          case "Three": return n.THREEBR_TREND_SCORE;
-          case "Four": return n.FOURBR_TREND_SCORE;
-          case "Five": return n.FIVEBR_TREND_SCORE;
-        }
-        else return "0";
     }
+    else if (props.scoreType == "By percentage increase")
+      switch (props.bedrooms) {
+        case "All": return n.PRECENTAGE_SCORE;
+        case "One": return n.ONEBR_PRECENTAGE_SCORE;
+        case "Two": return n.TWOBR_PRECENTAGE_SCORE;
+        case "Three": return n.THREEBR_PRECENTAGE_SCORE;
+        case "Four": return n.FOURBR_PRECENTAGE_SCORE;
+        case "Five": return n.FIVEBR_PRECENTAGE_SCORE;
+      }
+    else if (props.scoreType == "By precision")
+      switch (props.bedrooms) {
+        case "All": return n.PERCISION_SCORE;
+        case "One": return n.ONEBR_PERCISION_SCORE;
+        case "Two": return n.TWOBR_PERCISION_SCORE;
+        case "Three": return n.THREEBR_PERCISION_SCORE;
+        case "Four": return n.FOURBR_PERCISION_SCORE;
+        case "Five": return n.FIVEBR_PERCISION_SCORE;
+      }
+    else if (props.scoreType == "By sales")
+      switch (props.bedrooms) {
+        case "All": return n.TREND_SCORE;
+        case "One": return n.ONEBR_TREND_SCORE;
+        case "Two": return n.TWOBR_TREND_SCORE;
+        case "Three": return n.THREEBR_TREND_SCORE;
+        case "Four": return n.FOURBR_TREND_SCORE;
+        case "Five": return n.FIVEBR_TREND_SCORE;
+      }
+    else return "0";
+  }
   return (
-    
-    <Grid container spacing={3} style={{height: "100vh",padding: 5}}>
 
-      <Grid item xs={12} sm={4} >
+    <Grid container style={{ flex: 1, padding: 5, overflow: 'hidden' }}>
+
+      <Grid item xs={12} sm={4} style={{ padding: 10 }} >
         <div>
           <Typography className={classes.title} variant="h6" noWrap>
-          Select Year
+            Select Year
           </Typography>
           <Slider
             min={2006}
@@ -252,75 +255,73 @@ const SimpleMap = (props: SimpleMapProps) => {
             step={1}
             valueLabelDisplay="auto"
             marks={marks}
-            onChangeCommitted={(_,newValue) => {
+            onChangeCommitted={(_, newValue) => {
               props.setYear(newValue)
             }}
           />
         </div>
         <Typography className={classes.title} variant="h6" noWrap>
-        Score type
+          Score type
           </Typography>
-          <div className={classes.search}>
-            <ButtonGroup size="small" aria-label="small outlined button group">
-              {scoreOptions.map(option => (
-                <Tooltip title={option.text}>
-                  <Button key={option.option} className={option.option === props.scoreType ? classes.active : ''} onClick={() => props.setScoreType(option.option)}>{option.option}</Button>
-                </Tooltip>
-                
-              ))}
-            </ButtonGroup>
-          </div>
+        <div className={classes.search}>
+          <ButtonGroup size="small" aria-label="small outlined button group">
+            {scoreOptions.map(option => (
+              <Tooltip title={option.text}>
+                <Button key={option.option} className={option.option === props.scoreType ? classes.active : ''} onClick={() => props.setScoreType(option.option)}>{option.option}</Button>
+              </Tooltip>
 
-          <Typography className={classes.title} variant="h6" noWrap>
-        Bedrooms
+            ))}
+          </ButtonGroup>
+        </div>
+
+        <Typography className={classes.title} variant="h6" noWrap>
+          Bedrooms
           </Typography>
-          <div className={classes.search}>
-            <ButtonGroup size="small" aria-label="small outlined button group">
-              {bedroomsOptions.map(option => (
-                <Button key={option} className={option === props.bedrooms ? classes.active : ''} onClick={() => props.setBedrooms(option)}>{option}</Button>
-              ))}
-            </ButtonGroup>
-          </div>
-          <Typography className={classes.title} variant="h6" noWrap >
-        Legend
+        <div className={classes.search}>
+          <ButtonGroup size="small" aria-label="small outlined button group">
+            {bedroomsOptions.map(option => (
+              <Button key={option} className={option === props.bedrooms ? classes.active : ''} onClick={() => props.setBedrooms(option)}>{option}</Button>
+            ))}
+          </ButtonGroup>
+        </div>
+        <Typography className={classes.title} variant="h6" noWrap >
+          Legend
           </Typography>
-          <div><ColorBar data={colorBarData} /></div>
+        <div><ColorBar data={colorBarData} /></div>
 
 
       </Grid>
-      
 
 
 
-        <Grid item xs={12} sm={8}>
-    <div style={{   height: "100%"}}>
-    <Typography className={classes.title} variant="h6" noWrap align="center">
-          The map
-     </Typography>
-      <GoogleMapReact
-        bootstrapURLKeys={{ key: 'AIzaSyCULl-nlhWneAnyEm5MJ3SrxaYkp535r7Q' }}
-        defaultCenter={props.defaultCenter}
-        defaultZoom={props.defaultZoom}
-      >
-        {neighborhoods.map((n: any) =>{
-          const score = getScore(n);
-          return (<MapSpot
-          lat={n.LAT}
-          key={n.NEIGHBORHOOD_ID}
-          lng={n.LONG}
-          onClick={() => console.log('navigate to: ',n)}
-          text={n.NEIGHBORHOOD}
-          group={score}
-          radius={100}
-          neighborhood={n}
-          bedrooms={props.bedrooms}
-          scoreType={props.scoreType}
-        />)})}
-      </GoogleMapReact>
+
+      <Grid item xs={12} sm={8}>
+
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: 'AIzaSyCULl-nlhWneAnyEm5MJ3SrxaYkp535r7Q' }}
+          defaultCenter={props.defaultCenter}
+          defaultZoom={props.defaultZoom}
+        >
+          {neighborhoods.map((n: any) => {
+            const score = getScore(n);
+            return (<MapSpot
+              lat={n.LAT}
+              key={n.NEIGHBORHOOD_ID}
+              lng={n.LONG}
+              onClick={() => console.log('navigate to: ', n)}
+              text={n.NEIGHBORHOOD}
+              group={score}
+              radius={100}
+              neighborhood={n}
+              bedrooms={props.bedrooms}
+              scoreType={props.scoreType}
+            />)
+          })}
+        </GoogleMapReact>
+
+      </Grid>
       <SearchBtn onClick={() => setOpen(true)} />
       <SearchModal open={open} setOpen={setOpen} />
-    </div>
-      </Grid>
     </Grid>
   );
 }

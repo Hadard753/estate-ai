@@ -24,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
       color: 'inherit',
       underline: 'none'
 
-    }},
+    }
+  },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }
   ,
-  a:{
+  a: {
     color: 'inherit'
   }
 }));
@@ -52,19 +53,19 @@ export default function Header(props: HeaderProps) {
   const classes = useStyles();
 
   return (
-    <div>
+    <div style={{ flex: 0 }}>
       <AppBar position="static" className={classes.header}>
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap >
-          <a className={classes.a} href="/HomePage"> Estate-AI</a>
+            <a className={classes.a} href="/HomePage"> Estate-AI</a>
           </Typography>
-         
+
           <Typography className={classes.title} variant="h6" noWrap >
-          <a className={classes.a} href="/HeatMap"> Heat Map </a>
+            <a className={classes.a} href="/HeatMap"> Heat Map </a>
           </Typography>
-          
+
           <Typography className={classes.title} variant="h6" noWrap >
-          <a className={classes.a} href="/Search"> Search by property </a>
+            <a className={classes.a} href="/Search"> Search by property </a>
           </Typography>
         </Toolbar>
       </AppBar>

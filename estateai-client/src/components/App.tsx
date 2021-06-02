@@ -13,7 +13,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100vh',
+    height: '100vh',
+    overflow: 'hidden'
   }
 }));
 
@@ -26,9 +27,9 @@ function App() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Header/>
+      <Header />
       <Router>
-          <Routes />
+        <Routes />
       </Router>
       <Footer />
     </div>

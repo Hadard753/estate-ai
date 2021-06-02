@@ -21,7 +21,8 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   footer: {
     padding: theme.spacing(2, 2),
-    marginTop: 'auto',
+    // marginTop: 'auto',
+    flex: 0,
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
   },
@@ -35,9 +36,9 @@ export default function Footer() {
 
   return (
     <footer className={classes.footer}>
-        <Container maxWidth="sm" className={classes.text}>
-            <Copyright />
-        </Container>
+      <Container maxWidth="sm" className={classes.text}>
+        <Copyright />
+      </Container>
     </footer>
   );
 }
