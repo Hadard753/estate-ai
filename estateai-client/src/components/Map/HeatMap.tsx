@@ -36,6 +36,7 @@ const HeatMap = () => {
                     year={2021}
                 defaultZoom={10}
                 defaultCenter={{lat: 32.0879267, lng: 34.8322654}}
+                
                 />
             )}
         </React.Fragment>

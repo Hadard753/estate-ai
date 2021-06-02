@@ -3,8 +3,8 @@ import React from 'react';
 
 import SimpleMap from '../Map/SimpleMap';
 
-export default function HomePage(props: {bedrooms: string, year: number}) {
+export default function SearchPage(props: {bedrooms: string, year: number}) {
     return (
-        <Grid> Welcome to Estate AI </Grid>
+        <Grid> Search page</Grid>
     )
 }

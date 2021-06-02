@@ -1,4 +1,5 @@
 
+import { AppBar, Button, ButtonGroup, Grid, IconButton, Input, Toolbar, Typography } from '@material-ui/core';
 import GoogleMapReact from 'google-map-react';
 import React, { useEffect, useState } from 'react';
 
@@ -7,18 +8,59 @@ import { Neighborhood } from '../../models/neighborhood';
 import SearchBtn from '../Searc/SearchBtn';
 import SearchModal from '../Searc/SearchModal';
 import MapSpot from './MapSpot';
-
+import { fade, makeStyles } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
 interface SimpleMapProps {
     defaultCenter?: any,
     defaultZoom?: number,
     bedrooms?: string,
     year?: number,
-    scoreType?:string
+    scoreType?:string,
+    setYear?: any,
+    setScoreType?: any,
+    setBedrooms?: any
 }
+
+const useStyles = makeStyles((theme) => ({
+  active: {
+    backgroundColor: "#0000004d"
+  },
+  header: {
+    color: '#fff'
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+  },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.4),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.4),
+    },
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
+    },
+  }
+}));  
 
 const SimpleMap = (props: SimpleMapProps) => {
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [open, setOpen] = React.useState(false);
+  const classes = useStyles();
+  const bedroomsOptions = ["All", "One", "Two", "Three", "Four","Five"];
+  const scoreOptions = ["By overall", "By percentage increase", "By precision", "By sales"];
+
 
   useEffect(() => {
     fetch(urlConstants.heatmapcordURL+"?year="+props.year)
@@ -27,6 +69,8 @@ const SimpleMap = (props: SimpleMapProps) => {
         setNeighborhoods(data.data)
       });
   }, [props.year])
+
+ 
 
   const getScore = (n: Neighborhood) => {
       if(props.scoreType == "By overall") {
@@ -69,7 +113,50 @@ const SimpleMap = (props: SimpleMapProps) => {
         else return "0";
     }
   return (
-    <div style={{ height: '88vh', width: '100vw' }}>
+    
+    <Grid container spacing={3} style={{height: "100vh",padding: 5}}>
+
+      <Grid item xs={12} sm={3} >
+        <div>
+          <Typography className={classes.title} variant="h6" noWrap>
+          Year
+          </Typography>
+          <Input
+            style={{ color: 'black', marginRight: '15%', marginLeft: '4px', width: '70px', textAlign: 'center', paddingLeft: '5px' }}
+            inputProps={{ type: 'number', min: 2006, max: 2022}}
+            value={props.year}
+            onChange={(e) => props.setYear(e.target.value)}/>
+        </div>
+        <Typography className={classes.title} variant="h6" noWrap>
+        Score type
+          </Typography>
+          <div className={classes.search}>
+            <ButtonGroup size="small" aria-label="small outlined button group">
+              {scoreOptions.map(option => (
+                <Button key={option} className={option === props.scoreType ? classes.active : ''} onClick={() => props.setScoreType(option)}>{option}</Button>
+              ))}
+            </ButtonGroup>
+          </div>
+
+          <Typography className={classes.title} variant="h6" noWrap>
+        Bedrooms
+          </Typography>
+          <div className={classes.search}>
+            <ButtonGroup size="small" aria-label="small outlined button group">
+              {bedroomsOptions.map(option => (
+                <Button key={option} className={option === props.bedrooms ? classes.active : ''} onClick={() => props.setBedrooms(option)}>{option}</Button>
+              ))}
+            </ButtonGroup>
+          </div>
+
+
+      </Grid>
+      
+
+
+
+        <Grid item xs={12} sm={9}>
+    <div style={{   height: "100%"}}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: 'AIzaSyCULl-nlhWneAnyEm5MJ3SrxaYkp535r7Q' }}
         defaultCenter={props.defaultCenter}
@@ -93,6 +180,8 @@ const SimpleMap = (props: SimpleMapProps) => {
       <SearchBtn onClick={() => setOpen(true)} />
       <SearchModal open={open} setOpen={setOpen} />
     </div>
+      </Grid>
+    </Grid>
   );
 }
 
