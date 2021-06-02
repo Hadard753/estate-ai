@@ -28,7 +28,7 @@ function App() {
       <CssBaseline />
       <Header/>
       <Router>
-          <Routes year={year} scoreType={scoreType} bedrooms={bedrooms} setYear={setYear} setBedrooms={setBedrooms} setScoreType={setScoreType} />
+          <Routes />
       </Router>
       <Footer />
     </div>

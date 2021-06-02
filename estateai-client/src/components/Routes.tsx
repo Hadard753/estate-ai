@@ -14,11 +14,11 @@ export const RoutesList = [
    {label: 'Home', path: '/', component: HomePage},
 ]
 
-export default function Routes(props: { scoreType:string, bedrooms: string, year: number, setYear:any, setScoreType:any, setBedrooms:any  }) {
+export default function Routes() {
   return (
         <Switch>
             {RoutesList.map(r => (
-                <Route key={r.label} path={r.path} component={() => <r.component {...props} />} />
+                <Route key={r.label} path={r.path} component={() => <r.component />} />
             ))}
         </Switch>
   );
