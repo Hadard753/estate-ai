@@ -1,5 +1,5 @@
 
-import { AppBar, Button, ButtonGroup, Grid, IconButton, Input, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Button, ButtonGroup, Grid, IconButton, Input, Toolbar, Tooltip, Typography } from '@material-ui/core';
 import GoogleMapReact from 'google-map-react';
 import React, { useEffect, useState } from 'react';
 
@@ -9,6 +9,8 @@ import SearchBtn from '../Searc/SearchBtn';
 import SearchModal from '../Searc/SearchModal';
 import MapSpot from './MapSpot';
 import { fade, makeStyles } from '@material-ui/core/styles';
+import ColorBar from 'react-color-bar';
+
 import MenuIcon from '@material-ui/icons/Menu';
 import Slider from '@material-ui/core/Slider';
 
@@ -60,15 +62,66 @@ const useStyles = makeStyles((theme) => ({
       width: 'auto',
     },
   }
-}));  
+}));
+
+const colorBarData = [
+  {
+      value: 400,
+      color: '#a44b4d',
+      legendLabel: 'red',
+      legendValue: 400,
+      tooltip: 'red is $300',
+  }, {
+    value: 300,
+    color: '#ab7b52',
+    legendLabel: 'orange',
+    legendValue: 300,
+    tooltip: 'orange is $300',
+}, {
+      value: 200,
+      color: '#e0d63a',
+      legendLabel: 'yellow',
+      legendValue: 200,
+      tooltip: 'yellow is $200',
+  }, {
+      value: 100,
+      color: '#4fa34c',
+      legendLabel: 'green',
+      legendValue: 100,
+      tooltip: 'green is $100',
+  }, {
+    value: 0,
+    color: '#737373',
+    legendLabel: 'gray',
+    legendValue: 0,
+    tooltip: 'gray is $100',
+},
+];
 
 const SimpleMap = (props: SimpleMapProps) => {
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
   const bedroomsOptions = ["All", "One", "Two", "Three", "Four","Five"];
-  const scoreOptions = ["By overall", "By percentage increase", "By precision", "By sales"];
-
+  const scoreOptions = [
+    {
+      option: "By overall",
+      text: "All types combined"
+    },
+    {
+      option: "By percentage increase",
+      text: "How high the percentage increase is"
+    },
+    {
+      option: "By precision",
+      text: "How precise the perdictions are"
+    },
+    {
+      option: "By sales",
+      text: "The amount of sales in the area"
+    }
+  ]
+  //const scoreOptions = ["By overall", "By percentage increase", "By precision", "By sales"];
 
   useEffect(() => {
     fetch(urlConstants.heatmapcordURL+"?year="+props.year)
@@ -215,7 +268,10 @@ const SimpleMap = (props: SimpleMapProps) => {
           <div className={classes.search}>
             <ButtonGroup size="small" aria-label="small outlined button group">
               {scoreOptions.map(option => (
-                <Button key={option} className={option === props.scoreType ? classes.active : ''} onClick={() => props.setScoreType(option)}>{option}</Button>
+                <Tooltip title={option.text}>
+                  <Button key={option.option} className={option.option === props.scoreType ? classes.active : ''} onClick={() => props.setScoreType(option.option)}>{option.option}</Button>
+                </Tooltip>
+                
               ))}
             </ButtonGroup>
           </div>
@@ -230,6 +286,10 @@ const SimpleMap = (props: SimpleMapProps) => {
               ))}
             </ButtonGroup>
           </div>
+          <Typography className={classes.title} variant="h6" noWrap >
+        Legend
+          </Typography>
+          <div><ColorBar data={colorBarData} /></div>
 
 
       </Grid>
