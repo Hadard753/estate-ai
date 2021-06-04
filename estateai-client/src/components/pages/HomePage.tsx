@@ -56,29 +56,29 @@ export default function HomePage() {
               name: "Hadar Dayan",
               title: "Senior Full Stack Developer",
               image: "../../static/images/hadar.jfif",
-              fb_link: "",
-              linkd_link: ""
+              fb_link: "https://www.facebook.com/hadar.dayan.31",
+              linkd_link: "https://www.linkedin.com/in/hadar-dayan/"
           },
           {
             name: "Doron Eli Rachman",
             title: "Senior Full Stack Developer",
             image: "doron.jfif",
-            fb_link: "",
-            linkd_link: ""
+            fb_link: "https://www.facebook.com/doron050",
+            linkd_link: "https://www.linkedin.com/in/doron-eli-rachman-218595b1/"
         },
         {
             name: "Gal Harris",
             title: "QA Automation Analysis Manager",
             image: "gal.jfif",
-            fb_link: "",
-            linkd_link: ""
+            fb_link: "https://www.facebook.com/gal.harris.5",
+            linkd_link: "https://www.linkedin.com/in/gal-harris-4710a2133/"
         },
         {
             name: "Stav Bernaz",
             title: "DevOps Engineer",
             image: "stav.jfif",
-            fb_link: "",
-            linkd_link: ""
+            fb_link: "https://www.facebook.com/stav.bernaz",
+            linkd_link: "https://www.linkedin.com/in/stav-bernaz-788141125/"
         }
       ];
 
@@ -130,8 +130,8 @@ export default function HomePage() {
                     </Typography>
                   </CardContent>
                   <CardActions className={classes.cardActions}>
-                    <FacebookIcon></FacebookIcon>
-                    <LinkdeinIcon></LinkdeinIcon>
+                    <FacebookIcon onClick={() => window.open(card.fb_link)} />
+                    <LinkdeinIcon onClick={() => window.open(card.linkd_link)} />
                   </CardActions>
                 </Card>
               </Grid>
