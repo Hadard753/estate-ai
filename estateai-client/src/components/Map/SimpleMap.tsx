@@ -63,35 +63,30 @@ const useStyles = makeStyles((theme) => ({
 
 const colorBarData = [
   {
-    value: 400,
-    color: '#a44b4d',
-    legendLabel: 'red',
-    legendValue: 400,
-    tooltip: 'red is $300',
-  }, {
-    value: 300,
-    color: '#ab7b52',
-    legendLabel: 'orange',
-    legendValue: 300,
-    tooltip: 'orange is $300',
-  }, {
-    value: 200,
-    color: '#e0d63a',
-    legendLabel: 'yellow',
-    legendValue: 200,
-    tooltip: 'yellow is $200',
-  }, {
-    value: 100,
+    value: 0,
     color: '#4fa34c',
-    legendLabel: 'green',
-    legendValue: 100,
-    tooltip: 'green is $100',
+    legendLabel: 'Highly Recommended',
+    tooltip: 'Highly Recommended',
+  }, {
+    value: 0,
+    color: '#ffec00',
+    legendLabel: 'Recommended',
+    tooltip: 'Recommended',
+  }, {
+    value: 0,
+    color: '#ff8d00de',
+    legendLabel: 'Ok',
+    tooltip: 'Ok',
+  }, {
+    value: 0,
+    color: '#e0403d',
+    legendLabel: 'Not Recommended',
+    tooltip: 'Not Recommended',
   }, {
     value: 0,
     color: '#737373',
-    legendLabel: 'gray',
-    legendValue: 0,
-    tooltip: 'gray is $100',
+    legendLabel: 'No Data',
+    tooltip: 'No Data',
   },
 ];
 
