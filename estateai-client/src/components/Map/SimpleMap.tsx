@@ -243,12 +243,14 @@ const SimpleMap = (props: SimpleMapProps) => {
 
       <Grid item xs={12} sm={4} style={{ padding: 10 }} >
         <Typography variant="h3" noWrap>
-          Main Title- edit me
+          Heat map Page
           </Typography>
-        <Typography variant="h4" noWrap>
-          subTitle- edit me
+          <br/>
+        <Typography variant="h6">
+          Here you can see all the scores we gave to differnt areas in Tel Aviv city, every area is divivded by number of bedrooms and scoring system
           </Typography>
         <div>
+        <br/>
           <Typography className={classes.title} variant="h6" noWrap>
             Select Year
           </Typography>
@@ -266,7 +268,7 @@ const SimpleMap = (props: SimpleMapProps) => {
           />
         </div>
         <Typography className={classes.title} variant="h6" noWrap>
-          Score type
+          Score System
           </Typography>
         <div className={classes.search}>
           <ButtonGroup size="small" aria-label="small outlined button group">
