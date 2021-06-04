@@ -149,9 +149,9 @@ export class ApiController {
 
 
   @Get('/combinations')
-  async getcombinationsrequest(@QueryParams('ROOMS') ROOMS: string,@QueryParams('SCORE') SCORE: string,@QueryParams('AREASCORE') AREASCORE: string , @QueryParams('CURRENTSSUBSCORE') CURRENTSSUBSCORE: string): Promise<ActionResponse<Object>> {
+  async getcombinationsrequest(@QueryParams('rooms') rooms: string,@QueryParams('score') score: string,@QueryParams('areascore') areascore: string , @QueryParams('currentscore') currentscore: string): Promise<ActionResponse<Object>> {
     
-    const results =  await this.combinationservice.getDistancesByNeiborhood(ROOMS,SCORE,AREASCORE, CURRENTSSUBSCORE);
+    const results =  await this.combinationservice.getDistancesByNeiborhood(rooms,score,areascore, currentscore);
     return responses.getOkayResponse(results);
 
   }
