@@ -1,59 +1,102 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-declare var window: any;
+declare var google;
+class ParlorForm extends React.Component<any,any> {
+  autocomplete;
 
-export const googleAutocomplete = async text =>
-  new Promise((resolve, reject) => {
-    if (!text) {
-      return reject("Need valid text input")
-    }
+  constructor(props) {
+    super(props)
+    this.state = this.initialState()
+    this.handlePlaceSelect = this.handlePlaceSelect.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.autocomplete = null;
+  }
 
-    // for use in things like GatsbyJS where the html is generated first
-    if (typeof window === "undefined") {
-      return reject("Need valid window object")
-    }
+  componentDidMount() {
+    this.autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'), {})
 
-    try {
-      new window.google.maps.places.AutocompleteService().getPlacePredictions(
-        { input: text, componentRestrictions: { country: "gb" } },
-        resolve
-      )
-    } catch (e) {
-      reject(e)
-    }
-});
+    this.autocomplete.addListener("place_changed", this.handlePlaceSelect)
+  }
 
-export default function PredictionsOnFormSubmission() {
-  const [searchValue, setSearchValue] = useState("")
-  const [predictions, setPredictions] = useState([])
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault()
-    const results: any = await googleAutocomplete(searchValue)
-    if (results) {
-      setPredictions(results)
+  initialState() {
+    return {
+      name: '',
+      street_address: '',
+      city: '',
+      state: '',
+      zip_code: '',
+      googleMapLink: ''
     }
   }
 
-  return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <input
-          name="predictionSearch"
-          value={searchValue}
-          onChange={e => setSearchValue(e.target.value)}
-        />
-        <button type="submit">Search</button>
-      </form>
-      <img
-        src="https://developers.google.com/maps/documentation/images/powered_by_google_on_white.png"
-        alt="Powered by Google"
-      />
-      {predictions?.map((prediction: any) => (
-        <p key={prediction?.place_id}>
-          {prediction?.structured_formatting?.main_text || "Not found"}
-        </p>
-      ))}
-    </>
-  )
+  handleChange(event) {
+    this.setState({[event.target.name]: event.target.value})
+  }
+
+  handleSubmit(event) {
+    event.preventDefault()
+    console.log(this.state);
+  }
+
+  handlePlaceSelect() {
+    let addressObject = this.autocomplete.getPlace()
+    let address = addressObject.address_components
+    this.setState({
+      name: addressObject.name,
+      street_address: `${address[0].long_name} ${address[1].long_name}`,
+      city: address[4].long_name,
+      state: address[6].short_name,
+      zip_code: address[8].short_name,
+      googleMapLink: addressObject.url
+    })
+  }
+
+  render() {
+    return(
+      <div>
+        <h1>Add New Parlor</h1>
+        <form onSubmit={this.handleSubmit}>
+          <input id="autocomplete"
+            className="input-field"
+            ref="input"
+            type="text"/>
+            <input 
+              name={"name"}
+              value={this.state.name}
+              placeholder={"Name"}
+              onChange={this.handleChange}
+            />
+            <input 
+              name={"street_address"}
+              value={this.state.street_address}
+              placeholder={"Street Address"}
+              onChange={this.handleChange}
+            />
+            <input 
+              name={"city"}
+              value={this.state.city}
+              placeholder={"City"}
+              onChange={this.handleChange}
+            />
+            <input
+              name={"state"}
+              value={this.state.state}
+              placeholder={"State"}
+              onChange={this.handleChange}
+            />
+            <input 
+              name={"zip_code"}
+              value={this.state.zip_code}
+              placeholder={"Zipcode"}
+              onChange={this.handleChange}
+            />
+            <button onSubmit={this.handleSubmit}>Submit</button>
+        </form>
+      </div>
+    )
+  }
+
 }
+
+export default ParlorForm

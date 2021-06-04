@@ -1,6 +1,6 @@
 {
     "DB_URI": "mongodb+srv://estate-ai:T2sji4f6@cluster0.cxifj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    "CLIENT_URL": "http://localhost:3000",
+    "CLIENT_URL": "*",
     "JWT": {
         "SECRET": "T{qVK:zv:4[y'GMPvRBkA3>!BP$C5hnakvZP[f=['.f]Lg9SUJ*Y{:b*G4`3^S/C"
     },

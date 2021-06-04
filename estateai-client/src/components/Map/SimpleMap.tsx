@@ -109,7 +109,6 @@ const SimpleMap = (props: SimpleMapProps) => {
       text: "The amount of sales in the area"
     }
   ]
-  //const scoreOptions = ["By overall", "By percentage increase", "By precision", "By sales"];
 
   useEffect(() => {
     fetch(urlConstants.heatmapcordURL + "?year=" + props.year)

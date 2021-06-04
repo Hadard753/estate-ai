@@ -1,8 +1,9 @@
-import { Model, Schema, Document } from 'mongoose';
-import { Service } from '@tsed/di';
-import { DatabaseService } from './db.service';
+import { Document, Model, Schema } from 'mongoose';
 import { parse } from 'superagent';
 
+import { Service } from '@tsed/di';
+
+import { DatabaseService } from './db.service';
 
 export interface ICOORDINATES extends Document {
     LATITUDE: String;
@@ -32,7 +33,7 @@ export class DistancesService {
         var highway = await this.getHighwayMinDistance(LATITUDE, LONGITUDE)
         var school = await this.getSchoolMinDistance(LATITUDE, LONGITUDE)
         var train = await this.getTrainMinDistance(LATITUDE, LONGITUDE)
-        return  { bus, beach, highway, school, train, LATITUDE, LONGITUDE }
+        return  { bus, beach, highway, school, train }
     }
     //Bus
     async getBusMinDistance(LATITUDE: number, LONGITUDE: number) {
