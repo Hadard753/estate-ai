@@ -1,11 +1,10 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import SimpleMap from './Map/SimpleMap';
-import HomePage from './pages/HomePage';
-import SearchResultPage from './pages/SearchResultPage';
-import SearchPage from './pages/SearchPage';
 import HeatMap from './Map/HeatMap';
+import HomePage from './pages/HomePage';
+import SearchPage from './pages/SearchPage';
+import SearchResultPage from './pages/SearchResultPage';
 
 export const RoutesList = [
     {label: 'Result', path: '/result', component: SearchResultPage},

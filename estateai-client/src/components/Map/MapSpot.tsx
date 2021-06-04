@@ -1,9 +1,10 @@
-import ReactTooltip from 'react-tooltip';
 import React, { useEffect, useState } from 'react';
+import ReactTooltip from 'react-tooltip';
+
+import { Typography } from '@material-ui/core';
 
 import { GroupToColorDict } from '../../models/GroupEnum';
 import { Neighborhood } from '../../models/neighborhood';
-import { Typography } from '@material-ui/core';
 
 const ReactTooltipAny = ReactTooltip as any;
 
@@ -96,16 +97,3 @@ MapSpot.defaultProps = {
 }
 
 export default MapSpot;
-/**
- * <a data-tip data-for='global'> σ`∀´)σ </a>
-<a data-tip data-for='global'> (〃∀〃) </a>
-<ReactTooltip id='global' aria-haspopup='true' role='example'>
- <p>This is a global react component tooltip</p>
- <p>You can put every thing here</p>
- <ul>
-   <li>Word</li>
-   <li>Chart</li>
-   <li>Else</li>
- </ul>
-</ReactTooltip>
- */

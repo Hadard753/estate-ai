@@ -1436,7 +1436,7 @@
   "resolved" "https://registry.npmjs.org/@mapbox/point-geometry/-/point-geometry-0.1.0.tgz"
   "version" "0.1.0"
 
-"@material-ui/core@^4.11.2", "@material-ui/core@^4.9.10":
+"@material-ui/core@^4.11.2":
   "integrity" "sha512-/D1+AQQeYX/WhT/FUk78UCRj8ch/RCglsQLYujYTIqPSJlwZHKcvHidNeVhODXeApojeXjkl0tWdk5C9ofwOkQ=="
   "resolved" "https://registry.npmjs.org/@material-ui/core/-/core-4.11.2.tgz"
   "version" "4.11.2"
@@ -1955,7 +1955,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16", "@types/react@^16.8.6 || ^17.0.0", "@types/react@^16.9.53":
+"@types/react@*", "@types/react@^16", "@types/react@^16.9.53":
   "integrity" "sha512-BzzcAlyDxXl2nANlabtT4thtvbbnhee8hMmH/CcJrISDBVcJS1iOsP1f0OAgSdGE0MsY9tqcrb9YoZcOFv9dbQ=="
   "resolved" "https://registry.yarnpkg.com/@types/react/-/react-16.14.2.tgz"
   "version" "16.14.2"
@@ -9359,7 +9359,7 @@
     "kleur" "^3.0.3"
     "sisteransi" "^1.0.5"
 
-"prop-types@^15.5.8", "prop-types@^15.6.2", "prop-types@^15.7.2", "prop-types@15.7.2":
+"prop-types@^15.5.0", "prop-types@^15.5.8", "prop-types@^15.6.2", "prop-types@^15.7.2", "prop-types@15.7.2":
   "integrity" "sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ=="
   "resolved" "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz"
   "version" "15.7.2"
@@ -9532,6 +9532,11 @@
   dependencies:
     "prop-types" "^15.5.8"
 
+"react-color-bar@0.1.2":
+  "integrity" "sha512-UOQAuFAKt7OmegpWf7HpDCeAjL5W+oiCNFS9Lh46zeJkTGADPF9nmwEEJuAkAzg3X8IR4Fb71wbbjjsFFUYDjA=="
+  "resolved" "https://registry.npmjs.org/react-color-bar/-/react-color-bar-0.1.2.tgz"
+  "version" "0.1.2"
+
 "react-dev-utils@^11.0.1":
   "integrity" "sha512-rlgpCupaW6qQqvu0hvv2FDv40QG427fjghV56XyPcP5aKtOAPzNAhQ7bHqk1YdS2vpW1W7aSV3JobedxuPlBAA=="
   "resolved" "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.1.tgz"
@@ -9562,7 +9567,7 @@
     "strip-ansi" "6.0.0"
     "text-table" "0.2.0"
 
-"react-dom@^16.8.0 || ^17.0.0", "react-dom@^17.0.1":
+"react-dom@^17.0.1":
   "integrity" "sha512-6eV150oJZ9U2t9svnsspTMrWNyHc6chX0KzDeAOXftRa8bNeOKTTfCJ7KorIwenkHd2xqVTBTCZd79yk/lx/Ug=="
   "resolved" "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.1.tgz"
   "version" "17.0.1"
@@ -9575,6 +9580,14 @@
   "integrity" "sha512-HvPuUQnLp5H7TouGq3kzBeioJmXms1wHy9EGjz2OURWBp4qZO6AfGEcnxts1D/CbwPLRAgTMPCEgYhA3sEM4vw=="
   "resolved" "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.8.tgz"
   "version" "6.0.8"
+
+"react-google-autocomplete@^2.4.0":
+  "integrity" "sha512-aHc9qZ5mdSZH8roJAUH6lsbgyzVYQVwyK9ZJnEYQhqUBxSCi/SPWRQ6p/9GzQRuDiY3XbFj0MA96SuTXSH6RFg=="
+  "resolved" "https://registry.npmjs.org/react-google-autocomplete/-/react-google-autocomplete-2.4.0.tgz"
+  "version" "2.4.0"
+  dependencies:
+    "lodash.debounce" "^4.0.8"
+    "prop-types" "^15.5.0"
 
 "react-is@^16.6.0":
   "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
@@ -9734,7 +9747,7 @@
     "object-assign" "^4.1.1"
     "prop-types" "^15.6.2"
 
-"react@^16.8.0 || ^17.0.0", "react@^17.0.1":
+"react@^17.0.1", "react@>=16.8.0":
   "integrity" "sha512-lG9c9UuMHdcAexXtigOZLX8exLWkW0Ku29qPRU8uhF2R9BN96dLCt0psvzPLlHc5OWkgymP3qwTRgbnw5BKx3w=="
   "resolved" "https://registry.yarnpkg.com/react/-/react-17.0.1.tgz"
   "version" "17.0.1"

@@ -1,19 +1,15 @@
 
-import { AppBar, Button, ButtonGroup, Grid, IconButton, Input, Toolbar, Tooltip, Typography } from '@material-ui/core';
 import GoogleMapReact from 'google-map-react';
 import React, { useEffect, useState } from 'react';
+import ColorBar from 'react-color-bar';
+
+import { Button, ButtonGroup, Grid, Tooltip, Typography } from '@material-ui/core';
+import Slider from '@material-ui/core/Slider';
+import { fade, makeStyles } from '@material-ui/core/styles';
 
 import { urlConstants } from '../../api_urls';
 import { Neighborhood } from '../../models/neighborhood';
-import SearchBtn from '../Searc/SearchBtn';
-import SearchModal from '../Searc/SearchModal';
 import MapSpot from './MapSpot';
-import { fade, makeStyles } from '@material-ui/core/styles';
-import ColorBar from 'react-color-bar';
-
-import MenuIcon from '@material-ui/icons/Menu';
-import Slider from '@material-ui/core/Slider';
-
 
 interface SimpleMapProps {
   defaultCenter?: any,
@@ -113,7 +109,6 @@ const SimpleMap = (props: SimpleMapProps) => {
       text: "The amount of sales in the area"
     }
   ]
-  //const scoreOptions = ["By overall", "By percentage increase", "By precision", "By sales"];
 
   useEffect(() => {
     fetch(urlConstants.heatmapcordURL + "?year=" + props.year)
