@@ -45,8 +45,10 @@ export class CombinationService {
     private quartersModel: Model<IQUARTERS, {}>;
     private neiborhoodModel: Model<INEIGHBORHOOD, {}>;
 
-    constructor(private databaseService: DatabaseService) {
-    }
+    constructor(
+        private databaseService: DatabaseService,
+        private distancesService: DistancesService 
+        ) {}
 
     //returns all neiborhoods of rooms with the score gives in the params
     async getAllSameScoreNeiorhoods(ROOMS: string, SCORE: string) {
@@ -79,15 +81,14 @@ export class CombinationService {
 
     //returns area scores for chosen neiborhoods
     async getDistancesNeiborhoods(allNeiborhoods: INEIGHBORHOOD[], AREASCORE: string){
-        const distancesS =   new DistancesService(this.databaseService)
         switch (AREASCORE) {
             case 'BUS':
-                const ret_val =  allNeiborhoods.map( (doc: any) => {return  (distancesS.getBusMinDistance(doc.LATITUDE, doc.LONGITUDE))})
+                var results: any[] = await Promise.all(allNeiborhoods.map(async (doc:any): Promise<any> => {
+                    return await this.distancesService.getBusMinDistance(doc.LATITUDE, doc.LONGITUDE);
+                }));
                 break;
-
-            return ret_val
         }
-        
+        return results
        
     }
 
