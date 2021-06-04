@@ -325,8 +325,8 @@ const SimpleMap = (props: SimpleMapProps) => {
         </GoogleMapReact>
 
       </Grid>
-      <SearchBtn onClick={() => setOpen(true)} />
-      <SearchModal open={open} setOpen={setOpen} />
+      {/* <SearchBtn onClick={() => setOpen(true)} />
+      <SearchModal open={open} setOpen={setOpen} /> */}
     </Grid>
   );
 }
