@@ -11,11 +11,10 @@ import { RegisterForm } from '../forms';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
 import { UserProfileDbModel } from '../models';
 import * as responses from '../responses';
-import { AssetScoreService } from '../services/assetscore.service';
 import { AuthService } from '../services/auth.service';
-import { CombinationService } from '../services/combination.service';
 import { DistancesService } from '../services/distances.service';
 import { HeatMapService } from '../services/heatmap.service';
+import { AssetScoreService } from '../services/assetscore.service';
 
 @Controller('/')
 export class ApiController {
@@ -24,7 +23,6 @@ export class ApiController {
     private heatmapservice: HeatMapService,
     private distancesservice: DistancesService,
     private assetscoreservice: AssetScoreService,
-    private combinationservice: CombinationService,
     ) { }
 
   @Get('/test')
@@ -140,7 +138,7 @@ export class ApiController {
     return responses.getOkayResponse(results);
 
   }
-  @Get('/getQs')
+  @Get('/distances/getQs')
   async getQsrequest(@QueryParams('AREA') AREA: string): Promise<ActionResponse<Object>> {
     
     const results =  await this.distancesservice.getQs(AREA);
@@ -149,9 +147,9 @@ export class ApiController {
   }
 
 
-  @Get('/combinations')
+  @Get('/distances/combinations')
   async getcombinationsrequest(@QueryParams('rooms') rooms: string,@QueryParams('score') score: string,@QueryParams('areascore') areascore: string , @QueryParams('currentscore') currentscore: string): Promise<ActionResponse<Object>> {
-    const results =  await this.combinationservice.getDistancesByNeiborhood(rooms,score,areascore, currentscore);
+    const results =  await this.distancesservice.getDistancesByNeiborhood(rooms,score,areascore, currentscore);
     return responses.getOkayResponse(results);
   }
 
