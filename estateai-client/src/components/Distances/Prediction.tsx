@@ -19,13 +19,13 @@ export default function Prediction(props: DistancesProps) {
     const classes = useStyles();
     return (
     <React.Fragment>
-        <Card className={classes.root} variant="outlined" style={{backgroundColor: getBackgroundColor(props.data["TREND_SCORE"]), width: '95%', margin: '10px'}}>
+        <Card className={classes.root} variant="outlined" style={{backgroundColor: getBackgroundColor(props.data["PRECENTAGE_SCORE"]), width: '95%', margin: '10px'}}>
         <CardContent>
             <Typography className={classes.title} color="textSecondary" gutterBottom>
             General Asset Score
             </Typography>
             <Typography variant="h5" component="h2">
-            {props.data["TREND_SCORE"]}
+            {props.data["PRECENTAGE_SCORE"]}
             </Typography>
         </CardContent>
         </Card>

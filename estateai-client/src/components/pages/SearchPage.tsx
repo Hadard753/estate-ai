@@ -72,17 +72,7 @@ const SearchPage = () => {
                     });
             },
             (error) => {
-               const lat ="32.0763272";
-                const lng ="34.7704299";
-                fetch(urlConstants.distancesURL + `?LATITUDE=${lat}&LONGITUDE=${lng}`)
-                    .then((response) => response.json())
-                    .then((distances) => {
-                        fetch(urlConstants.assetPredictionURL + `?lat=${lat}&long=${lng}`)
-                        .then((response) => response.json())
-                        .then((predictions) => {
-                            setResults({ distances: distances.data, prediction: predictions.data, pointer: {lat: parseFloat(lat), lng: parseFloat(lng)} })
-                        });
-                    });
+               console.log(error);
             }
         )
     }
