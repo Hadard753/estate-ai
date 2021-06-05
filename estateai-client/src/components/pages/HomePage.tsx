@@ -120,8 +120,8 @@ export default function HomePage() {
               <Typography variant="h5" >
                 Find the best Real Estate investment for you
             </Typography>
-              <br />
-              <Typography variant="subtitle1" >
+            <br />
+            <Typography variant="subtitle1" >
               Finally, a reliable service that gives you the clarity to focus on how you can maximize your profit using Real Estate investments. Using sophisticated Artificial intelligent platforms, Estate-AI is able to help you gain insights & provide recommendations regarding Real Estate opportunities in Tel Aviv, Israel.
             </Typography>
               <br />
@@ -138,6 +138,7 @@ export default function HomePage() {
           <Typography variant="h4" align="center">
                 Our Services
             </Typography>
+            <br/>
             <br/>
               <Grid container direction="row" spacing={6} justify="center" style={{ textAlign: "center" }}>
                 <Grid item>
@@ -163,7 +164,7 @@ export default function HomePage() {
                         <img src="https://cdn0.iconfinder.com/data/icons/real-estate-235/64/x-33-512.png" height="150" width="150"></img>
                       </div>
                       <Typography gutterBottom variant="h5" component="h2" align='center'>
-                        Search by property
+                        Search by Property
                     </Typography>
                         <Typography variant="body1">
                         You already found a potential asset but you wish to gain further insights?<br/>
