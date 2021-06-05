@@ -94,19 +94,19 @@ const SimpleMap = (props: SimpleMapProps) => {
   const scoreOptions = [
     {
       option: "By overall",
-      text: "Weighted score by all types"
+      text: "Weighted score by all score types"
     },
     {
       option: "By percentage increase",
-      text: "How high the percentage increase is"
+      text: "Percentage increase predicted"
     },
     {
       option: "By precision",
-      text: "How precise the perdictions are"
+      text: "How confident are we in the predictions"
     },
     {
       option: "By sales",
-      text: "The amount of sales in the area"
+      text: "The amount of sales during the past year"
     }
   ]
 
@@ -237,11 +237,12 @@ const SimpleMap = (props: SimpleMapProps) => {
 
       <Grid item xs={12} sm={4} style={{ padding: 10 }} >
         <Typography variant="h3" noWrap>
-          Heat map Page
+          HeatMap Prediction
           </Typography>
           <br/>
         <Typography variant="h6">
-          Here you can see all the scores we gave to differnt areas in Tel Aviv city, every area is divivded by number of bedrooms and scoring system
+          Using Machine Learning algorithms, Estate-AI is able to predict for you the scores for the different neighberhoods in TLV  <br/>   <br/>
+          Please select the Score System, Number of bedrooms and investigate the Tel Aviv map.
           </Typography>
         <div>
         <br/>
@@ -267,7 +268,7 @@ const SimpleMap = (props: SimpleMapProps) => {
         <div className={classes.search}>
           <ButtonGroup size="small" aria-label="small outlined button group">
             {scoreOptions.map(option => (
-              <Tooltip title={option.text}>
+              <Tooltip title={<h3>{option.text}</h3>}>
                 <Button key={option.option} className={option.option === props.scoreType ? classes.active : ''} onClick={() => props.setScoreType(option.option)}>{option.option}</Button>
               </Tooltip>
 
