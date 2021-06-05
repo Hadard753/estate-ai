@@ -113,7 +113,7 @@ const SearchPage = () => {
                                 justify="center"
                                 alignItems="center"
                             >
-                                <Typography variant="h2" align="center">Use the search button to see the resutls</Typography>
+                                <Typography variant="h2" align="center">Use the search button to see the results</Typography>
                             </Grid>
                             :
                             <Prediction data={results.prediction || {}} />}
