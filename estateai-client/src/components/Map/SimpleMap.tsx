@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const colorBarData = [
+export const colorBarData = [
   {
     value: 0,
     color: '#4fa34c',

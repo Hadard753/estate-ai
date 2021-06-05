@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
+import ColorBar from 'react-color-bar';
 import Geocode from 'react-geocode';
 
 // import Autocomplete from 'react-google-autocomplete';
@@ -9,6 +10,7 @@ import { urlConstants } from '../../api_urls';
 import Distances from '../Distances/Distances';
 import Prediction from '../Distances/Prediction';
 import Map from '../Map/Map';
+import { colorBarData } from '../Map/SimpleMap';
 
 const useStyles = makeStyles((theme) => ({
     slider: {
@@ -56,7 +58,6 @@ const SearchPage = () => {
     } , [])
 
     const handleSearch = () => {
-        // TODO: convert search.address to lat an lon
         Geocode.fromAddress(search.address).then(
             (response) => {
                 const { lat, lng } = response.results[0].geometry.location;
@@ -102,10 +103,20 @@ const SearchPage = () => {
                         <TextField value={search.rooms} onChange={(e) => setSearch({...search, rooms: e.target.value})} type="number" InputProps={{ inputProps: { min: 1, max: 10 } }} id="rooms-input" label="#Room" variant="outlined" />
                         <Button onClick={handleSearch} variant="contained" color="primary">Search</Button>
                     </form>
+                    <div  className={classes.leftPane}>
+                    <Typography className={classes.title} variant="h6" noWrap >
+                    Legend
+                    </Typography>
+                    <div><ColorBar data={colorBarData} /></div>
+                    </div>
                 </Grid>
                 <Grid item container spacing={2} xs={8}>
                     <Grid item xs={3}>
-                        {results.distances === null ?
+                        {results.distances === null ? null : <Distances data={results.distances || {}} />}
+                            </Grid>
+                    <Grid item container xs={9}>
+                        <Grid item xs={12}>
+                            {results.prediction === null ?
                             <Grid
                                 container
                                 direction="row"
@@ -114,11 +125,7 @@ const SearchPage = () => {
                             >
                                 <Typography variant="h2" align="center">Use the search button to see the resutls</Typography>
                             </Grid>
-                            : <Distances data={results.distances || {}} />}
-                            </Grid>
-                    <Grid item container xs={9}>
-                        <Grid item xs={12}>
-                            {results.prediction !== null &&
+                            :
                             <Prediction data={results.prediction || {}} />}
                                                         {
                                 results.pointer !== null &&
