@@ -192,7 +192,7 @@ export default function HomePage() {
                 <Card className={classes.card}>
                   <CardContent className={classes.cardContent}>
                   <img src={card.image} height="200px" border-radius="50%"></img>
-                    <Typography gutterBottom variant="h5" component="h2" align='center'>
+                    <Typography gutterBottom variant="h6" component="h2" align='center'>
                       {card.name}
                     </Typography>
                     <Typography align='center'>
