@@ -38,7 +38,7 @@ export class DistancesService {
 
     constructor(private databaseService: DatabaseService) {
     }
-    async getAllSameScoreNeiorhoods(ROOMS: string, SCORE: string) {
+    async getAllSameScoreNeiorhoods(ROOMS : string, SCORE: string) {
         if (this.neiborhoodModel === undefined) {
             const neiborhoodSchema: Schema = new Schema(
                 {
@@ -49,7 +49,11 @@ export class DistancesService {
 
             this.neiborhoodModel = this.databaseService.db.model<INEIGHBORHOOD>('neighborhood', neiborhoodSchema, 'neighborhoods');
         }
+
+            
         switch (ROOMS) {
+            case '':
+                return await this.neiborhoodModel.find({ GENERAL_SCORE: SCORE });
             case '1':
                 return await this.neiborhoodModel.find({ ONEBR_GENERAL_SCORE: SCORE });
             case '2':
@@ -84,6 +88,7 @@ export class DistancesService {
             break;
         }
         var results: any[] = await Promise.all(allNeiborhoods.map(async (obj: any) => {
+            var score = obj.score
             switch (obj.score) {
                 case 'A':
                     var temp_score = ScoreEnum.A
@@ -102,7 +107,7 @@ export class DistancesService {
             var lat = obj.lat
             var long = obj.long
             var name = obj.name
-            return {temp_score, lat, long, name}
+            return {temp_score, lat, long, name, score}
         }))
         var resultsFiltered = []
         results.forEach(element => {
@@ -165,8 +170,13 @@ export class DistancesService {
         return results
     }
 
-    async getDistancesByNeiborhood(ROOMS: string, SCORE: string, AREASCORE: string, CURRENTSSUBSCORE: string) {
+    async getDistancesByRoomNeiborhood(ROOMS: string, SCORE: string, AREASCORE: string, CURRENTSSUBSCORE: string) {
         var toFunc = await this.getAllSameScoreNeiorhoods(ROOMS, SCORE)
+        var scores = await this.getDistancesNeiborhoods(toFunc, AREASCORE)
+        return await this.getWantefNeiborhoods(scores, CURRENTSSUBSCORE)
+    }
+    async getDistancesByNeiborhood(SCORE: string, AREASCORE: string, CURRENTSSUBSCORE: string) {
+        var toFunc = await this.getAllSameScoreNeiorhoods("", SCORE)
         var scores = await this.getDistancesNeiborhoods(toFunc, AREASCORE)
         return await this.getWantefNeiborhoods(scores, CURRENTSSUBSCORE)
     }
