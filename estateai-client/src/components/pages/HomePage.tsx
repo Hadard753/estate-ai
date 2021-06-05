@@ -1,9 +1,10 @@
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
-import LinkdeinIcon from '@material-ui/icons/LinkedIn';
-import FacebookIcon from '@material-ui/icons/Facebook';
 import React from 'react';
 
-import SimpleMap from '../Map/SimpleMap';
+import {
+    Box, Card, CardActions, CardContent, CardMedia, Container, Divider, Grid, makeStyles, Typography
+} from '@material-ui/core';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import LinkdeinIcon from '@material-ui/icons/LinkedIn';
 
 export default function HomePage() {
 
@@ -50,7 +51,6 @@ export default function HomePage() {
         },
       }));
 
-    
       const cards = [
           {
               name: "Hadar Dayan",
@@ -79,6 +79,13 @@ export default function HomePage() {
             image: "stav.jfif",
             fb_link: "https://www.facebook.com/stav.bernaz",
             linkd_link: "https://www.linkedin.com/in/stav-bernaz-788141125/"
+        },
+        {
+            name: "Almog Snir",
+            title: "Professor Pruton",
+            image: "almog.jfif",
+            fb_link: "https://www.facebook.com/almog.snir",
+            linkd_link: "https://www.linkedin.com/in/almog-snir-788141125/"
         }
       ];
 

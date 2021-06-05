@@ -13,6 +13,7 @@ import TrainIcon from '@material-ui/icons/Train';
 
 // core components
 import styles from '../../assets/cardStyle';
+import { getBackgroundColor } from '../../utils';
 
 const useStyles = makeStyles(styles as any);
 
@@ -30,15 +31,6 @@ export default function Distances(props: DistancesProps) {
             case 'highway': return <CallSplitIcon style={{ width: '5ch', height: '5ch', float: 'right'}}/>;
             case 'beach': return <BeachAccessIcon style={{ width: '5ch', height: '5ch', float: 'right'}}/>;
             default: return null;
-        }
-    }
-    const getBackgroundColor = score => {
-        switch (score) {
-            case 'A': return 'green';
-            case 'B': return 'yellow';
-            case 'C': return 'orange';
-            case 'D': return 'red';
-            default: return 'gray';
         }
     }
     return (
