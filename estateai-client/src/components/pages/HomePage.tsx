@@ -131,10 +131,10 @@ export default function HomePage() {
             <Grid item sm={6}>
               <br />
               <br />
-              <img src="https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_1024,h_759/https://www.ireal.ai/wp-content/uploads/2021/04/179-e2-1024x759.png" width="100%" height="75%" style={{padding:"20px"}}></img>
+              <img src="https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_1024,h_759/https://www.ireal.ai/wp-content/uploads/2021/04/179-e2-1024x759.png" width="100%" height="90%" style={{padding:"20px"}}></img>
             </Grid>
           </Grid>
-
+        {/* ----------------------------- Start of Our Services -----------------------------*/}
           <Typography variant="h4" align="center">
                 Our Services
             </Typography>
