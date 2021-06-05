@@ -2,6 +2,9 @@ import { Document, Model, Schema } from 'mongoose';
 import { parse } from 'superagent';
 import { Service } from '@tsed/di';
 import { DatabaseService } from './db.service';
+import { arrayUnique } from 'class-validator';
+import { UniqueItems } from '@tsed/common';
+import { uniqueId } from 'lodash';
 
 export enum ScoreEnum {
     'D',
@@ -107,14 +110,19 @@ export class DistancesService {
             var lat = obj.lat
             var long = obj.long
             var name = obj.name
-            return {temp_score, lat, long, name, score}
+            return {temp_score, name, score}
         }))
         var resultsFiltered = []
+        var neiborhoods = []
         results.forEach(element => {
-            if(element.temp_score>cur)
-            resultsFiltered.push(element)
+            if((element.temp_score>cur) && (!neiborhoods.includes(element.name)))
+                {
+                    var name = element.name
+                    var score = element.score
+                    resultsFiltered.push({name, score})
+                    neiborhoods.push(name)
+                }
         });
-
         return resultsFiltered
     }
 
