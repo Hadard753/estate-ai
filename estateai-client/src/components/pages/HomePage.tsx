@@ -55,7 +55,7 @@ export default function HomePage() {
           {
               name: "Hadar Dayan",
               title: "Senior Full Stack Developer",
-              image: "../../static/images/hadar.jfif",
+              image: "hadar.jfif",
               fb_link: "https://www.facebook.com/hadar.dayan.31",
               linkd_link: "https://www.linkedin.com/in/hadar-dayan/"
           },
