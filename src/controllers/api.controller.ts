@@ -149,8 +149,21 @@ export class ApiController {
 
   @Get('/distances/combinations')
   async getcombinationsrequest(@QueryParams('rooms') rooms: string,@QueryParams('score') score: string,@QueryParams('areascore') areascore: string , @QueryParams('currentscore') currentscore: string): Promise<ActionResponse<Object>> {
-    const results =  await this.distancesservice.getDistancesByNeiborhood(rooms,score,areascore, currentscore);
+    var results 
+    if(rooms)
+      results =  await this.distancesservice.getDistancesByRoomNeiborhood(rooms,score,areascore, currentscore);
+    else
+      results =  await this.distancesservice.getDistancesByNeiborhood(score,areascore, currentscore);
     return responses.getOkayResponse(results);
+  }
+
+  //getAllDistancesByNeiborhood
+  @Get('/distances/combinations/all')
+  async getallcombinationsrequest(@QueryParams('score') score: string, @QueryParams('busCurScore') busCurScore: string, @QueryParams('beachCurScore') beachCurScore: string, @QueryParams('highwayCurScore') highwayCurScore: string, @QueryParams('schoolCurScore') schoolCurScore: string, @QueryParams('trainCurScore') trainCurScore: string): Promise<ActionResponse<Object>> {
+    
+    const results =  await this.distancesservice.getAllDistancesByNeiborhood(score, busCurScore, beachCurScore,highwayCurScore, schoolCurScore, trainCurScore );
+    return responses.getOkayResponse(results);
+
   }
 
   @Get('/assetscore')

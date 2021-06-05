@@ -2,6 +2,9 @@ import { Document, Model, Schema } from 'mongoose';
 import { parse } from 'superagent';
 import { Service } from '@tsed/di';
 import { DatabaseService } from './db.service';
+import { arrayUnique } from 'class-validator';
+import { UniqueItems } from '@tsed/common';
+import { uniqueId } from 'lodash';
 
 export enum ScoreEnum {
     'D',
@@ -35,10 +38,13 @@ export class DistancesService {
     private highwayModel: Model<ICOORDINATES, {}>;
     private quartersModel: Model<IQUARTERS, {}>;
     private neiborhoodModel: Model<INEIGHBORHOOD, {}>;
-
+    private features: any;
+    
     constructor(private databaseService: DatabaseService) {
+        this.features = ['BUS']
     }
-    async getAllSameScoreNeiorhoods(ROOMS: string, SCORE: string) {
+    async getAllSameScoreNeiorhoods(ROOMS : string, SCORE: string) {
+    
         if (this.neiborhoodModel === undefined) {
             const neiborhoodSchema: Schema = new Schema(
                 {
@@ -49,7 +55,11 @@ export class DistancesService {
 
             this.neiborhoodModel = this.databaseService.db.model<INEIGHBORHOOD>('neighborhood', neiborhoodSchema, 'neighborhoods');
         }
+
+            
         switch (ROOMS) {
+            case '':
+                return await this.neiborhoodModel.find({ GENERAL_SCORE: SCORE });
             case '1':
                 return await this.neiborhoodModel.find({ ONEBR_GENERAL_SCORE: SCORE });
             case '2':
@@ -84,6 +94,7 @@ export class DistancesService {
             break;
         }
         var results: any[] = await Promise.all(allNeiborhoods.map(async (obj: any) => {
+            var score = obj.score
             switch (obj.score) {
                 case 'A':
                     var temp_score = ScoreEnum.A
@@ -102,14 +113,19 @@ export class DistancesService {
             var lat = obj.lat
             var long = obj.long
             var name = obj.name
-            return {temp_score, lat, long, name}
+            return {temp_score, name, score}
         }))
         var resultsFiltered = []
+        var neiborhoods = []
         results.forEach(element => {
-            if(element.temp_score>cur)
-            resultsFiltered.push(element)
+            if((element.temp_score>cur) && (!neiborhoods.includes(element.name)))
+                {
+                    var name = element.name
+                    var score = element.score
+                    resultsFiltered.push({name, score})
+                    neiborhoods.push(name)
+                }
         });
-
         return resultsFiltered
     }
 
@@ -165,11 +181,29 @@ export class DistancesService {
         return results
     }
 
-    async getDistancesByNeiborhood(ROOMS: string, SCORE: string, AREASCORE: string, CURRENTSSUBSCORE: string) {
+    async getDistancesByRoomNeiborhood(ROOMS: string, SCORE: string, AREASCORE: string, CURRENTSSUBSCORE: string) {
         var toFunc = await this.getAllSameScoreNeiorhoods(ROOMS, SCORE)
         var scores = await this.getDistancesNeiborhoods(toFunc, AREASCORE)
         return await this.getWantefNeiborhoods(scores, CURRENTSSUBSCORE)
     }
+    async getDistancesByNeiborhood(SCORE: string, AREASCORE: string, CURRENTSSUBSCORE: string) {
+        var toFunc = await this.getAllSameScoreNeiorhoods("", SCORE)
+        var scores = await this.getDistancesNeiborhoods(toFunc, AREASCORE)
+        return await this.getWantefNeiborhoods(scores, CURRENTSSUBSCORE)
+    }
+    async getAllDistancesByNeiborhood(SCORE: string, busCurScore: string, beachCurScore: string, highwayCurScore: string, schoolCurScore: string, trainCurScore: string) {
+
+        var toFunc = await this.getAllSameScoreNeiorhoods("", SCORE)
+
+        var bus = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'BUS'),busCurScore?busCurScore: 'B') 
+        var beach = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'BEACH'),beachCurScore?beachCurScore: 'B') 
+        var highway = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'HIGHWAY'),highwayCurScore?highwayCurScore: 'B') 
+        var school = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'SCHOOL'),schoolCurScore?schoolCurScore: 'B') 
+        var train = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'TRAIN'),trainCurScore?trainCurScore: 'B') 
+
+         return  { bus, beach, highway, school, train } 
+    }
+
 
     async getAllMinDistance(LATITUDE: number, LONGITUDE: number) {
         var bus = await this.getBusMinDistance(LATITUDE, LONGITUDE)

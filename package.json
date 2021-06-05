@@ -72,6 +72,7 @@
         "@tsed/di": "^5.62.0",
         "@tsed/exceptions": "^5.62.0",
         "@tsed/testing": "^5.62.0",
+        "array-unique": "^0.3.2",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.18.2",
         "class-transformer": "^0.2.3",
