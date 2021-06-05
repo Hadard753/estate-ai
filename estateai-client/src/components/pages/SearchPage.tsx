@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
+import Geocode from 'react-geocode';
 
 // import Autocomplete from 'react-google-autocomplete';
 import { Button, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
 
 import { urlConstants } from '../../api_urls';
 import Distances from '../Distances/Distances';
-import ParlorForm from '../Map/Autocomplete';
+import Prediction from '../Distances/Prediction';
+import Map from '../Map/Map';
 
 const useStyles = makeStyles((theme) => ({
     slider: {
@@ -30,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     form: {
         '& > *': {
             margin: theme.spacing(1),
-            width: '33ch',
+            width: '68ch',
         },
     },
     leftPane: {
@@ -38,22 +41,49 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-
 const SearchPage = () => {
-    const [results, setResults] = useState({ distances: null, prediction: ""});
+    const [results, setResults] = useState({ distances: null, prediction: null, pointer: (null as any) });
     const [search, setSearch] = useState({ address: '', rooms: '', size: '', floor: '', totalFloor: ''});
 
     const classes = useStyles();
 
+    useEffect(() => {
+        // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
+        Geocode.setApiKey("AIzaSyDhaRgFmaOJiInS6XOCrqHapSisSC5BhtI");
+
+        // set response language. Defaults to english.
+        Geocode.setLanguage("en");
+    } , [])
+
     const handleSearch = () => {
         // TODO: convert search.address to lat an lon
-        const lat ="32.0763272";
-        const lon ="34.7704299";
-        fetch(urlConstants.distancesURL + `?LATITUDE=${lat}&LONGITUDE=${lon}`)
-        .then((response) => response.json())
-        .then((data) => {
-            setResults({ ...results, distances: data.data })
-        });
+        Geocode.fromAddress(search.address).then(
+            (response) => {
+                const { lat, lng } = response.results[0].geometry.location;
+                fetch(urlConstants.distancesURL + `?LATITUDE=${lat}&LONGITUDE=${lng}`)
+                    .then((response) => response.json())
+                    .then((distances) => {
+                        fetch(urlConstants.assetPredictionURL + `?lat=${lat}&long=${lng}`)
+                        .then((response) => response.json())
+                        .then((predictions) => {
+                            setResults({ distances: distances.data, prediction: predictions.data, pointer: {lat: parseFloat(lat), lng: parseFloat(lng)} })
+                        });
+                    });
+            },
+            (error) => {
+               const lat ="32.0763272";
+                const lng ="34.7704299";
+                fetch(urlConstants.distancesURL + `?LATITUDE=${lat}&LONGITUDE=${lng}`)
+                    .then((response) => response.json())
+                    .then((distances) => {
+                        fetch(urlConstants.assetPredictionURL + `?lat=${lat}&long=${lng}`)
+                        .then((response) => response.json())
+                        .then((predictions) => {
+                            setResults({ distances: distances.data, prediction: predictions.data, pointer: {lat: parseFloat(lat), lng: parseFloat(lng)} })
+                        });
+                    });
+            }
+        )
     }
 
     return (
@@ -67,27 +97,37 @@ const SearchPage = () => {
                     <Typography variant="h6" className={classes.leftPane}>
                         Here you can can insert your asset details and get a good understanding of what you are getting! what score we give your asset, how life is going to be there and etc
                     </Typography>
-                    <ParlorForm />
                     <form className={classes.form} noValidate autoComplete="off">
-                        <TextField value={search.address} onChange={(e) => setSearch({...search, address: e.target.value})} style={{width: '68ch'}} id="address-input" label="Address" variant="outlined" />
+                        <TextField value={search.address} onChange={(e) => setSearch({...search, address: e.target.value})} id="address-input" label="Address" variant="outlined" />
                         <TextField value={search.rooms} onChange={(e) => setSearch({...search, rooms: e.target.value})} type="number" InputProps={{ inputProps: { min: 1, max: 10 } }} id="rooms-input" label="#Room" variant="outlined" />
-                        <TextField value={search.size} onChange={(e) => setSearch({...search, size: e.target.value})} type="number" InputProps={{ inputProps: { min: 0, max: 4000 } }} id="size-input" label="Size" variant="outlined" />
-                        <TextField value={search.floor} onChange={(e) => setSearch({...search, floor: e.target.value})} type="number" InputProps={{ inputProps: { min: -5, max: 100 } }} id="floor-input" label="Floor" variant="outlined" />
-                        <TextField value={search.totalFloor} onChange={(e) => setSearch({...search, totalFloor: e.target.value})} type="number" InputProps={{ inputProps: { min: -5, max: 100 } }} id="num-floor-input" label="Out of Floor" variant="outlined" />
-                        <Button style={{width: '68ch'}} onClick={handleSearch} variant="contained" color="primary">Search</Button>
+                        <Button onClick={handleSearch} variant="contained" color="primary">Search</Button>
                     </form>
                 </Grid>
-                <Grid item xs={8}>
-                    {results.distances === null ?
-                        <Grid
-                            container
-                            direction="row"
-                            justify="center"
-                            alignItems="center"
-                        >
-                            <Typography variant="h2" align="center">Use the search button to see the resutls</Typography>
+                <Grid item container spacing={2} xs={8}>
+                    <Grid item xs={3}>
+                        {results.distances === null ?
+                            <Grid
+                                container
+                                direction="row"
+                                justify="center"
+                                alignItems="center"
+                            >
+                                <Typography variant="h2" align="center">Use the search button to see the resutls</Typography>
+                            </Grid>
+                            : <Distances data={results.distances || {}} />}
+                            </Grid>
+                    <Grid item container xs={9}>
+                        <Grid item xs={12}>
+                            {results.prediction !== null &&
+                            <Prediction data={results.prediction || {}} />}
+                                                        {
+                                results.pointer !== null &&
+                                <Map
+                                    pointer={results.pointer}
+                                />
+                            }
                         </Grid>
-                        : <Distances data={results.distances || {}} />}
+                    </Grid>
                 </Grid>
             </Grid>
         </div>

@@ -45,7 +45,7 @@ export default function Distances(props: DistancesProps) {
     <React.Fragment>
         {
             Object.keys(props.data).map(key => (
-                <Card className={classes.root} variant="outlined" style={{backgroundColor: getBackgroundColor(props.data[key]), width: '30ch', margin: '5px'}}>
+                <Card className={classes.root} variant="outlined" key={key} style={{backgroundColor: getBackgroundColor(props.data[key]), width: '30ch', margin: '10px'}}>
                 <CardContent>
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
                     {key}
