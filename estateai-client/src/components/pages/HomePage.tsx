@@ -37,7 +37,7 @@ export default function HomePage() {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      width: "220px"
+      width: "245px"
     },
     cardMedia: {
       height: 0,
@@ -187,7 +187,7 @@ export default function HomePage() {
               <Grid item key={card.name}>
                 <Card className={classes.card}>
                   <CardContent className={classes.cardContent}>
-                  <img src={card.image} height="200px"></img>
+                  <img src={card.image} height="200px" border-radius="50%"></img>
                     <Typography gutterBottom variant="h5" component="h2" align='center'>
                       {card.name}
                     </Typography>
