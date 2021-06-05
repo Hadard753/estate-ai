@@ -101,7 +101,7 @@ export default function HomePage() {
   const classes = useStyles();
   return (
 
-    <div style={{ flex: 1 }}>
+    <div style={{ flex: 1, overflowY: "scroll" }}>
       <Grid container direction="row">
         <Grid sm={2}>
         </Grid>
@@ -186,17 +186,12 @@ export default function HomePage() {
             {cards.map((card) => (
               <Grid item key={card.name}>
                 <Card className={classes.card}>
-                  {/* <CardMedia
-                    className={classes.cardMedia}
-                    image="https://dcassetcdn.com/design_img/2572218/631383/631383_13774284_2572218_6767a058_image.jpg"
-                    title="Image title"
-                  /> */}
                   <CardContent className={classes.cardContent}>
                   <img src={card.image} height="200px"></img>
                     <Typography gutterBottom variant="h5" component="h2" align='center'>
                       {card.name}
                     </Typography>
-                    <Typography>
+                    <Typography align='center'>
                       {card.title}
                     </Typography>
                   </CardContent>
