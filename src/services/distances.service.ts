@@ -38,10 +38,13 @@ export class DistancesService {
     private highwayModel: Model<ICOORDINATES, {}>;
     private quartersModel: Model<IQUARTERS, {}>;
     private neiborhoodModel: Model<INEIGHBORHOOD, {}>;
-
+    private features: any;
+    
     constructor(private databaseService: DatabaseService) {
+        this.features = ['BUS']
     }
     async getAllSameScoreNeiorhoods(ROOMS : string, SCORE: string) {
+    
         if (this.neiborhoodModel === undefined) {
             const neiborhoodSchema: Schema = new Schema(
                 {
@@ -188,6 +191,19 @@ export class DistancesService {
         var scores = await this.getDistancesNeiborhoods(toFunc, AREASCORE)
         return await this.getWantefNeiborhoods(scores, CURRENTSSUBSCORE)
     }
+    async getAllDistancesByNeiborhood(SCORE: string, busCurScore: string, beachCurScore: string, highwayCurScore: string, schoolCurScore: string, trainCurScore: string) {
+
+        var toFunc = await this.getAllSameScoreNeiorhoods("", SCORE)
+
+        var bus = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'BUS'),busCurScore?busCurScore: 'B') 
+        var beach = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'BEACH'),beachCurScore?beachCurScore: 'B') 
+        var highway = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'HIGHWAY'),highwayCurScore?highwayCurScore: 'B') 
+        var school = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'SCHOOL'),schoolCurScore?schoolCurScore: 'B') 
+        var train = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'TRAIN'),trainCurScore?trainCurScore: 'B') 
+
+         return  { bus, beach, highway, school, train } 
+    }
+
 
     async getAllMinDistance(LATITUDE: number, LONGITUDE: number) {
         var bus = await this.getBusMinDistance(LATITUDE, LONGITUDE)

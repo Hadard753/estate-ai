@@ -157,6 +157,15 @@ export class ApiController {
     return responses.getOkayResponse(results);
   }
 
+  //getAllDistancesByNeiborhood
+  @Get('/distances/combinations/all')
+  async getallcombinationsrequest(@QueryParams('score') score: string, @QueryParams('busCurScore') busCurScore: string, @QueryParams('beachCurScore') beachCurScore: string, @QueryParams('highwayCurScore') highwayCurScore: string, @QueryParams('schoolCurScore') schoolCurScore: string, @QueryParams('trainCurScore') trainCurScore: string): Promise<ActionResponse<Object>> {
+    
+    const results =  await this.distancesservice.getAllDistancesByNeiborhood(score, busCurScore, beachCurScore,highwayCurScore, schoolCurScore, trainCurScore );
+    return responses.getOkayResponse(results);
+
+  }
+
   @Get('/assetscore')
   async assetscorerequest(@QueryParams('roomNum') roomNum: string, @QueryParams('lat') lat: number, @QueryParams('lon') lon: number ): Promise<ActionResponse<Object>> {
 
