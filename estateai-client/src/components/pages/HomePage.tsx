@@ -29,7 +29,7 @@ export default function HomePage() {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      width: "250px"
+      width: "220px"
     },
     card: {
       height: '100%',
@@ -37,7 +37,7 @@ export default function HomePage() {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      width: "245px"
+      width: "200px"
     },
     cardMedia: {
       height: 0,
@@ -91,7 +91,7 @@ export default function HomePage() {
     },
     {
       name: "Almog Snir",
-      title: "Professor Pruton",
+      title: "Solutions and Training Manager",
       image: "almog.jpg",
       fb_link: "https://www.facebook.com/almog.snir",
       linkd_link: "https://www.linkedin.com/in/almog-snir-788141125/"
@@ -113,7 +113,7 @@ export default function HomePage() {
               <br />
               <br />
               <br />
-              <Typography variant="h4" >
+              <Typography variant="h3" >
                 Welcome to Estate-AI
             </Typography>
               <Typography variant="h5" >
@@ -121,23 +121,25 @@ export default function HomePage() {
             </Typography>
               <br />
               <Typography variant="subtitle1" >
-                Here we can help you find the best investment that matches your needs.
+              Finally, a reliable service that gives you the clarity to focus on how you can maximize your profit using Real Estate investments. Using sophisticated Artificial intelligent platforms, Estate-AI is able to help you gain insights & provide recommendations regarding Real Estate opportunities in Tel Aviv, Israel.
             </Typography>
               <br />
               <br />
-              <br />
-              <br />
-              <br />
+            <Typography variant="h4" >
+                Our Services
+            </Typography>
+            <br/>
               <Grid container direction="row" spacing={6} style={{ textAlign: "center" }}>
                 <Grid item>
                   <Card className={classes.topCard}>
                     <CardContent className={classes.cardContent}>
                       <img src="https://img.icons8.com/plasticine/2x/heat-map.png"></img>
                       <Typography gutterBottom variant="h5" component="h2" align='center'>
-                        HeatMap prediction
+                        HeatMap Prediction
                     </Typography>
-                      <Typography>
-                        Heatmap title
+                      <Typography variant="body1">
+                      You have decided you want to maximize your profit by investing in Real Estate, However, it is not clear where the correct location is in Tel Aviv to do so.<br/>
+                      Using our “HeatMap Prediction” service you can easily understand which neighborhoods can yield you the maximum profit.
                     </Typography>
                     </CardContent>
                     <CardActions className={classes.cardActions}>
@@ -153,9 +155,10 @@ export default function HomePage() {
                       <Typography gutterBottom variant="h5" component="h2" align='center'>
                         Search by property
                     </Typography>
-                      <Typography>
-                        Search by property title
-                    </Typography>
+                        <Typography variant="body1">
+                        You already found a potential asset but you wish to gain further insights?<br/>
+                        Using our “Search By Asset” service you can do so, maybe even find a better asset out there?
+                        </Typography>
                     </CardContent>
                     <CardActions className={classes.cardActions}>
                     </CardActions>
@@ -167,7 +170,7 @@ export default function HomePage() {
             <Grid item sm={6}>
               <br />
               <br />
-              <img src="https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_1024,h_759/https://www.ireal.ai/wp-content/uploads/2021/04/179-e2-1024x759.png" width="100%" height="100%"></img>
+              <img src="https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_1024,h_759/https://www.ireal.ai/wp-content/uploads/2021/04/179-e2-1024x759.png" width="100%" height="75%" style={{padding:"20px"}}></img>
             </Grid>
           </Grid>
           {/* <Divider /> */}
