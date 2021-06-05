@@ -103,11 +103,11 @@ export default function HomePage() {
 
     <div style={{ flex: 1, overflowY: "scroll" }}>
       <Grid container direction="row">
-        <Grid sm={2}>
+        <Grid sm={1} md={1} lg={1} xl={2}>
         </Grid>
-        <Grid sm={8}>
+        <Grid sm={10} md={10} lg={10} xl={8}>
           <Grid container style={{ flex: 1, padding: 5 }}>
-            <Grid item sm={6} >
+            <Grid item sm={6}  >
               <br />
               <br />
               <br />
@@ -205,7 +205,7 @@ export default function HomePage() {
           </Grid>
         </Grid>
 
-        <Grid sm={2}>
+        <Grid sm={1} md={1} lg={1} xl={2}>
         </Grid>
       </Grid>
     </div>
