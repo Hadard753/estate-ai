@@ -101,7 +101,7 @@ const SearchPage = () => {
                     <form className={classes.form} noValidate autoComplete="off">
                         <TextField value={search.address} onChange={(e) => setSearch({...search, address: e.target.value})} id="address-input" label="Address" variant="outlined" />
                         <TextField value={search.rooms} onChange={(e) => setSearch({...search, rooms: e.target.value})} type="number" InputProps={{ inputProps: { min: 1, max: 10 } }} id="rooms-input" label="#Room" variant="outlined" />
-                        <Button onClick={handleSearch} variant="contained" color="primary">Search</Button>
+                        <Button onClick={handleSearch} variant="contained" style={{ backgroundColor: 'green' }}>Search</Button>
                     </form>
                     <div  className={classes.leftPane}>
                     <Typography className={classes.title} variant="h6" noWrap >

@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // core components
 import styles from '../../assets/cardStyle';
+import { getBackgroundColor } from '../../utils';
 
 const useStyles = makeStyles(styles as any);
 
@@ -16,15 +17,6 @@ interface DistancesProps {
 
 export default function Prediction(props: DistancesProps) {
     const classes = useStyles();
-    const getBackgroundColor = score => {
-        switch (score) {
-            case 'A': return '#4fa34c';
-            case 'B': return '#ffec00';
-            case 'C': return '#ff8d00de';
-            case 'D': return '#e0403d';
-            default: return '#737373';
-        }
-    }
     return (
     <React.Fragment>
         <Card className={classes.root} variant="outlined" style={{backgroundColor: getBackgroundColor(props.data["TREND_SCORE"]), width: '95%', margin: '10px'}}>
