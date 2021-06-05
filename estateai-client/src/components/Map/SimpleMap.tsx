@@ -61,23 +61,23 @@ export const colorBarData = [
   {
     value: 0,
     color: '#4fa34c',
-    legendLabel: 'Highly Recommended',
-    tooltip: 'Highly Recommended',
+    legendLabel: 'A - Highly Recommended',
+    tooltip: 'A - Highly Recommended',
   }, {
     value: 0,
     color: '#ffec00',
-    legendLabel: 'Recommended',
-    tooltip: 'Recommended',
+    legendLabel: 'B - Recommended',
+    tooltip: 'B - Recommended',
   }, {
     value: 0,
     color: '#ff8d00de',
-    legendLabel: 'Ok',
-    tooltip: 'Ok',
+    legendLabel: 'C - Ok',
+    tooltip: 'C - Ok',
   }, {
     value: 0,
     color: '#e0403d',
-    legendLabel: 'Not Recommended',
-    tooltip: 'Not Recommended',
+    legendLabel: 'D - Not Recommended',
+    tooltip: 'D - Not Recommended',
   }, {
     value: 0,
     color: '#737373',
