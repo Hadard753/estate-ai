@@ -29,7 +29,7 @@ export default function HomePage() {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      width: "220px"
+      width: "600px"
     },
     card: {
       height: '100%',
@@ -37,7 +37,7 @@ export default function HomePage() {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      width: "200px"
+      width: "222px"
     },
     cardMedia: {
       height: 0,
@@ -105,6 +105,7 @@ export default function HomePage() {
       <Grid container direction="row">
         <Grid sm={1} md={1} lg={1} xl={2}>
         </Grid>
+        
         <Grid sm={10} md={10} lg={10} xl={8}>
           <Grid container style={{ flex: 1, padding: 5 }}>
             <Grid item sm={6}  >
@@ -124,12 +125,21 @@ export default function HomePage() {
               Finally, a reliable service that gives you the clarity to focus on how you can maximize your profit using Real Estate investments. Using sophisticated Artificial intelligent platforms, Estate-AI is able to help you gain insights & provide recommendations regarding Real Estate opportunities in Tel Aviv, Israel.
             </Typography>
               <br />
+            
+            </Grid>
+
+            <Grid item sm={6}>
               <br />
-            <Typography variant="h4" >
+              <br />
+              <img src="https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_1024,h_759/https://www.ireal.ai/wp-content/uploads/2021/04/179-e2-1024x759.png" width="100%" height="75%" style={{padding:"20px"}}></img>
+            </Grid>
+          </Grid>
+
+          <Typography variant="h4" align="center">
                 Our Services
             </Typography>
             <br/>
-              <Grid container direction="row" spacing={6} style={{ textAlign: "center" }}>
+              <Grid container direction="row" spacing={6} justify="center" style={{ textAlign: "center" }}>
                 <Grid item>
                   <Card className={classes.topCard}>
                     <CardContent className={classes.cardContent}>
@@ -138,7 +148,7 @@ export default function HomePage() {
                         HeatMap Prediction
                     </Typography>
                       <Typography variant="body1">
-                      You have decided you want to maximize your profit by investing in Real Estate, However, it is not clear where the correct location is in Tel Aviv to do so.<br/>
+                      You have decided you want to maximize your profit by investing in Real Estate, However, it's unclear where the correct location is in Tel Aviv to do so.<br/>
                       Using our “HeatMap Prediction” service you can easily understand which neighborhoods can yield you the maximum profit.
                     </Typography>
                     </CardContent>
@@ -165,15 +175,6 @@ export default function HomePage() {
                   </Card>
                 </Grid>
               </Grid >
-            </Grid>
-
-            <Grid item sm={6}>
-              <br />
-              <br />
-              <img src="https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_1024,h_759/https://www.ireal.ai/wp-content/uploads/2021/04/179-e2-1024x759.png" width="100%" height="75%" style={{padding:"20px"}}></img>
-            </Grid>
-          </Grid>
-          {/* <Divider /> */}
           <br />
           <br />
           <br />
