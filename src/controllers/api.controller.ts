@@ -138,7 +138,7 @@ export class ApiController {
     return responses.getOkayResponse(results);
 
   }
-  @Get('/getQs')
+  @Get('/distances/getQs')
   async getQsrequest(@QueryParams('AREA') AREA: string): Promise<ActionResponse<Object>> {
     
     const results =  await this.distancesservice.getQs(AREA);
@@ -147,7 +147,7 @@ export class ApiController {
   }
 
 
-  @Get('/combinations')
+  @Get('/distances/combinations')
   async getcombinationsrequest(@QueryParams('rooms') rooms: string,@QueryParams('score') score: string,@QueryParams('areascore') areascore: string , @QueryParams('currentscore') currentscore: string): Promise<ActionResponse<Object>> {
     const results =  await this.distancesservice.getDistancesByNeiborhood(rooms,score,areascore, currentscore);
     return responses.getOkayResponse(results);
