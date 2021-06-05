@@ -1,20 +1,20 @@
-import { ActionResponse, LoginActionResponse, UserProfile } from '@shared';
-import { BodyParams, Controller, Get, Post, QueryParams, UseBefore } from '@tsed/common';
-import { BadRequest } from '@tsed/exceptions';
 import { request } from 'express';
 import { system } from 'faker';
 import { Schema } from 'mongoose';
 
-import { DistancesService } from '../services/distances.service';
+import { ActionResponse, LoginActionResponse, UserProfile } from '@shared';
+import { BodyParams, Controller, Get, Post, QueryParams, UseBefore } from '@tsed/common';
+import { BadRequest } from '@tsed/exceptions';
+
 import { RequestUser } from '../decorators/request-user.decorator';
 import { RegisterForm } from '../forms';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
 import { UserProfileDbModel } from '../models';
 import * as responses from '../responses';
 import { AuthService } from '../services/auth.service';
+import { DistancesService } from '../services/distances.service';
 import { HeatMapService } from '../services/heatmap.service';
 import { AssetScoreService } from '../services/assetscore.service';
-
 
 @Controller('/')
 export class ApiController {
@@ -93,7 +93,7 @@ export class ApiController {
   }
   @Get('/distances')
   async distancesrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
-    
+
     const results =  await this.distancesservice.getAllMinDistance(LATITUDE, LONGITUDE);
     return responses.getOkayResponse(results);
 
@@ -149,10 +149,8 @@ export class ApiController {
 
   @Get('/combinations')
   async getcombinationsrequest(@QueryParams('rooms') rooms: string,@QueryParams('score') score: string,@QueryParams('areascore') areascore: string , @QueryParams('currentscore') currentscore: string): Promise<ActionResponse<Object>> {
-    
     const results =  await this.distancesservice.getDistancesByNeiborhood(rooms,score,areascore, currentscore);
     return responses.getOkayResponse(results);
-
   }
 
   @Get('/assetscore')
