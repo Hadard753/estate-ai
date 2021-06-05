@@ -185,6 +185,10 @@ const SimpleMap = (props: SimpleMapProps) => {
       value: 2021,
       label: '21',
     },
+    {
+      value: 2022,
+      label: '22',
+    },
   ];
 
   const getScore = (n: Neighborhood) => {
@@ -246,7 +250,7 @@ const SimpleMap = (props: SimpleMapProps) => {
           </Typography>
           <Slider
             min={2006}
-            max={2021}
+            max={2022}
             className={classes.slider}
             defaultValue={props.year}
             step={1}

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
-  const [year, setYear] = useState(2021);
+  const [year, setYear] = useState(2022);
   const [bedrooms, setBedrooms] = useState("All");
   const [scoreType, setScoreType] = useState("By overall");
 
