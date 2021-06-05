@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  Box, Card, CardActions, CardContent, CardMedia, Container, Divider, Grid, makeStyles, Typography
+    Box, Card, CardActions, CardContent, CardMedia, Container, Divider, Grid, makeStyles, Typography
 } from '@material-ui/core';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import LinkdeinIcon from '@material-ui/icons/LinkedIn';
