@@ -36,7 +36,8 @@ export default function HomePage() {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      width: "220px"
     },
     cardMedia: {
       height: 0,
@@ -63,7 +64,7 @@ export default function HomePage() {
     {
       name: "Hadar Dayan",
       title: "Senior Full Stack Developer",
-      image: "../../static/images/hadar.jfif",
+      image: "hadar.jfif",
       fb_link: "https://www.facebook.com/hadar.dayan.31",
       linkd_link: "https://www.linkedin.com/in/hadar-dayan/"
     },
@@ -91,7 +92,7 @@ export default function HomePage() {
     {
       name: "Almog Snir",
       title: "Professor Pruton",
-      image: "almog.jfif",
+      image: "almog.jpg",
       fb_link: "https://www.facebook.com/almog.snir",
       linkd_link: "https://www.linkedin.com/in/almog-snir-788141125/"
     }
@@ -185,12 +186,13 @@ export default function HomePage() {
             {cards.map((card) => (
               <Grid item key={card.name}>
                 <Card className={classes.card}>
-                  <CardMedia
+                  {/* <CardMedia
                     className={classes.cardMedia}
-                    image={card.image}
+                    image="https://dcassetcdn.com/design_img/2572218/631383/631383_13774284_2572218_6767a058_image.jpg"
                     title="Image title"
-                  />
+                  /> */}
                   <CardContent className={classes.cardContent}>
+                  <img src={card.image} height="200px"></img>
                     <Typography gutterBottom variant="h5" component="h2" align='center'>
                       {card.name}
                     </Typography>
