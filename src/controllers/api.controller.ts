@@ -23,7 +23,7 @@ export class ApiController {
     private heatmapservice: HeatMapService,
     private distancesservice: DistancesService,
     private assetscoreservice: AssetScoreService,
-    ) { }
+  ) { }
 
   @Get('/test')
   test(): ActionResponse<void> {
@@ -67,7 +67,7 @@ export class ApiController {
   @UseBefore(AuthMiddleware)
   getProfile(@RequestUser() user: UserProfile): UserProfile {
     return user;
-  }ß
+  } ß
 
   @Get('/admin')
   @UseBefore(AuthMiddleware)
@@ -94,80 +94,89 @@ export class ApiController {
   @Get('/distances')
   async distancesrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
 
-    const results =  await this.distancesservice.getAllMinDistance(LATITUDE, LONGITUDE);
+    const results = await this.distancesservice.getAllMinDistance(LATITUDE, LONGITUDE);
     return responses.getOkayResponse(results);
 
   }
-  
+
 
   @Get('/distances/bus')
   async distancesbusrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
-    
-    const results =  await this.distancesservice.getBusMinDistance(LATITUDE, LONGITUDE);
+
+    const results = await this.distancesservice.getBusMinDistance(LATITUDE, LONGITUDE);
     return responses.getOkayResponse(results);
 
   }
 
   @Get('/distances/beach')
   async distancesbeachrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
-    
-    const results =  await this.distancesservice.getBeachMinDistance(LATITUDE, LONGITUDE);
+
+    const results = await this.distancesservice.getBeachMinDistance(LATITUDE, LONGITUDE);
     return responses.getOkayResponse(results);
 
   }
 
   @Get('/distances/train')
   async distancestrainrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
-    
-    const results =  await this.distancesservice.getTrainMinDistance(LATITUDE, LONGITUDE);
+
+    const results = await this.distancesservice.getTrainMinDistance(LATITUDE, LONGITUDE);
     return responses.getOkayResponse(results);
 
   }
 
   @Get('/distances/school')
   async distancesschoolhrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
-    
-    const results =  await this.distancesservice.getSchoolMinDistance(LATITUDE, LONGITUDE);
+
+    const results = await this.distancesservice.getSchoolMinDistance(LATITUDE, LONGITUDE);
     return responses.getOkayResponse(results);
 
   }
   @Get('/distances/highway')
   async distanceshighwayrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
-    
-    const results =  await this.distancesservice.getHighwayMinDistance(LATITUDE, LONGITUDE);
+
+    const results = await this.distancesservice.getHighwayMinDistance(LATITUDE, LONGITUDE);
     return responses.getOkayResponse(results);
 
   }
   @Get('/distances/getQs')
   async getQsrequest(@QueryParams('AREA') AREA: string): Promise<ActionResponse<Object>> {
-    
-    const results =  await this.distancesservice.getQs(AREA);
+
+    const results = await this.distancesservice.getQs(AREA);
     return responses.getOkayResponse(results);
 
   }
 
 
   @Get('/distances/combinations')
-  async getcombinationsrequest(@QueryParams('rooms') rooms: string,@QueryParams('score') score: string,@QueryParams('areascore') areascore: string , @QueryParams('currentscore') currentscore: string): Promise<ActionResponse<Object>> {
-    var results 
-    if(rooms)
-      results =  await this.distancesservice.getDistancesByRoomNeiborhood(rooms,score,areascore, currentscore);
+  async getcombinationsrequest(@QueryParams('rooms') rooms: string, @QueryParams('score') score: string, @QueryParams('areascore') areascore: string, @QueryParams('currentscore') currentscore: string): Promise<ActionResponse<Object>> {
+    var results
+    if (rooms)
+      results = await this.distancesservice.getDistancesByRoomNeiborhood(rooms, score, areascore, currentscore);
     else
-      results =  await this.distancesservice.getDistancesByNeiborhood(score,areascore, currentscore);
+      results = await this.distancesservice.getDistancesByNeiborhood(score, areascore, currentscore);
     return responses.getOkayResponse(results);
   }
 
   //getAllDistancesByNeiborhood
   @Get('/distances/combinations/all')
-  async getallcombinationsrequest(@QueryParams('score') score: string, @QueryParams('busCurScore') busCurScore: string, @QueryParams('beachCurScore') beachCurScore: string, @QueryParams('highwayCurScore') highwayCurScore: string, @QueryParams('schoolCurScore') schoolCurScore: string, @QueryParams('trainCurScore') trainCurScore: string): Promise<ActionResponse<Object>> {
-    
-    const results =  await this.distancesservice.getAllDistancesByNeiborhood(score, busCurScore, beachCurScore,highwayCurScore, schoolCurScore, trainCurScore );
+  async getallcombinationsrequest(@QueryParams('rooms') rooms: string, @QueryParams('score') score: string, @QueryParams('busCurScore') busCurScore: string, @QueryParams('beachCurScore') beachCurScore: string, @QueryParams('highwayCurScore') highwayCurScore: string, @QueryParams('schoolCurScore') schoolCurScore: string, @QueryParams('trainCurScore') trainCurScore: string): Promise<ActionResponse<Object>> {
+    var results
+    if (rooms)
+      results = await this.distancesservice.getAllDistancesByNeiborhood(rooms, score, busCurScore, beachCurScore, highwayCurScore, schoolCurScore, trainCurScore);
+    else
+      results = await this.distancesservice.getAllDistancesByNeiborhood("", score, busCurScore, beachCurScore, highwayCurScore, schoolCurScore, trainCurScore);
     return responses.getOkayResponse(results);
 
   }
+//get all distances scores for all neiborhoods getAllNeiborhoodsDistances
+  @Get('/distances/neiborhoods/all')
+  async getallneiborhoodsdistancesrequest(): Promise<ActionResponse<Object>> {
+    const results = await this.distancesservice.getAllNeiborhoodsDistances();
+    return responses.getOkayResponse(results);
+  }
 
   @Get('/assetscore')
-  async assetscorerequest(@QueryParams('roomNum') roomNum: string, @QueryParams('lat') lat: number, @QueryParams('lon') lon: number ): Promise<ActionResponse<Object>> {
+  async assetscorerequest(@QueryParams('roomNum') roomNum: string, @QueryParams('lat') lat: number, @QueryParams('lon') lon: number): Promise<ActionResponse<Object>> {
 
     const results = await this.assetscoreservice.getAssetScore(roomNum, lat, lon);
     return responses.getOkayResponse(results);

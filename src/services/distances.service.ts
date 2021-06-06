@@ -29,6 +29,11 @@ export interface INEIGHBORHOOD extends Document {
     R2_SCORE_GROUP: String;
     NEIGHBORHOOD: String;
 }
+export interface INEIGHBORHOODDISTINCT extends Document {
+    LAT: String;
+    LONG: String;
+    NEIGHBORHOOD: String;
+}
 @Service()
 export class DistancesService {
     private busModel: Model<ICOORDINATES, {}>;
@@ -38,13 +43,37 @@ export class DistancesService {
     private highwayModel: Model<ICOORDINATES, {}>;
     private quartersModel: Model<IQUARTERS, {}>;
     private neiborhoodModel: Model<INEIGHBORHOOD, {}>;
+    private neiborhoodDistinctModel: Model<INEIGHBORHOODDISTINCT, {}>;
     private features: any;
-    
+
     constructor(private databaseService: DatabaseService) {
         this.features = ['BUS']
     }
-    async getAllSameScoreNeiorhoods(ROOMS : string, SCORE: string) {
-    
+
+    async getAllNeiborhoodsDistances() {
+
+        if (this.neiborhoodDistinctModel === undefined) {
+            const neiborhoodDistinctSchema: Schema = new Schema(
+                {
+                    LAT: { type: String },
+                    LONG: { type: String },
+                    NEIGHBORHOOD: { type: String },
+                });
+
+            this.neiborhoodDistinctModel = this.databaseService.db.model<INEIGHBORHOODDISTINCT>('neighborhood_cords', neiborhoodDistinctSchema, 'neighborhood_cord');
+        }
+        var neiborhoods = await this.neiborhoodDistinctModel.find({});
+        var results: any[] = await Promise.all(neiborhoods.map(async (doc: any): Promise<any> => {
+            var name = doc.NEIGHBORHOOD
+            var lat = doc.LAT
+            var long = doc.LONG
+            var scores = await this.getAllMinDistance(lat, long)
+            return { name, scores }
+        }));
+        return results
+    }
+    async getAllSameScoreNeiorhoods(ROOMS: string, SCORE: string) {
+
         if (this.neiborhoodModel === undefined) {
             const neiborhoodSchema: Schema = new Schema(
                 {
@@ -56,7 +85,7 @@ export class DistancesService {
             this.neiborhoodModel = this.databaseService.db.model<INEIGHBORHOOD>('neighborhood', neiborhoodSchema, 'neighborhoods');
         }
 
-            
+
         switch (ROOMS) {
             case '':
                 return await this.neiborhoodModel.find({ GENERAL_SCORE: SCORE });
@@ -76,7 +105,7 @@ export class DistancesService {
                 return;
         }
     }
-    
+
     async getWantefNeiborhoods(allNeiborhoods: any, CURRENTSSUBSCORE: string) {
         switch (CURRENTSSUBSCORE) {
             case 'A':
@@ -91,7 +120,7 @@ export class DistancesService {
             case 'D':
                 var cur = ScoreEnum.D
                 break;
-            break;
+                break;
         }
         var results: any[] = await Promise.all(allNeiborhoods.map(async (obj: any) => {
             var score = obj.score
@@ -108,23 +137,22 @@ export class DistancesService {
                 case 'D':
                     var temp_score = ScoreEnum.D
                     break;
-                break;
+                    break;
             }
             var lat = obj.lat
             var long = obj.long
             var name = obj.name
-            return {temp_score, name, score}
+            return { temp_score, name, score }
         }))
         var resultsFiltered = []
         var neiborhoods = []
         results.forEach(element => {
-            if((element.temp_score>cur) && (!neiborhoods.includes(element.name)))
-                {
-                    var name = element.name
-                    var score = element.score
-                    resultsFiltered.push({name, score})
-                    neiborhoods.push(name)
-                }
+            if ((element.temp_score > cur) && (!neiborhoods.includes(element.name))) {
+                var name = element.name
+                var score = element.score
+                resultsFiltered.push({ name, score })
+                neiborhoods.push(name)
+            }
         });
         return resultsFiltered
     }
@@ -191,19 +219,22 @@ export class DistancesService {
         var scores = await this.getDistancesNeiborhoods(toFunc, AREASCORE)
         return await this.getWantefNeiborhoods(scores, CURRENTSSUBSCORE)
     }
-    async getAllDistancesByNeiborhood(SCORE: string, busCurScore: string, beachCurScore: string, highwayCurScore: string, schoolCurScore: string, trainCurScore: string) {
+    async getAllDistancesByNeiborhood(ROOMS: string, SCORE: string, busCurScore: string, beachCurScore: string, highwayCurScore: string, schoolCurScore: string, trainCurScore: string) {
+        var toFunc
+        if (ROOMS)
+             toFunc = await this.getAllSameScoreNeiorhoods(ROOMS, SCORE)
+        else
+             toFunc = await this.getAllSameScoreNeiorhoods("", SCORE)
 
-        var toFunc = await this.getAllSameScoreNeiorhoods("", SCORE)
+        var bus = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'BUS'), busCurScore ? busCurScore : 'B')
+        var beach = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'BEACH'), beachCurScore ? beachCurScore : 'B')
+        var highway = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'HIGHWAY'), highwayCurScore ? highwayCurScore : 'B')
+        var school = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'SCHOOL'), schoolCurScore ? schoolCurScore : 'B')
+        var train = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'TRAIN'), trainCurScore ? trainCurScore : 'B')
 
-        var bus = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'BUS'),busCurScore?busCurScore: 'B') 
-        var beach = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'BEACH'),beachCurScore?beachCurScore: 'B') 
-        var highway = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'HIGHWAY'),highwayCurScore?highwayCurScore: 'B') 
-        var school = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'SCHOOL'),schoolCurScore?schoolCurScore: 'B') 
-        var train = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'TRAIN'),trainCurScore?trainCurScore: 'B') 
-
-         return  { bus, beach, highway, school, train } 
+        return { bus, beach, highway, school, train }
     }
-
+    
 
     async getAllMinDistance(LATITUDE: number, LONGITUDE: number) {
         var bus = await this.getBusMinDistance(LATITUDE, LONGITUDE)
@@ -211,7 +242,7 @@ export class DistancesService {
         var highway = await this.getHighwayMinDistance(LATITUDE, LONGITUDE)
         var school = await this.getSchoolMinDistance(LATITUDE, LONGITUDE)
         var train = await this.getTrainMinDistance(LATITUDE, LONGITUDE)
-        return  { bus, beach, highway, school, train }
+        return { bus, beach, highway, school, train }
     }
     //Bus
     async getBusMinDistance(LATITUDE: number, LONGITUDE: number) {
@@ -370,7 +401,7 @@ export class DistancesService {
 
 
 
-    
+
 }
 
 
