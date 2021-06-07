@@ -73,7 +73,7 @@ const SearchPage = () => {
             <Grid container spacing={3}>
                 <Grid item xs={4}>
                     <Typography variant="h3" noWrap className={classes.leftPane}>
-                        Search Page
+                        Search By Property
                     </Typography>
                     <br />
                     <Typography variant="h6" className={classes.leftPane}>
