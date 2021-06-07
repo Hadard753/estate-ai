@@ -77,12 +77,12 @@ const MapSpot = (props: MapSpotProps) => {
             </div>
         </a>
         <ReactTooltipAny id={props.neighborhood.NEIGHBORHOOD_ID.toString()} aria-haspopup='true' role='example' type="info">
-        <Typography>{props.neighborhood.NEIGHBORHOOD}</Typography>
-        <Typography>{props.bedrooms} Bedrooms</Typography>
-        <Typography>Overall Score: {score.overallScore}</Typography>
-        <Typography>Percentage Increase Score: {score.precentageScore}</Typography>
-        <Typography>Precision Score: {score.percisionScore}</Typography>
-        <Typography>Sales Score: {score.trendScore}</Typography>
+            <Typography>{props.neighborhood.NEIGHBORHOOD}</Typography>
+            <Typography>{props.bedrooms} Bedrooms</Typography>
+            <Typography>Overall Score: {score.overallScore}</Typography>
+            <Typography>Percentage Increase Score: {score.precentageScore}</Typography>
+            <Typography>Precision Score: {score.percisionScore}</Typography>
+            <Typography>Sales Score: {score.trendScore}</Typography>
         </ReactTooltipAny>
     </div>;
 }

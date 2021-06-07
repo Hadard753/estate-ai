@@ -3,6 +3,7 @@ const baseServerUrl = process.env.NODE_ENV === "production" ? "https://estate-ai
 
 export const urlConstants = {
     heatmapcordURL: `${baseServerUrl}api/heatmapRequest`,
+    improvementsURL: `${baseServerUrl}api/distances/combinations/all`,
     distancesURL: `${baseServerUrl}api/distances`,
     assetPredictionURL: `${baseServerUrl}api/assetscore`
 }

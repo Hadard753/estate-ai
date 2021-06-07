@@ -1,8 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import ColorBar from 'react-color-bar';
-import Geocode from 'react-geocode';
 
-// import Autocomplete from 'react-google-autocomplete';
 import {
     Button, CircularProgress, Grid, makeStyles, TextField, Typography
 } from '@material-ui/core';
@@ -46,23 +44,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SearchPage = () => {
-    const [results, setResults] = useState({ distances: null, prediction: null, pointer: (null as any) });
+    const [results, setResults] = useState({ distances: null, prediction: null, pointer: (null as any), improvements: null });
     const [search, setSearch] = useState({ lat: 0, lng: 0, rooms: '', size: '', floor: '', totalFloor: ''});
     const [loading, setLoading] = useState(false);
     const classes = useStyles();
 
-
     const handleSearch = () => {
         setLoading(true);
-        const { lat, lng } = search;
-        fetch(urlConstants.distancesURL + `?LATITUDE=${lat}&LONGITUDE=${lng}`)
+        const { lat, lng, rooms } = search;
+        fetch(urlConstants.assetPredictionURL + `?lat=${lat}&long=${lng}`)
             .then((response) => response.json())
-            .then((distances) => {
-                fetch(urlConstants.assetPredictionURL + `?lat=${lat}&long=${lng}`)
+            .then((predictions) => {
+                fetch(urlConstants.improvementsURL + `?LATITUDE=${lat}&LONGITUDE=${lng}&rooms=${rooms}&score=${predictions.data['PRECENTAGE_SCORE']}`)
                 .then((response) => response.json())
-                .then((predictions) => {
-                    setResults({ distances: distances.data, prediction: predictions.data, pointer: {lat, lng} });
-                    setLoading(false);
+                .then((improvements) => {
+                    fetch(urlConstants.distancesURL + `?LATITUDE=${lat}&LONGITUDE=${lng}`)
+                    .then((response) => response.json())
+                    .then((distances) => {
+                        setResults({ distances: distances.data, prediction: predictions.data, pointer: {lat, lng}, improvements: improvements.data });
+                        setLoading(false);
+                    });
                 });
             });
     }
@@ -99,22 +100,13 @@ const SearchPage = () => {
                                 alignItems="center"
                             ><CircularProgress style={{ width: '120px', height: '120px' }}/></Grid> : <React.Fragment>
                     <Grid item xs={3}>
-                        {results.distances === null ? null : <Distances data={results.distances || {}} />}
+                        {results.distances === null ? null : <Distances improvements={results.improvements || {}} data={results.distances || {}} />}
                             </Grid>
                     <Grid item container xs={9}>
                         <Grid item xs={12}>
-                            {results.prediction === null ?
-                            <Grid
-                                container
-                                direction="row"
-                                justify="center"
-                                alignItems="center"
-                            >
-                                {/* <Typography variant="h2" align="center">Use the search button to see the results</Typography> */}
-                            </Grid>
-                            :
+                            {results.prediction === null ? null :
                             <Prediction data={results.prediction || {}} />}
-                                                        {
+                           {
                                 results.pointer !== null &&
                                 <Map
                                     pointer={results.pointer}

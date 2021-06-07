@@ -1,5 +1,6 @@
 // @material-ui/icons
 import React from 'react';
+import ReactTooltip from 'react-tooltip';
 
 import { Card, CardContent, Typography } from '@material-ui/core';
 // @material-ui/core components
@@ -16,9 +17,11 @@ import styles from '../../assets/cardStyle';
 import { getBackgroundColor } from '../../utils';
 
 const useStyles = makeStyles(styles as any);
+const ReactTooltipAny = ReactTooltip as any;
 
 interface DistancesProps {
     data: Object,
+    improvements: Object
 }
 
 export default function Distances(props: DistancesProps) {
@@ -33,21 +36,35 @@ export default function Distances(props: DistancesProps) {
             default: return null;
         }
     }
+    debugger;
     return (
     <React.Fragment>
         {
-            Object.keys(props.data).map(key => (
-                <Card className={classes.root} variant="outlined" key={key} style={{backgroundColor: getBackgroundColor(props.data[key]), width: '30ch', margin: '10px'}}>
-                <CardContent>
-                    <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    {key}
-                    </Typography>
-                    <Typography variant="h5" component="h2">
-                    {props.data[key]}
-                    {renderIcon(key)}
-                    </Typography>
-                </CardContent>
-                </Card>))
+        Object.keys(props.data).map(key => (
+            <div key={key}>
+                <a data-tip data-for={key}>
+                    <Card className={classes.root} variant="outlined" style={{backgroundColor: getBackgroundColor(props.data[key]), width: '30ch', margin: '10px'}}>
+                    <CardContent>
+                        <Typography className={classes.title} color="textSecondary" gutterBottom>
+                        {key}
+                        </Typography>
+                        <Typography variant="h5" component="h2">
+                        {props.data[key]}
+                        {renderIcon(key)}
+                        </Typography>
+                    </CardContent>
+                    </Card>
+                </a>
+                <ReactTooltipAny id={key} aria-haspopup='true' role='example' type="info">
+                    <Typography>For improvement of this feature try the following neighborhoods: </Typography>
+                    {
+                        props.improvements[key] && props.improvements[key].map(n => (
+                            <li>{n.name} - {n.score}</li>
+                        ))
+                    }
+                </ReactTooltipAny>
+            </div>
+                    ))
         }
     </React.Fragment>);
 }
