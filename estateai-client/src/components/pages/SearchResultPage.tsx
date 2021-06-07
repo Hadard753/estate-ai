@@ -20,7 +20,7 @@ import Update from '@material-ui/icons/Update';
 // import Warning from '@material-ui/icons/Warning';
 import styles from '../../assets/dashboardStyle';
 import {
-  completedTasksChart, dailySalesChart, emailsSubscriptionChart
+    completedTasksChart, dailySalesChart, emailsSubscriptionChart
 } from '../../variables/charts';
 // import { bugs, server, website } from '../../variables/general';
 import Card from '../Card/Card';
@@ -32,6 +32,7 @@ import CardIcon from '../Card/CardIcon';
 import GridContainer from '../Grid/GridContainer';
 // core components
 import GridItem from '../Grid/GridItem';
+import AutoComplete from '../Map/Autocomplete';
 import Table, { ColorsEnum } from '../Table/Table';
 
 // import Tasks from '../Tasks/Tasks.js';

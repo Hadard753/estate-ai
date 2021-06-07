@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ColorBar from 'react-color-bar';
 import Geocode from 'react-geocode';
 
@@ -9,6 +8,7 @@ import { Button, Grid, makeStyles, TextField, Typography } from '@material-ui/co
 import { urlConstants } from '../../api_urls';
 import Distances from '../Distances/Distances';
 import Prediction from '../Distances/Prediction';
+import AutoComplete from '../Map/Autocomplete';
 import Map from '../Map/Map';
 import { colorBarData } from '../Map/SimpleMap';
 
@@ -45,36 +45,22 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchPage = () => {
     const [results, setResults] = useState({ distances: null, prediction: null, pointer: (null as any) });
-    const [search, setSearch] = useState({ address: '', rooms: '', size: '', floor: '', totalFloor: ''});
+    const [search, setSearch] = useState({ lat: 0, lng: 0, rooms: '', size: '', floor: '', totalFloor: ''});
 
     const classes = useStyles();
 
-    useEffect(() => {
-        // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
-        Geocode.setApiKey("AIzaSyDhaRgFmaOJiInS6XOCrqHapSisSC5BhtI");
-
-        // set response language. Defaults to english.
-        Geocode.setLanguage("en");
-    } , [])
 
     const handleSearch = () => {
-        Geocode.fromAddress(search.address).then(
-            (response) => {
-                const { lat, lng } = response.results[0].geometry.location;
-                fetch(urlConstants.distancesURL + `?LATITUDE=${lat}&LONGITUDE=${lng}`)
-                    .then((response) => response.json())
-                    .then((distances) => {
-                        fetch(urlConstants.assetPredictionURL + `?lat=${lat}&long=${lng}`)
-                        .then((response) => response.json())
-                        .then((predictions) => {
-                            setResults({ distances: distances.data, prediction: predictions.data, pointer: {lat: parseFloat(lat), lng: parseFloat(lng)} })
-                        });
-                    });
-            },
-            (error) => {
-               console.log(error);
-            }
-        )
+        const { lat, lng } = search;
+        fetch(urlConstants.distancesURL + `?LATITUDE=${lat}&LONGITUDE=${lng}`)
+            .then((response) => response.json())
+            .then((distances) => {
+                fetch(urlConstants.assetPredictionURL + `?lat=${lat}&long=${lng}`)
+                .then((response) => response.json())
+                .then((predictions) => {
+                    setResults({ distances: distances.data, prediction: predictions.data, pointer: {lat, lng} })
+                });
+            });
     }
 
     return (
@@ -89,7 +75,8 @@ const SearchPage = () => {
                         Here you can can insert your asset details and get a good understanding of what you are getting! what score we give your asset, how life is going to be there and etc
                     </Typography>
                     <form className={classes.form} noValidate autoComplete="off">
-                        <TextField value={search.address} onChange={(e) => setSearch({...search, address: e.target.value})} id="address-input" label="Address" variant="outlined" />
+                        <AutoComplete handleCoordinates={(coordinates) => setSearch({ ...search, ...coordinates })}/>
+                        {/* <TextField value={search.address} onChange={(e) => setSearch({...search, address: e.target.value})} id="address-input" label="Address" variant="outlined" /> */}
                         <TextField value={search.rooms} onChange={(e) => setSearch({...search, rooms: e.target.value})} type="number" InputProps={{ inputProps: { min: 1, max: 10 } }} id="rooms-input" label="#Room" variant="outlined" />
                         <Button onClick={handleSearch} variant="contained" style={{ backgroundColor: 'green' }}>Search</Button>
                     </form>
@@ -113,7 +100,7 @@ const SearchPage = () => {
                                 justify="center"
                                 alignItems="center"
                             >
-                                <Typography variant="h2" align="center">Use the search button to see the results</Typography>
+                                {/* <Typography variant="h2" align="center">Use the search button to see the results</Typography> */}
                             </Grid>
                             :
                             <Prediction data={results.prediction || {}} />}
