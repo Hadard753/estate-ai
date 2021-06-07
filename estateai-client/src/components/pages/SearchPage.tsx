@@ -3,7 +3,9 @@ import ColorBar from 'react-color-bar';
 import Geocode from 'react-geocode';
 
 // import Autocomplete from 'react-google-autocomplete';
-import { Button, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
+import {
+    Button, CircularProgress, Grid, makeStyles, TextField, Typography
+} from '@material-ui/core';
 
 import { urlConstants } from '../../api_urls';
 import Distances from '../Distances/Distances';
@@ -46,11 +48,12 @@ const useStyles = makeStyles((theme) => ({
 const SearchPage = () => {
     const [results, setResults] = useState({ distances: null, prediction: null, pointer: (null as any) });
     const [search, setSearch] = useState({ lat: 0, lng: 0, rooms: '', size: '', floor: '', totalFloor: ''});
-
+    const [loading, setLoading] = useState(false);
     const classes = useStyles();
 
 
     const handleSearch = () => {
+        setLoading(true);
         const { lat, lng } = search;
         fetch(urlConstants.distancesURL + `?LATITUDE=${lat}&LONGITUDE=${lng}`)
             .then((response) => response.json())
@@ -58,7 +61,8 @@ const SearchPage = () => {
                 fetch(urlConstants.assetPredictionURL + `?lat=${lat}&long=${lng}`)
                 .then((response) => response.json())
                 .then((predictions) => {
-                    setResults({ distances: distances.data, prediction: predictions.data, pointer: {lat, lng} })
+                    setResults({ distances: distances.data, prediction: predictions.data, pointer: {lat, lng} });
+                    setLoading(false);
                 });
             });
     }
@@ -78,7 +82,7 @@ const SearchPage = () => {
                         <AutoComplete handleCoordinates={(coordinates) => setSearch({ ...search, ...coordinates })}/>
                         {/* <TextField value={search.address} onChange={(e) => setSearch({...search, address: e.target.value})} id="address-input" label="Address" variant="outlined" /> */}
                         <TextField value={search.rooms} onChange={(e) => setSearch({...search, rooms: e.target.value})} type="number" InputProps={{ inputProps: { min: 1, max: 10 } }} id="rooms-input" label="#Room" variant="outlined" />
-                        <Button onClick={handleSearch} variant="contained" style={{ backgroundColor: 'green' }}>Search</Button>
+                        <Button disabled={ loading || !search.lat } onClick={handleSearch} variant="contained" style={{ backgroundColor: 'green' }}>Search</Button>
                     </form>
                     <div  className={classes.leftPane}>
                     <Typography className={classes.title} variant="h6" noWrap >
@@ -88,6 +92,12 @@ const SearchPage = () => {
                     </div>
                 </Grid>
                 <Grid item container spacing={2} xs={8}>
+                    {loading ?  <Grid
+                                container
+                                direction="row"
+                                justify="center"
+                                alignItems="center"
+                            ><CircularProgress style={{ width: '120px', height: '120px' }}/></Grid> : <React.Fragment>
                     <Grid item xs={3}>
                         {results.distances === null ? null : <Distances data={results.distances || {}} />}
                             </Grid>
@@ -112,6 +122,7 @@ const SearchPage = () => {
                             }
                         </Grid>
                     </Grid>
+                        </React.Fragment>}
                 </Grid>
             </Grid>
         </div>
