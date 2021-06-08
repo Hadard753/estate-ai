@@ -49,6 +49,35 @@ const SearchPage = () => {
     const [loading, setLoading] = useState(false);
     const classes = useStyles();
 
+    const searchColorBarData = [
+        {
+          value: 0,
+          color: '#4fa34c',
+          legendLabel: 'A - Best',
+          tooltip: 'A - Best',
+        }, {
+          value: 0,
+          color: '#ffec00',
+          legendLabel: 'B - Good',
+          tooltip: 'B - Good',
+        }, {
+          value: 0,
+          color: '#ff8d00de',
+          legendLabel: 'C - Ok',
+          tooltip: 'C - Ok',
+        }, {
+          value: 0,
+          color: '#e0403d',
+          legendLabel: 'D - Bad',
+          tooltip: 'D - Bad',
+        }, {
+          value: 0,
+          color: '#737373',
+          legendLabel: 'No Data',
+          tooltip: 'No Data',
+        },
+      ];
+
     const handleSearch = () => {
         setLoading(true);
         const { lat, lng, rooms } = search;
@@ -89,7 +118,7 @@ const SearchPage = () => {
                     <Typography className={classes.title} variant="h6" noWrap >
                     Legend
                     </Typography>
-                    <div><ColorBar data={colorBarData} /></div>
+                    <div><ColorBar data={searchColorBarData} /></div>
                     </div>
                 </Grid>
                 <Grid item container spacing={2} xs={8}>
@@ -101,9 +130,9 @@ const SearchPage = () => {
                             ><CircularProgress style={{ width: '120px', height: '120px' }}/></Grid> : <React.Fragment>
                     <Grid item xs={3}>
                         {results.distances === null ? null : <Distances improvements={results.improvements || {}} data={results.distances || {}} />}
-                            </Grid>
+                    </Grid>
                     <Grid item container xs={9}>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} style={{ height: "91ch"}}>
                             {results.prediction === null ? null :
                             <Prediction data={results.prediction || {}} />}
                            {

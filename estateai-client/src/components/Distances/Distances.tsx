@@ -28,11 +28,11 @@ export default function Distances(props: DistancesProps) {
     const classes = useStyles();
     const renderIcon = key => {
         switch (key) {
-            case 'bus': return <DirectionsBusIcon style={{ width: '5ch', height: '5ch', float: 'right'}}/>;
-            case 'train': return <TrainIcon style={{ width: '5ch', height: '5ch', float: 'right'}}/>;
-            case 'school': return <SchoolIcon style={{ width: '5ch', height: '5ch', float: 'right'}}/>;
-            case 'highway': return <CallSplitIcon style={{ width: '5ch', height: '5ch', float: 'right'}}/>;
-            case 'beach': return <BeachAccessIcon style={{ width: '5ch', height: '5ch', float: 'right'}}/>;
+            case 'bus': return <DirectionsBusIcon style={{ width: '5ch', float: "right"}}/>;
+            case 'train': return <TrainIcon style={{ width: '5ch', float: 'right'}}/>;
+            case 'school': return <SchoolIcon style={{ width: '5ch', float: 'right'}}/>;
+            case 'highway': return <CallSplitIcon style={{ width: '5ch', float: 'right'}}/>;
+            case 'beach': return <BeachAccessIcon style={{ width: '5ch', float: 'right'}}/>;
             default: return null;
         }
     }
@@ -43,7 +43,7 @@ export default function Distances(props: DistancesProps) {
         Object.keys(props.data).map(key => (
             <div key={key}>
                 <a data-tip data-for={key}>
-                    <Card className={classes.root} variant="outlined" style={{backgroundColor: getBackgroundColor(props.data[key]), width: '30ch', margin: '10px'}}>
+                    <Card className={classes.root} variant="outlined" style={{backgroundColor: getBackgroundColor(props.data[key]), width: '30ch', height: '20ch',margin: '10px'}}>
                     <CardContent>
                         <Typography className={classes.title} color="textSecondary" gutterBottom>
                         {key}
