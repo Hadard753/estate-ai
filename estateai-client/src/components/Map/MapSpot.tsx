@@ -71,7 +71,8 @@ const MapSpot = (props: MapSpotProps) => {
 
         if(userRequest) {
             Object.keys(userRequest).forEach(feature => {
-                if (neighborhood.distances[feature] > userRequest[feature]) {
+                debugger;
+                if (neighborhood.distances[feature] === '0' || neighborhood.distances[feature] > userRequest[feature]) {
                     opacity += 0.2;
                 }
             })
