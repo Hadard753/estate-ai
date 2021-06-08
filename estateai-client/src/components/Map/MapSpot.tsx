@@ -5,6 +5,7 @@ import { Typography } from '@material-ui/core';
 
 import { GroupToColorDict } from '../../models/GroupEnum';
 import { Neighborhood } from '../../models/neighborhood';
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 const ReactTooltipAny = ReactTooltip as any;
 
@@ -63,17 +64,34 @@ const MapSpot = (props: MapSpotProps) => {
         }
       }
 
+    const getNumber = (score) => {
+        if (score == "D") return 1;
+        if (score == "C") return 2;
+        if (score == "B") return 3;
+        if (score == "A") return 4;
+        return 0;
+    }
     const score = getScore(props.neighborhood);
     const calculateOpacity = () => {
         const neighborhood = props.neighborhood;
         const userRequest = props.userRequest;
-        let opacity = 1;
+        let opacity = 0.2;
 
         if(userRequest) {
             Object.keys(userRequest).forEach(feature => {
-                if (neighborhood.distances[feature] === '0' || neighborhood.distances[feature] > userRequest[feature]) {
-                    opacity -= 0.2;
-                }
+                // if (neighborhood.distances[feature] === '0') {
+                //     opacity += 0.16;
+                // }
+                // else {
+                    if (neighborhood.distances[feature] <= userRequest[feature]) {
+                        const userWant = getNumber(userRequest[feature])
+                        const weHave = getNumber(neighborhood.distances[feature])
+                        const reduceTo = weHave - userWant
+                        for (let i=0;i<reduceTo+1;i++) {
+                            opacity += 0.1;
+                        }
+                    }
+                // }
             })
         } else {
             return '0.5'
