@@ -6,6 +6,7 @@ import { Typography } from '@material-ui/core';
 import { GroupToColorDict } from '../../models/GroupEnum';
 import { Neighborhood } from '../../models/neighborhood';
 import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
+import { forEach } from 'lodash';
 
 const ReactTooltipAny = ReactTooltip as any;
 
@@ -78,21 +79,37 @@ const MapSpot = (props: MapSpotProps) => {
         let opacity = 0.2;
 
         if(userRequest) {
-            Object.keys(userRequest).forEach(feature => {
-                // if (neighborhood.distances[feature] === '0') {
-                //     opacity += 0.16;
-                // }
-                // else {
-                    if (neighborhood.distances[feature] <= userRequest[feature]) {
-                        const userWant = getNumber(userRequest[feature])
-                        const weHave = getNumber(neighborhood.distances[feature])
-                        const reduceTo = weHave - userWant
-                        for (let i=0;i<reduceTo+1;i++) {
-                            opacity += 0.1;
-                        }
-                    }
-                // }
+            // option 1 - scale against user weights
+            const userWeights = [getNumber(userRequest["beach"]),getNumber(userRequest["bus"]),getNumber(userRequest["highway"]),getNumber(userRequest["school"]),getNumber(userRequest["train"])]
+            let sum = 0
+            userWeights.forEach((weight) => {
+                sum+= weight;
             })
+            for (let i=0;i<userWeights.length;i++) {
+                userWeights[i] = userWeights[i]/sum
+            }
+            const neighborhoodScores = [getNumber(neighborhood.distances["beach"]),getNumber(neighborhood.distances["bus"]),getNumber(neighborhood.distances["highway"]),getNumber(neighborhood.distances["school"]),getNumber(neighborhood.distances["train"])]
+            for (let i=0;i<neighborhoodScores.length;i++) {
+                neighborhoodScores[i] = neighborhoodScores[i]*userWeights[i]
+            }
+            let sumScore = 0
+            neighborhoodScores.forEach((weight) => {
+                sumScore+= weight;
+            })
+
+            return sumScore/3;
+
+            // option 2 - const scale
+            // Object.keys(userRequest).forEach(feature => {
+            //     if (neighborhood.distances[feature] <= userRequest[feature]) {
+            //         const userWant = getNumber(userRequest[feature])
+            //         const weHave = getNumber(neighborhood.distances[feature])
+            //         const reduceTo = weHave - userWant
+            //         for (let i=0;i<reduceTo+1;i++) {
+            //             opacity += 0.1;
+            //         }
+            //     }
+            // })
         } else {
             return '0.5'
         }
