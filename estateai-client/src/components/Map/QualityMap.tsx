@@ -87,118 +87,90 @@ export const colorBarData = [
 ];
 
 const QualityMap = (props: QualityMapProps) => {
-  const [neighborhoods, setNeighborhoods] = useState([]);
-  const [open, setOpen] = React.useState(false);
+  const [neighborhoods, setNeighborhoods] = useState({});
+  const [userRequests, setUserRequests] = useState({
+    bus: 'D',
+    beach: 'D',
+    highway: 'D',
+    school: 'D',
+    train: 'D',
+  });
+  const [bedrooms, setBedrooms] = useState("All");
   const classes = useStyles();
   const bedroomsOptions = ["All", "One", "Two", "Three", "Four", "Five"];
-  const scoreOptions = [
-    {
-      option: "By overall",
-      text: "Weighted score by all score types"
-    },
-    {
-      option: "By percentage increase",
-      text: "Percentage increase predicted"
-    },
-    {
-      option: "By precision",
-      text: "How confident are we in the predictions"
-    },
-    {
-      option: "By sales",
-      text: "The amount of sales during the past year"
-    }
-  ]
 
   useEffect(() => {
-    fetch(urlConstants.heatmapcordURL + "?year=" + props.year)
-      .then((response) => response.json())
+    Promise.all([
+      fetch(urlConstants.heatmapcordURL + "?year=2022"),
+      fetch(urlConstants.neighborhoodsDistances)
+    ])
+      .then((responses) => Promise.all(responses.map(r => r.json())))
       .then((data) => {
-        setNeighborhoods(data.data)
+        const neighborhoodDic = {};
+        data[0].data.forEach((n: Neighborhood) => {
+          neighborhoodDic[n.NEIGHBORHOOD] = n
+        });
+        data[1].data.forEach((n) => {
+          if(neighborhoodDic[n.name]) {
+            neighborhoodDic[n.name] = {
+              ...neighborhoodDic[n.name],
+              distances: n.scores
+            }
+          }
+        })
+        setNeighborhoods(neighborhoodDic);
       });
-  }, [props.year])
-
-
+  }, [])
 
   const marks = [
     {
       value: 1,
-      label: 'A',
+      label: '1',
     },
     {
       value: 2,
-      label: 'B',
+      label: '2',
     },
     {
       value: 3,
-      label: 'C',
+      label: '3',
     },
     {
       value: 4,
-      label: 'D',
+      label: '4',
     }
   ];
 
   const getScore = (n: Neighborhood) => {
-    if (props.scoreType == "By overall") {
-      switch (props.bedrooms) {
-        case "All": return n.GENERAL_SCORE;
-        case "One": return n.ONEBR_GENERAL_SCORE;
-        case "Two": return n.TWOBR_GENERAL_SCORE;
-        case "Three": return n.THREEBR_GENERAL_SCORE;
-        case "Four": return n.FOURBR_GENERAL_SCORE;
-        case "Five": return n.FIVEBR_GENERAL_SCORE;
-      }
+    switch (bedrooms) {
+      case "All": return n.PRECENTAGE_SCORE;
+      case "One": return n.ONEBR_PRECENTAGE_SCORE;
+      case "Two": return n.TWOBR_PRECENTAGE_SCORE;
+      case "Three": return n.THREEBR_PRECENTAGE_SCORE;
+      case "Four": return n.FOURBR_PRECENTAGE_SCORE;
+      case "Five": return n.FIVEBR_PRECENTAGE_SCORE;
+      default: return "0";
     }
-    else if (props.scoreType == "By percentage increase")
-      switch (props.bedrooms) {
-        case "All": return n.PRECENTAGE_SCORE;
-        case "One": return n.ONEBR_PRECENTAGE_SCORE;
-        case "Two": return n.TWOBR_PRECENTAGE_SCORE;
-        case "Three": return n.THREEBR_PRECENTAGE_SCORE;
-        case "Four": return n.FOURBR_PRECENTAGE_SCORE;
-        case "Five": return n.FIVEBR_PRECENTAGE_SCORE;
-      }
-    else if (props.scoreType == "By precision")
-      switch (props.bedrooms) {
-        case "All": return n.PERCISION_SCORE;
-        case "One": return n.ONEBR_PERCISION_SCORE;
-        case "Two": return n.TWOBR_PERCISION_SCORE;
-        case "Three": return n.THREEBR_PERCISION_SCORE;
-        case "Four": return n.FOURBR_PERCISION_SCORE;
-        case "Five": return n.FIVEBR_PERCISION_SCORE;
-      }
-    else if (props.scoreType == "By sales")
-      switch (props.bedrooms) {
-        case "All": return n.TREND_SCORE;
-        case "One": return n.ONEBR_TREND_SCORE;
-        case "Two": return n.TWOBR_TREND_SCORE;
-        case "Three": return n.THREEBR_TREND_SCORE;
-        case "Four": return n.FOURBR_TREND_SCORE;
-        case "Five": return n.FIVEBR_TREND_SCORE;
-      }
-    else return "0";
   }
 
-  function numToLetter(value: number, index:number) : string {
-    switch (value) {
+  const numToScore = (num) => {
+    switch(num) {
       case 1: return 'A';
       case 2: return 'B';
       case 3: return 'C';
       case 4: return 'D';
+      default: return '0';
     }
-    return "-";
-
   }
+
   return (
-
     <Grid container style={{ flex: 1, padding: 5, overflow: 'hidden', overflowY: "scroll"}}>
-
       <Grid item xs={12} sm={4} style={{ padding: 10 }} >
-        <Typography variant="h3" noWrap>
-          HeatMap Prediction
-          </Typography>
+        <Typography variant="h4" noWrap>
+          Rate how important
           <br/>
+         each feature for you from 1-4
+          </Typography>
         <div>
         <br/>
           <Typography className={classes.title} variant="h6" noWrap>
@@ -212,8 +184,8 @@ const QualityMap = (props: QualityMapProps) => {
             step={1}
             valueLabelDisplay="auto"
             marks={marks}
-            onChangeCommitted={(_, newValue) => {
-              // props.setYear(newValue)
+            onChangeCommitted={(_, newValue: any) => {
+              setUserRequests({ ...userRequests, bus: numToScore(newValue) });
             }}
           />
           <Typography className={classes.title} variant="h6" noWrap>
@@ -227,8 +199,8 @@ const QualityMap = (props: QualityMapProps) => {
             step={1}
             valueLabelDisplay="auto"
             marks={marks}
-            onChangeCommitted={(_, newValue) => {
-              // props.setYear(newValue)
+            onChangeCommitted={(_, newValue: any) => {
+              setUserRequests({ ...userRequests, beach: numToScore(newValue) });
             }}
           />
           <Typography className={classes.title} variant="h6" noWrap>
@@ -242,8 +214,8 @@ const QualityMap = (props: QualityMapProps) => {
             step={1}
             valueLabelDisplay="auto"
             marks={marks}
-            onChangeCommitted={(_, newValue) => {
-              // props.setYear(newValue)
+            onChangeCommitted={(_, newValue: any) => {
+              setUserRequests({ ...userRequests, highway: numToScore(newValue) });
             }}
           />
           <Typography className={classes.title} variant="h6" noWrap>
@@ -257,8 +229,8 @@ const QualityMap = (props: QualityMapProps) => {
             step={1}
             valueLabelDisplay="auto"
             marks={marks}
-            onChangeCommitted={(_, newValue) => {
-              // props.setYear(newValue)
+            onChangeCommitted={(_, newValue: any) => {
+              setUserRequests({ ...userRequests, school: numToScore(newValue) });
             }}
           />
           <Typography className={classes.title} variant="h6" noWrap>
@@ -272,8 +244,8 @@ const QualityMap = (props: QualityMapProps) => {
             step={1}
             valueLabelDisplay="auto"
             marks={marks}
-            onChangeCommitted={(_, newValue) => {
-              props.setYear(newValue)
+            onChangeCommitted={(_, newValue: any) => {
+              setUserRequests({ ...userRequests, train: numToScore(newValue) });
             }}
           />
         </div>
@@ -284,29 +256,27 @@ const QualityMap = (props: QualityMapProps) => {
         <div className={classes.search}>
           <ButtonGroup size="small" aria-label="small outlined button group">
             {bedroomsOptions.map(option => (
-              <Button key={option} className={option === props.bedrooms ? classes.active : ''} onClick={() => props.setBedrooms(option)}>{option}</Button>
+              <Button key={option} className={option === bedrooms ? classes.active : ''} onClick={() => setBedrooms(option)}>{option}</Button>
             ))}
           </ButtonGroup>
         </div>
         <Typography className={classes.title} variant="h6" noWrap >
-          Legend
-          </Typography>
+          Legend -
+        </Typography>
+        <Typography className={classes.title} variant="h6" noWrap >
+          The colors represents the annual revenue percentage
+          <br/>
+          While the transperancy represent the feature match
+        </Typography>
         <div><ColorBar data={colorBarData} /></div>
-
-
       </Grid>
-
-
-
-
       <Grid item xs={12} sm={8}>
-
         <GoogleMapReact
           bootstrapURLKeys={{ key: 'AIzaSyCULl-nlhWneAnyEm5MJ3SrxaYkp535r7Q' }}
           defaultCenter={props.defaultCenter}
           defaultZoom={props.defaultZoom}
         >
-          {neighborhoods.map((n: any) => {
+          {Object.values(neighborhoods).map((n: any) => {
             const score = getScore(n);
             return (<MapSpot
               lat={n.LAT}
@@ -317,15 +287,13 @@ const QualityMap = (props: QualityMapProps) => {
               group={score}
               radius={100}
               neighborhood={n}
-              bedrooms={props.bedrooms}
+              bedrooms={bedrooms}
               scoreType={props.scoreType}
+              userRequest={userRequests}
             />)
           })}
         </GoogleMapReact>
-
       </Grid>
-      {/* <SearchBtn onClick={() => setOpen(true)} />
-      <SearchModal open={open} setOpen={setOpen} /> */}
     </Grid>
   );
 }

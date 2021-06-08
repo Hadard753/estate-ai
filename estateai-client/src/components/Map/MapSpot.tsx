@@ -17,9 +17,10 @@ interface MapSpotProps {
     onClick?: (event: any) => void,
     text?: string,
     group: "A" | "B" | "C" | "D" | "0",
-    neighborhood: Neighborhood,
+    neighborhood: any,
     bedrooms?: string,
-    scoreType?: string
+    scoreType?: string,
+    userRequest?: any
 }
 
 const MapSpot = (props: MapSpotProps) => {
@@ -61,7 +62,25 @@ const MapSpot = (props: MapSpotProps) => {
             trendScore: n.FIVEBR_TREND_SCORE
         }
       }
-      const score = getScore(props.neighborhood) 
+
+    const score = getScore(props.neighborhood);
+    const calculateOpacity = () => {
+        const neighborhood = props.neighborhood;
+        const userRequest = props.userRequest;
+        let opacity = 0;
+
+        if(userRequest) {
+            Object.keys(userRequest).forEach(feature => {
+                if (neighborhood.distances[feature] > userRequest[feature]) {
+                    opacity += 0.2;
+                }
+            })
+        } else {
+            return '0.5'
+        }
+        return opacity.toString();
+
+    }
     return <div>
         <a data-tip data-for={props.neighborhood.NEIGHBORHOOD_ID.toString()}>
             <div
@@ -70,7 +89,8 @@ const MapSpot = (props: MapSpotProps) => {
                 backgroundColor: GroupToColorDict[props.group],
                 width: props.radius+'px', height: props.radius+'px',
                 borderRadius: props.radius+'px',
-                opacity: '0.5', textAlign: "center", fontSize: "15px",
+                opacity: calculateOpacity(),
+                textAlign: "center", fontSize: "15px",
                 display: "flex", justifyContent: "center", alignContent: "center",
                 flexDirection: "column"}}>
                 {props.text}
