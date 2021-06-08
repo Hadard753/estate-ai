@@ -45,9 +45,10 @@ export default function Distances(props: DistancesProps) {
                 <a data-tip data-for={key}>
                     <Card className={classes.root} variant="outlined" style={{backgroundColor: getBackgroundColor(props.data[key]), width: '30ch', height: '20ch',margin: '10px'}}>
                     <CardContent>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom>
+                        <Typography className={classes.title} color="textSecondary" gutterBottom align={"center"}>
                         {key}
                         </Typography>
+                        <br/>
                         <Typography variant="h5" component="h2">
                         {props.data[key]}
                         {renderIcon(key)}
