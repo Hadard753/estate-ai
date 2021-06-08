@@ -5,5 +5,6 @@ export const urlConstants = {
     heatmapcordURL: `${baseServerUrl}api/heatmapRequest`,
     improvementsURL: `${baseServerUrl}api/distances/combinations/all`,
     distancesURL: `${baseServerUrl}api/distances`,
-    assetPredictionURL: `${baseServerUrl}api/assetscore`
+    assetPredictionURL: `${baseServerUrl}api/assetscore`,
+    neighborhoodsDistances: `${baseServerUrl}api/distances/neiborhoods/all`
 }
