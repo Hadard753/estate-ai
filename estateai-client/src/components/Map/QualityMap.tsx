@@ -155,10 +155,10 @@ const QualityMap = (props: QualityMapProps) => {
 
   const numToScore = (num) => {
     switch(num) {
-      case 1: return 'A';
-      case 2: return 'B';
-      case 3: return 'C';
-      case 4: return 'D';
+      case 1: return 'D';
+      case 2: return 'C';
+      case 3: return 'B';
+      case 4: return 'A';
       default: return '0';
     }
   }

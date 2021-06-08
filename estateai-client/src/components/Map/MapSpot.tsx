@@ -67,13 +67,12 @@ const MapSpot = (props: MapSpotProps) => {
     const calculateOpacity = () => {
         const neighborhood = props.neighborhood;
         const userRequest = props.userRequest;
-        let opacity = 0;
+        let opacity = 1;
 
         if(userRequest) {
             Object.keys(userRequest).forEach(feature => {
-                debugger;
                 if (neighborhood.distances[feature] === '0' || neighborhood.distances[feature] > userRequest[feature]) {
-                    opacity += 0.2;
+                    opacity -= 0.2;
                 }
             })
         } else {
