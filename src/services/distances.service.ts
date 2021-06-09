@@ -1,11 +1,13 @@
+import { arrayUnique } from 'class-validator';
+import { uniqueId } from 'lodash';
 import { Document, Model, Schema } from 'mongoose';
 import { parse } from 'superagent';
-import { Service } from '@tsed/di';
-import { DatabaseService } from './db.service';
-import { arrayUnique } from 'class-validator';
+
 import { UniqueItems } from '@tsed/common';
-import { uniqueId } from 'lodash';
+import { Service } from '@tsed/di';
+
 import { AssetScoreService } from './assetscore.service';
+import { DatabaseService } from './db.service';
 
 export enum ScoreEnum {
     'D',
@@ -51,8 +53,8 @@ export class DistancesService {
     }
 
     async search(LATITUDE: number, LONGITUDE: number, ROOMS: string){
-        var [neiborHood, neiborHoodScors] = await Promise.all([this.assetscoreService.getAssetScore(ROOMS, LATITUDE, LONGITUDE), this.getAllMinDistance(LATITUDE, LONGITUDE)])
-        var neiborHoodBetterDistances = await this.getAllDistancesByNeiborhood(ROOMS, neiborHood._doc.GENERAL_SCORE, neiborHoodScors.bus.toString(), neiborHoodScors.beach.toString(), neiborHoodScors.highway.toString(), neiborHoodScors.school.toString(), neiborHoodScors.train.toString())
+        let [neiborHood, neiborHoodScors] = await Promise.all([this.assetscoreService.getAssetScore(ROOMS, LATITUDE, LONGITUDE), this.getAllMinDistance(LATITUDE, LONGITUDE)])
+        let neiborHoodBetterDistances = await this.getAllDistancesByNeiborhood(ROOMS, neiborHood._doc.GENERAL_SCORE, neiborHoodScors.bus.toString(), neiborHoodScors.beach.toString(), neiborHoodScors.highway.toString(), neiborHoodScors.school.toString(), neiborHoodScors.train.toString())
         return {neiborHood, neiborHoodScors, neiborHoodBetterDistances}
 
     }
@@ -69,12 +71,12 @@ export class DistancesService {
 
             this.neiborhoodDistinctModel = this.databaseService.db.model<INEIGHBORHOODDISTINCT>('neighborhood_cords', neiborhoodDistinctSchema, 'neighborhood_cord');
         }
-        var neiborhoods = await this.neiborhoodDistinctModel.find({});
-        var results: any[] = await Promise.all(neiborhoods.map(async (doc: any): Promise<any> => {
-            var name = doc.NEIGHBORHOOD
-            var lat = doc.LAT
-            var long = doc.LONG
-            var scores = await this.getAllMinDistance(lat, long)
+        let neiborhoods = await this.neiborhoodDistinctModel.find({});
+        let results: any[] = await Promise.all(neiborhoods.map(async (doc: any): Promise<any> => {
+            let name = doc.NEIGHBORHOOD
+            let lat = doc.LAT
+            let long = doc.LONG
+            let scores = await this.getAllMinDistance(lat, long)
             return { name, scores }
         }));
         return results
@@ -113,102 +115,67 @@ export class DistancesService {
         }
     }
 
-    async getWantefNeiborhoods(allNeiborhoods: any, CURRENTSSUBSCORE: string) {
-        switch (CURRENTSSUBSCORE) {
+    convertStringToNum = (string) => {
+        switch (string) {
             case 'A':
-                var cur = ScoreEnum.A
-                break;
+                return ScoreEnum.A;
             case 'B':
-                var cur = ScoreEnum.B
-                break;
+                return ScoreEnum.B;
             case 'C':
-                var cur = ScoreEnum.C
-                break;
+               return ScoreEnum.C;
             case 'D':
-                var cur = ScoreEnum.D
-                break;
-                break;
+                return ScoreEnum.D;
         }
-        var results: any[] = await Promise.all(allNeiborhoods.map(async (obj: any) => {
-            var score = obj.score
-            switch (obj.score) {
-                case 'A':
-                    var temp_score = ScoreEnum.A
-                    break;
-                case 'B':
-                    var temp_score = ScoreEnum.B
-                    break;
-                case 'C':
-                    var temp_score = ScoreEnum.C
-                    break;
-                case 'D':
-                    var temp_score = ScoreEnum.D
-                    break;
-                    break;
-            }
-            var lat = obj.lat
-            var long = obj.long
-            var name = obj.name
-            return { temp_score, name, score }
-        }))
-        var resultsFiltered = []
-        var neiborhoods = []
-        results.forEach(element => {
-            if ((element.temp_score > cur) && (!neiborhoods.includes(element.name))) {
-                var name = element.name
-                var score = element.score
+    }
+
+    async getWantefNeiborhoods(allNeiborhoods: any, CURRENTSSUBSCORE: string) {
+        let cur = this.convertStringToNum(CURRENTSSUBSCORE);
+        let resultsFiltered = []
+        let neiborhoods = []
+        let results: any[] = allNeiborhoods.forEach(async (obj: any) => {
+            let score = obj.score;
+            let temp_score = this.convertStringToNum(obj.score);
+            let name = obj.name
+             if ((temp_score > cur) && (!neiborhoods.includes(name))) {
                 resultsFiltered.push({ name, score })
                 neiborhoods.push(name)
             }
         });
-        return resultsFiltered
+
+        return results;
     }
 
     async getDistancesNeiborhoods(allNeiborhoods: any, AREASCORE: string) {
+        let results: any[];
         switch (AREASCORE) {
             case 'BUS':
-                var results: any[] = await Promise.all(allNeiborhoods.map(async (doc: any): Promise<any> => {
-                    var score = await this.getBusMinDistance(doc.LAT, doc.LONG);
-                    var lat = doc.LAT
-                    var long = doc.LONG
-                    var name = doc.NEIGHBORHOOD
-                    return { score, lat, long, name }
+                results = await Promise.all(allNeiborhoods.map(async (doc: any): Promise<any> => {
+                    let score = await this.getBusMinDistance(doc.LAT, doc.LONG);
+                    return { score, lat: doc.LAT, long: doc.LONG, name: doc.NEIGHBORHOOD}
                 }));
                 break;
             case 'TRAIN':
-                var results: any[] = await Promise.all(allNeiborhoods.map(async (doc: any): Promise<any> => {
-                    var score = await this.getTrainMinDistance(doc.LAT, doc.LONG);
-                    var lat = doc.LAT
-                    var long = doc.LONG
-                    var name = doc.NEIGHBORHOOD
-                    return { score, lat, long, name }
+                results = await Promise.all(allNeiborhoods.map(async (doc: any): Promise<any> => {
+                    let score = await this.getTrainMinDistance(doc.LAT, doc.LONG);
+                    return { score, lat: doc.LAT, long: doc.LONG, name: doc.NEIGHBORHOOD}
                 }));
                 break;
             case 'HIGHWAY':
-                var results: any[] = await Promise.all(allNeiborhoods.map(async (doc: any): Promise<any> => {
-                    var score = await this.getHighwayMinDistance(doc.LAT, doc.LONG);
-                    var lat = doc.LAT
-                    var long = doc.LONG
-                    var name = doc.NEIGHBORHOOD
-                    return { score, lat, long, name }
+                results = await Promise.all(allNeiborhoods.map(async (doc: any): Promise<any> => {
+                    let score = await this.getHighwayMinDistance(doc.LAT, doc.LONG);
+                    return { score, lat: doc.LAT, long: doc.LONG, name: doc.NEIGHBORHOOD}
                 }));
                 break;
             case 'SCHOOL':
-                var results: any[] = await Promise.all(allNeiborhoods.map(async (doc: any): Promise<any> => {
-                    var score = await this.getSchoolMinDistance(doc.LAT, doc.LONG);
-                    var lat = doc.LAT
-                    var long = doc.LONG
-                    var name = doc.NEIGHBORHOOD
-                    return { score, lat, long, name }
+                results = await Promise.all(allNeiborhoods.map(async (doc: any): Promise<any> => {
+                    let score = await this.getSchoolMinDistance(doc.LAT, doc.LONG);
+                    return { score, lat: doc.LAT, long: doc.LONG, name: doc.NEIGHBORHOOD}
                 }));
                 break;
             case 'BEACH':
-                var results: any[] = await Promise.all(allNeiborhoods.map(async (doc: any): Promise<any> => {
-                    var score = await this.getBeachMinDistance(doc.LAT, doc.LONG);
-                    var lat = doc.LAT
-                    var long = doc.LONG
-                    var name = doc.NEIGHBORHOOD
-                    return { score, lat, long, name }
+               results = await Promise.all(allNeiborhoods.map(async (doc: any): Promise<any> => {
+                    let score = await this.getBeachMinDistance(doc.LAT, doc.LONG);
+                    return { score, lat: doc.LAT, long: doc.LONG, name: doc.NEIGHBORHOOD}
 
                 }));
                 break;
@@ -217,52 +184,53 @@ export class DistancesService {
     }
 
     async getDistancesByRoomNeiborhood(ROOMS: string, SCORE: string, AREASCORE: string, CURRENTSSUBSCORE: string) {
-        var toFunc = await this.getAllSameScoreNeiorhoods(ROOMS, SCORE)
-        var scores = await this.getDistancesNeiborhoods(toFunc, AREASCORE)
+        let toFunc = await this.getAllSameScoreNeiorhoods(ROOMS, SCORE)
+        let scores = await this.getDistancesNeiborhoods(toFunc, AREASCORE)
         return await this.getWantefNeiborhoods(scores, CURRENTSSUBSCORE)
     }
     async getDistancesByNeiborhood(SCORE: string, AREASCORE: string, CURRENTSSUBSCORE: string) {
-        var toFunc = await this.getAllSameScoreNeiorhoods("", SCORE)
-        var scores = await this.getDistancesNeiborhoods(toFunc, AREASCORE)
+        let toFunc = await this.getAllSameScoreNeiorhoods("", SCORE)
+        let scores = await this.getDistancesNeiborhoods(toFunc, AREASCORE)
         return await this.getWantefNeiborhoods(scores, CURRENTSSUBSCORE)
     }
     async getAllDistancesByNeiborhood(ROOMS: string, SCORE: string, busCurScore: string, beachCurScore: string, highwayCurScore: string, schoolCurScore: string, trainCurScore: string) {
-        var toFunc
+        let toFunc
         if (ROOMS)
              toFunc = await this.getAllSameScoreNeiorhoods(ROOMS, SCORE)
         else
              toFunc = await this.getAllSameScoreNeiorhoods("", SCORE)
 
-var [a,b,c,d,e] = await Promise.all([ this.getDistancesNeiborhoods(toFunc, 'BUS'), 
-                                             this.getDistancesNeiborhoods(toFunc, 'BEACH'), 
-                                             this.getDistancesNeiborhoods(toFunc, 'HIGHWAY'), 
-                                             this.getDistancesNeiborhoods(toFunc, 'SCHOOL'), 
-                                             this.getDistancesNeiborhoods(toFunc, 'TRAIN'), 
-                                          ]);
-                                          var [bus, beach, highway, school, train] = await Promise.all([
-                                             this.getWantefNeiborhoods(a, busCurScore ? busCurScore : 'B',),
-                                             this.getWantefNeiborhoods(b, beachCurScore ? beachCurScore : 'B',),
-                                             this.getWantefNeiborhoods(c, highwayCurScore ? highwayCurScore : 'B',),
-                                             this.getWantefNeiborhoods(d, schoolCurScore ? schoolCurScore : 'B',),
-                                             this.getWantefNeiborhoods(e, trainCurScore ? trainCurScore : 'B')
-                                          ]) ;
+    let [a,b,c,d,e] = await Promise.all([
+        this.getDistancesNeiborhoods(toFunc, 'BUS'),
+        this.getDistancesNeiborhoods(toFunc, 'BEACH'),
+        this.getDistancesNeiborhoods(toFunc, 'HIGHWAY'),
+        this.getDistancesNeiborhoods(toFunc, 'SCHOOL'),
+        this.getDistancesNeiborhoods(toFunc, 'TRAIN'),
+    ]);
+    let [bus, beach, highway, school, train] = await Promise.all([
+        this.getWantefNeiborhoods(a, busCurScore ? busCurScore : 'B'),
+        this.getWantefNeiborhoods(b, beachCurScore ? beachCurScore : 'B'),
+        this.getWantefNeiborhoods(c, highwayCurScore ? highwayCurScore : 'B'),
+        this.getWantefNeiborhoods(d, schoolCurScore ? schoolCurScore : 'B'),
+        this.getWantefNeiborhoods(e, trainCurScore ? trainCurScore : 'B')
+    ]) ;
 
         return { bus, beach, highway, school, train }
     }
-    
+
 
     async getAllMinDistance(LATITUDE: number, LONGITUDE: number) {
-        var [bus, beach, highway, school, train] = await Promise.all([this.getBusMinDistance(LATITUDE, LONGITUDE), 
+        let [bus, beach, highway, school, train] = await Promise.all([this.getBusMinDistance(LATITUDE, LONGITUDE), 
             this.getBeachMinDistance(LATITUDE, LONGITUDE), 
             this.getHighwayMinDistance(LATITUDE, LONGITUDE),
             this.getSchoolMinDistance(LATITUDE, LONGITUDE),
             this.getTrainMinDistance(LATITUDE, LONGITUDE)
         ])
-        // var bus = await this.getBusMinDistance(LATITUDE, LONGITUDE)
-        // var beach = await this.getBeachMinDistance(LATITUDE, LONGITUDE)
-        // var highway = await this.getHighwayMinDistance(LATITUDE, LONGITUDE)
-        // var school = await this.getSchoolMinDistance(LATITUDE, LONGITUDE)
-        // var train = await this.getTrainMinDistance(LATITUDE, LONGITUDE)
+        // let bus = await this.getBusMinDistance(LATITUDE, LONGITUDE)
+        // let beach = await this.getBeachMinDistance(LATITUDE, LONGITUDE)
+        // let highway = await this.getHighwayMinDistance(LATITUDE, LONGITUDE)
+        // let school = await this.getSchoolMinDistance(LATITUDE, LONGITUDE)
+        // let train = await this.getTrainMinDistance(LATITUDE, LONGITUDE)
         return { bus, beach, highway, school, train }
     }
     //Bus
@@ -278,7 +246,7 @@ var [a,b,c,d,e] = await Promise.all([ this.getDistancesNeiborhoods(toFunc, 'BUS'
         }
 
 
-        var AreaQ = await this.getQs('BUS')
+        let AreaQ = await this.getQs('BUS')
         return this.getScore(AreaQ, this.getMinDist(await this.busModel.find({}), LATITUDE, LONGITUDE))
     }
     //Beach
@@ -293,7 +261,7 @@ var [a,b,c,d,e] = await Promise.all([ this.getDistancesNeiborhoods(toFunc, 'BUS'
             this.beachModel = this.databaseService.db.model<ICOORDINATES>('beach_coordinate', beachSchema, 'beach_coordinates');
         }
 
-        var AreaQ = await this.getQs('BEACH')
+        let AreaQ = await this.getQs('BEACH')
         return this.getScore(AreaQ, this.getMinDist(await this.beachModel.find({}), LATITUDE, LONGITUDE))
     }
     //School
@@ -309,7 +277,7 @@ var [a,b,c,d,e] = await Promise.all([ this.getDistancesNeiborhoods(toFunc, 'BUS'
         }
 
 
-        var AreaQ = await this.getQs('SCHOOL')
+        let AreaQ = await this.getQs('SCHOOL')
         return this.getScore(AreaQ, this.getMinDist(await this.schoolModel.find({}), LATITUDE, LONGITUDE))
     }
     //Train
@@ -325,7 +293,7 @@ var [a,b,c,d,e] = await Promise.all([ this.getDistancesNeiborhoods(toFunc, 'BUS'
         }
 
 
-        var AreaQ = await this.getQs('TRAIN')
+        let AreaQ = await this.getQs('TRAIN')
         return this.getScore(AreaQ, this.getMinDist(await this.trainModel.find({}), LATITUDE, LONGITUDE))
     }
     //Train
@@ -341,7 +309,7 @@ var [a,b,c,d,e] = await Promise.all([ this.getDistancesNeiborhoods(toFunc, 'BUS'
         }
 
 
-        var AreaQ = await this.getQs('HIGHWAY')
+        let AreaQ = await this.getQs('HIGHWAY')
         return this.getScore(AreaQ, this.getMinDist(await this.highwayModel.find({}), LATITUDE, LONGITUDE))
     }
 
