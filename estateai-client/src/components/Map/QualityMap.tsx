@@ -15,6 +15,7 @@ interface QualityMapProps {
   defaultCenter?: any,
   defaultZoom?: number,
   bedrooms?: string,
+  filter?: string,
   year?: number,
   scoreType?: string,
   setYear?: any,
@@ -78,11 +79,6 @@ export const colorBarData = [
     color: '#e0403d',
     legendLabel: 'D - Not Recommended',
     tooltip: 'D - Not Recommended',
-  }, {
-    value: 0,
-    color: '#737373',
-    legendLabel: 'No Data',
-    tooltip: 'No Data',
   },
 ];
 
@@ -96,8 +92,10 @@ const QualityMap = (props: QualityMapProps) => {
     train: 'D',
   });
   const [bedrooms, setBedrooms] = useState("All");
+  const [filter, setFilter] = useState("C");
   const classes = useStyles();
   const bedroomsOptions = ["All", "One", "Two", "Three", "Four", "Five"];
+  const filterOptions = ["A", "B", "C","All"];
 
   useEffect(() => {
     Promise.all([
@@ -160,6 +158,16 @@ const QualityMap = (props: QualityMapProps) => {
       case 3: return 'B';
       case 4: return 'A';
       default: return '0';
+    }
+  }
+
+  const filtertoScore = (str) => {
+    switch(str) {
+      case "C": return ['C','B','A'];
+      case "B": return ['B','A'];
+      case "A": return ['A'];
+      case "All": return ['D','C','B','A'];
+      default: return [];
     }
   }
 
@@ -284,6 +292,19 @@ const QualityMap = (props: QualityMapProps) => {
             ))}
           </ButtonGroup>
         </div>
+
+        <Typography className={classes.title} variant="h6" noWrap>
+          Filter by minimum reccomendation levels
+          </Typography>
+        <div className={classes.search}>
+          <ButtonGroup size="small" aria-label="small outlined button group">
+            {filterOptions.map(option => (
+              <Button key={option} className={option === filter ? classes.active : ''} onClick={() => setFilter(option)}>{option}</Button>
+            ))}
+          </ButtonGroup>
+        </div>
+
+
         <Typography className={classes.title} variant="h6">
           Legend
         </Typography>
@@ -302,19 +323,29 @@ const QualityMap = (props: QualityMapProps) => {
         >
           {Object.values(neighborhoods).map((n: any) => {
             const score = getScore(n);
-            return (<MapSpot
-              lat={n.LAT}
-              key={n.NEIGHBORHOOD_ID}
-              lng={n.LONG}
-              onClick={() => console.log('navigate to: ', n)}
-              text={n.NEIGHBORHOOD}
-              group={score}
-              radius={100}
-              neighborhood={n}
-              bedrooms={bedrooms}
-              scoreType={props.scoreType}
-              userRequest={userRequests}
+            const filters = filtertoScore(filter);
+            let shouldRender = false;
+            filters.forEach(fil => {
+              if (fil === score) {
+                shouldRender = true;
+                
+              }
+            });
+            if (shouldRender) {
+              return (<MapSpot
+                lat={n.LAT}
+                key={n.NEIGHBORHOOD_ID}
+                lng={n.LONG}
+                onClick={() => console.log('navigate to: ', n)}
+                text={n.NEIGHBORHOOD}
+                group={score}
+                radius={100}
+                neighborhood={n}
+                bedrooms={bedrooms}
+                scoreType={props.scoreType}
+                userRequest={userRequests}
             />)
+            }
           })}
         </GoogleMapReact>
       </Grid>

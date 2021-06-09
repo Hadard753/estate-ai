@@ -85,11 +85,6 @@ export const colorBarData = [
     color: '#e0403d',
     legendLabel: 'Red - Not Recommended',
     tooltip: 'Red - Not Recommended',
-  }, {
-    value: 0,
-    color: '#737373',
-    legendLabel: 'No Data',
-    tooltip: 'No Data',
   },
 ];
 
@@ -316,6 +311,7 @@ const SimpleMap = (props: SimpleMapProps) => {
         >
           {neighborhoods.map((n: any) => {
             const score = getScore(n);
+            if (score != "0") {
             return (<MapSpot
               lat={n.LAT}
               key={n.NEIGHBORHOOD_ID}
@@ -328,6 +324,7 @@ const SimpleMap = (props: SimpleMapProps) => {
               bedrooms={props.bedrooms}
               scoreType={props.scoreType}
             />)
+            }
           })}
         </GoogleMapReact>
 

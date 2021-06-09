@@ -163,6 +163,22 @@ export default function HomePage() {
                 <Grid item>
                   <Card className={classes.topCard}>
                     <CardContent className={classes.cardContent}>
+                      <img src="https://cdn2.iconfinder.com/data/icons/scenarium-vol-5/128/002_home_beach_house_building_realty_sea_real_estate-512.png" height="150" width="150"></img>
+                      <Typography gutterBottom variant="h5" component="h2" align='center'>
+                         <a className={classes.a} href="/LifeStyleMap"> LifeStyle Map </a>
+                    </Typography>
+                      <Typography variant="body1">
+                      You have decided you want to purchase a new house in TLV, you care about profit but you also care about LifeStyle!<br/>
+                      Using our "LifeStyle Map” service you can easily find the neighborhoods that can yield you the maximum profit while living in the Life Style you desire.
+                    </Typography>
+                    </CardContent>
+                    <CardActions className={classes.cardActions}>
+                    </CardActions>
+                  </Card>
+                </Grid>
+                <Grid item>
+                  <Card className={classes.topCard}>
+                    <CardContent className={classes.cardContent}>
                       <div style={{ height: "200px", display: "flex", justifyContent: "center", alignItems: "center" }}>
                         <img src="https://cdn0.iconfinder.com/data/icons/real-estate-235/64/x-33-512.png" height="150" width="150"></img>
                       </div>
@@ -172,22 +188,6 @@ export default function HomePage() {
                         You already found a potential asset but you wish to gain further insights?<br/>
                         Using our “Search By Asset” service you can do so, maybe even find a better asset out there?
                         </Typography>
-                    </CardContent>
-                    <CardActions className={classes.cardActions}>
-                    </CardActions>
-                  </Card>
-                </Grid>
-                <Grid item>
-                  <Card className={classes.topCard}>
-                    <CardContent className={classes.cardContent}>
-                      <img src="https://cdn2.iconfinder.com/data/icons/scenarium-vol-5/128/002_home_beach_house_building_realty_sea_real_estate-512.png" height="150" width="150"></img>
-                      <Typography gutterBottom variant="h5" component="h2" align='center'>
-                         <a className={classes.a} href="/LifeStyleMap"> LifeStyle Map </a>
-                    </Typography>
-                      <Typography variant="body1">
-                      Quality<br/>
-                      Map
-                    </Typography>
                     </CardContent>
                     <CardActions className={classes.cardActions}>
                     </CardActions>
