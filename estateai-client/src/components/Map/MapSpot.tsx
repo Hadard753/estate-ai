@@ -10,6 +10,38 @@ import { forEach } from 'lodash';
 
 const ReactTooltipAny = ReactTooltip as any;
 
+const OverallScoreDescription = (score: String) => {
+    if(score == "A") return "Highly Recommended"
+    if(score == "B") return "Recommended"
+    if(score == "C") return "Not Recommended"
+    if(score == "D") return "Bad Deal"
+    if(score == "0") return "No Data"
+  }
+const PercentageScoreDescription = (score: String) => {
+    if(score == "A") return "High profit"
+    if(score == "B") return "Profitable"
+    if(score == "C") return "Low profit"
+    if(score == "D") return "Very low profit"
+    if(score == "0") return "No Data"
+  }
+
+  const PrecisionScoreDescription = (score: String) => {
+    if(score == "A") return "Very Accurate"
+    if(score == "B") return "Somewhat Accurate"
+    if(score == "C") return "Might be accurate"
+    if(score == "D") return "Not Accurate"
+    if(score == "0") return "No Data"
+  }
+
+  const TrendScoreDescription = (score: String) => {
+    if(score == "A") return "Plenty of sales"
+    if(score == "B") return "Above Average"
+    if(score == "C") return "Below Average"
+    if(score == "D") return "Few Sales"
+    if(score == "0") return "No Data"
+  }
+  
+
 interface MapSpotProps {
     lat: number,
     lng: number,
@@ -28,40 +60,40 @@ interface MapSpotProps {
 const MapSpot = (props: MapSpotProps) => {
     const getScore = (n: Neighborhood) => {
         if(props.bedrooms == "All") return { 
-            overallScore: n.GENERAL_SCORE,
-            precentageScore: n.PRECENTAGE_SCORE,
-            percisionScore: n.PERCISION_SCORE,
-            trendScore: n.TREND_SCORE
+            overallScore: OverallScoreDescription(n.GENERAL_SCORE),
+            precentageScore: PercentageScoreDescription(n.PRECENTAGE_SCORE),
+            percisionScore: PrecisionScoreDescription(n.PERCISION_SCORE),
+            trendScore: TrendScoreDescription(n.TREND_SCORE)
         }
         else if(props.bedrooms == "One")return  { 
-            overallScore: n.ONEBR_GENERAL_SCORE,
-            precentageScore: n.ONEBR_PRECENTAGE_SCORE,
-            percisionScore: n.ONEBR_PERCISION_SCORE,
-            trendScore: n.ONEBR_TREND_SCORE
+            overallScore: OverallScoreDescription(n.ONEBR_GENERAL_SCORE),
+            precentageScore: PercentageScoreDescription(n.ONEBR_PRECENTAGE_SCORE),
+            percisionScore: PrecisionScoreDescription(n.ONEBR_PERCISION_SCORE),
+            trendScore: TrendScoreDescription(n.ONEBR_TREND_SCORE)
         }
         else if(props.bedrooms == "Two") return { 
-            overallScore: n.TWOBR_GENERAL_SCORE,
-            precentageScore: n.TWOBR_PRECENTAGE_SCORE,
-            percisionScore: n.TWOBR_PERCISION_SCORE,
-            trendScore: n.TWOBR_TREND_SCORE
+            overallScore: OverallScoreDescription(n.TWOBR_GENERAL_SCORE),
+            precentageScore: PercentageScoreDescription(n.TWOBR_PRECENTAGE_SCORE),
+            percisionScore: PrecisionScoreDescription(n.TWOBR_PERCISION_SCORE),
+            trendScore: TrendScoreDescription(n.TWOBR_TREND_SCORE)
         }
         else if(props.bedrooms == "Three") return { 
-            overallScore: n.THREEBR_GENERAL_SCORE,
-            precentageScore:n.THREEBR_PRECENTAGE_SCORE,
-            percisionScore: n.THREEBR_PERCISION_SCORE,
-            trendScore: n.THREEBR_TREND_SCORE
+            overallScore: OverallScoreDescription(n.THREEBR_GENERAL_SCORE),
+            precentageScore:PercentageScoreDescription(n.THREEBR_PRECENTAGE_SCORE),
+            percisionScore: PrecisionScoreDescription(n.THREEBR_PERCISION_SCORE),
+            trendScore: TrendScoreDescription(n.THREEBR_TREND_SCORE)
         }
         else if(props.bedrooms == "Four") return { 
-            overallScore: n.FOURBR_GENERAL_SCORE,
-            precentageScore:n.FOURBR_PRECENTAGE_SCORE,
-            percisionScore: n.FOURBR_PERCISION_SCORE,
-            trendScore: n.FOURBR_TREND_SCORE
+            overallScore: OverallScoreDescription(n.FOURBR_GENERAL_SCORE),
+            precentageScore: PercentageScoreDescription(n.FOURBR_PRECENTAGE_SCORE),
+            percisionScore: PrecisionScoreDescription(n.FOURBR_PERCISION_SCORE),
+            trendScore: TrendScoreDescription(n.FOURBR_TREND_SCORE)
         }
         else return{ 
-            overallScore: n.FIVEBR_GENERAL_SCORE,
-            precentageScore: n.FIVEBR_PRECENTAGE_SCORE,
-            percisionScore: n.FIVEBR_PERCISION_SCORE,
-            trendScore: n.FIVEBR_TREND_SCORE
+            overallScore: OverallScoreDescription(n.FIVEBR_GENERAL_SCORE),
+            precentageScore: PercentageScoreDescription(n.FIVEBR_PRECENTAGE_SCORE),
+            percisionScore: PrecisionScoreDescription(n.FIVEBR_PERCISION_SCORE),
+            trendScore: TrendScoreDescription(n.FIVEBR_TREND_SCORE)
         }
       }
 
@@ -133,11 +165,10 @@ const MapSpot = (props: MapSpotProps) => {
         </a>
         <ReactTooltipAny id={props.neighborhood.NEIGHBORHOOD_ID.toString()} aria-haspopup='true' role='example' type="info">
             <Typography>{props.neighborhood.NEIGHBORHOOD}</Typography>
-            <Typography>{props.bedrooms} Bedrooms</Typography>
-            <Typography>Overall Score: {score.overallScore}</Typography>
-            <Typography>Percentage Increase Score: {score.precentageScore}</Typography>
-            <Typography>Precision Score: {score.percisionScore}</Typography>
-            <Typography>Sales Score: {score.trendScore}</Typography>
+            <Typography>Overall: {score.overallScore}</Typography>
+            <Typography>Percentage Increase: {score.precentageScore}</Typography>
+            <Typography>Precision: {score.percisionScore}</Typography>
+            <Typography>Sales: {score.trendScore}</Typography>
         </ReactTooltipAny>
     </div>;
 }

@@ -57,27 +57,34 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const PercentageScoreDescription = (score: String) => {
+  if(score == "A") return "Highly Recommended"
+  if(score == "B") return "Recommended"
+  if(score == "C") return "Not Recommended"
+  if(score == "D") return "Bad Deal"
+}
+
 export const colorBarData = [
   {
     value: 0,
     color: '#4fa34c',
-    legendLabel: 'A - Highly Recommended',
-    tooltip: 'A - Highly Recommended',
+    legendLabel: 'Green- Highly Recommended',
+    tooltip: 'Green - Highly Recommended',
   }, {
     value: 0,
     color: '#ffec00',
-    legendLabel: 'B - Recommended',
-    tooltip: 'B - Recommended',
+    legendLabel: 'Yellow - Recommended',
+    tooltip: 'Yellow - Recommended',
   }, {
     value: 0,
     color: '#ff8d00de',
-    legendLabel: 'C - Ok',
-    tooltip: 'C - Ok',
+    legendLabel: 'Orange - Ok',
+    tooltip: 'Orange - Ok',
   }, {
     value: 0,
     color: '#e0403d',
-    legendLabel: 'D - Not Recommended',
-    tooltip: 'D - Not Recommended',
+    legendLabel: 'Red - Not Recommended',
+    tooltip: 'Red - Not Recommended',
   }, {
     value: 0,
     color: '#737373',
@@ -94,20 +101,21 @@ const SimpleMap = (props: SimpleMapProps) => {
   const scoreOptions = [
     {
       option: "By overall",
-      text: "Weighted score by all score types"
+      text: "Weighted score by all score types - 40% Percentage increase , 40% Precision , 20% Amount of sales"
     },
     {
       option: "By percentage increase",
       text: "Percentage increase predicted"
-    },
-    {
-      option: "By precision",
-      text: "How confident are we in the predictions"
-    },
-    {
-      option: "By sales",
-      text: "The amount of sales during the past year"
     }
+    // ,
+    // {
+    //   option: "By precision",
+    //   text: "How confident are we in the predictions"
+    // },
+    // {
+    //   option: "By sales",
+    //   text: "The amount of sales during the past year"
+    // }
   ]
 
   useEffect(() => {
@@ -241,10 +249,10 @@ const SimpleMap = (props: SimpleMapProps) => {
           </Typography>
           <br/>
         <Typography variant="h6">
-          Using Machine Learning algorithms, Estate-AI is able to predict for you the scores for the different neighberhoods in TLV  <br/>   <br/>
-          Please select the Score System, Number of bedrooms and investigate the Tel Aviv map.
+          Using Machine Learning algorithms, Estate-AI is able to predict for you the scores for the different neighberhoods in TLV  <br/> 
           </Typography>
-        <div>
+
+        {/* <div>
         <br/>
           <Typography className={classes.title} variant="h6" noWrap>
             Select Year
@@ -261,9 +269,10 @@ const SimpleMap = (props: SimpleMapProps) => {
               props.setYear(newValue)
             }}
           />
-        </div>
+        </div> */}
+        <br />
         <Typography className={classes.title} variant="h6" noWrap>
-          Score System
+          Please choose score System
           </Typography>
         <div className={classes.search}>
           <ButtonGroup size="small" aria-label="small outlined button group">
@@ -271,13 +280,12 @@ const SimpleMap = (props: SimpleMapProps) => {
               <Tooltip title={<h3>{option.text}</h3>}>
                 <Button key={option.option} className={option.option === props.scoreType ? classes.active : ''} onClick={() => props.setScoreType(option.option)}>{option.option}</Button>
               </Tooltip>
-
             ))}
           </ButtonGroup>
         </div>
-
+          <br />
         <Typography className={classes.title} variant="h6" noWrap>
-          Bedrooms
+          Choose number of Bedrooms
           </Typography>
         <div className={classes.search}>
           <ButtonGroup size="small" aria-label="small outlined button group">
@@ -287,6 +295,7 @@ const SimpleMap = (props: SimpleMapProps) => {
           </ButtonGroup>
         </div>
         <Typography className={classes.title} variant="h6" noWrap >
+          <br />
           Legend
           </Typography>
         <div><ColorBar data={colorBarData} /></div>
