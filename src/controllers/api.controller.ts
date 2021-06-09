@@ -92,6 +92,8 @@ export class ApiController {
     //  "doron":"asdsad"
     //});
   }
+
+  //get all distances
   @Get('/distances')
   async distancesrequest(@QueryParams('LATITUDE') LATITUDE: number, @QueryParams('LONGITUDE') LONGITUDE: number): Promise<ActionResponse<Object>> {
 

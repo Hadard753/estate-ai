@@ -51,8 +51,7 @@ export class DistancesService {
     }
 
     async search(LATITUDE: number, LONGITUDE: number, ROOMS: string){
-        var neiborHood = await this.assetscoreService.getAssetScore(ROOMS, LATITUDE, LONGITUDE)
-        var neiborHoodScors = await this.getAllMinDistance(LATITUDE, LONGITUDE)
+        var [neiborHood, neiborHoodScors] = await Promise.all([this.assetscoreService.getAssetScore(ROOMS, LATITUDE, LONGITUDE), this.getAllMinDistance(LATITUDE, LONGITUDE)])
         var neiborHoodBetterDistances = await this.getAllDistancesByNeiborhood(ROOMS, neiborHood._doc.GENERAL_SCORE, neiborHoodScors.bus.toString(), neiborHoodScors.beach.toString(), neiborHoodScors.highway.toString(), neiborHoodScors.school.toString(), neiborHoodScors.train.toString())
         return {neiborHood, neiborHoodScors, neiborHoodBetterDistances}
 
@@ -234,22 +233,36 @@ export class DistancesService {
         else
              toFunc = await this.getAllSameScoreNeiorhoods("", SCORE)
 
-        var bus = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'BUS'), busCurScore ? busCurScore : 'B')
-        var beach = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'BEACH'), beachCurScore ? beachCurScore : 'B')
-        var highway = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'HIGHWAY'), highwayCurScore ? highwayCurScore : 'B')
-        var school = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'SCHOOL'), schoolCurScore ? schoolCurScore : 'B')
-        var train = await this.getWantefNeiborhoods(await this.getDistancesNeiborhoods(toFunc, 'TRAIN'), trainCurScore ? trainCurScore : 'B')
+var [a,b,c,d,e] = await Promise.all([ this.getDistancesNeiborhoods(toFunc, 'BUS'), 
+                                             this.getDistancesNeiborhoods(toFunc, 'BEACH'), 
+                                             this.getDistancesNeiborhoods(toFunc, 'HIGHWAY'), 
+                                             this.getDistancesNeiborhoods(toFunc, 'SCHOOL'), 
+                                             this.getDistancesNeiborhoods(toFunc, 'TRAIN'), 
+                                          ]);
+                                          var [bus, beach, highway, school, train] = await Promise.all([
+                                             this.getWantefNeiborhoods(a, busCurScore ? busCurScore : 'B',),
+                                             this.getWantefNeiborhoods(b, beachCurScore ? beachCurScore : 'B',),
+                                             this.getWantefNeiborhoods(c, highwayCurScore ? highwayCurScore : 'B',),
+                                             this.getWantefNeiborhoods(d, schoolCurScore ? schoolCurScore : 'B',),
+                                             this.getWantefNeiborhoods(e, trainCurScore ? trainCurScore : 'B')
+                                          ]) ;
 
         return { bus, beach, highway, school, train }
     }
     
 
     async getAllMinDistance(LATITUDE: number, LONGITUDE: number) {
-        var bus = await this.getBusMinDistance(LATITUDE, LONGITUDE)
-        var beach = await this.getBeachMinDistance(LATITUDE, LONGITUDE)
-        var highway = await this.getHighwayMinDistance(LATITUDE, LONGITUDE)
-        var school = await this.getSchoolMinDistance(LATITUDE, LONGITUDE)
-        var train = await this.getTrainMinDistance(LATITUDE, LONGITUDE)
+        var [bus, beach, highway, school, train] = await Promise.all([this.getBusMinDistance(LATITUDE, LONGITUDE), 
+            this.getBeachMinDistance(LATITUDE, LONGITUDE), 
+            this.getHighwayMinDistance(LATITUDE, LONGITUDE),
+            this.getSchoolMinDistance(LATITUDE, LONGITUDE),
+            this.getTrainMinDistance(LATITUDE, LONGITUDE)
+        ])
+        // var bus = await this.getBusMinDistance(LATITUDE, LONGITUDE)
+        // var beach = await this.getBeachMinDistance(LATITUDE, LONGITUDE)
+        // var highway = await this.getHighwayMinDistance(LATITUDE, LONGITUDE)
+        // var school = await this.getSchoolMinDistance(LATITUDE, LONGITUDE)
+        // var train = await this.getTrainMinDistance(LATITUDE, LONGITUDE)
         return { bus, beach, highway, school, train }
     }
     //Bus
