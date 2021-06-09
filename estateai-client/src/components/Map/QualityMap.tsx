@@ -79,11 +79,6 @@ export const colorBarData = [
     color: '#e0403d',
     legendLabel: 'D - Not Recommended',
     tooltip: 'D - Not Recommended',
-  }, {
-    value: 0,
-    color: '#737373',
-    legendLabel: 'No Data',
-    tooltip: 'No Data',
   },
 ];
 
