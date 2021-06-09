@@ -66,7 +66,7 @@ export default function Header(props: HeaderProps) {
           </Typography>
 
           <Typography className={classes.title} variant="h6" noWrap >
-            <a className={classes.a} href="/QualityMap"> QualityMap </a>
+            <a className={classes.a} href="/LifeStyleMap"> LifeStyle Map </a>
           </Typography>
 
           <Typography className={classes.title} variant="h6" noWrap >

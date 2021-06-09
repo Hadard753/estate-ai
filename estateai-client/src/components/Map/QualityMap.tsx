@@ -166,17 +166,19 @@ const QualityMap = (props: QualityMapProps) => {
   return (
     <Grid container style={{ flex: 1, padding: 5, overflow: 'hidden', overflowY: "scroll"}}>
       <Grid item xs={12} sm={4} style={{ padding: 10 }} >
-        <Typography variant="h4" noWrap>
-          Rate how important
+        <Typography variant="h6">
+          Rate in the scales what is the importance level of each parameter
           <br/>
-         each feature for you from 1-4
           </Typography>
+          <div>
+          1 - Not important, 4 - Very important
+          </div>
         <div>
         <br/>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Bus
-          </Typography>
+    <Grid container style={{ flex: 1, padding: 5, height: 150}}>
+        <Grid item xs={2} >
           <Slider
+           orientation="vertical"
             min={1}
             max={4}
             className={classes.slider}
@@ -189,9 +191,13 @@ const QualityMap = (props: QualityMapProps) => {
             }}
           />
           <Typography className={classes.title} variant="h6" noWrap>
-            Beach
+            Bus
           </Typography>
+        </Grid>
+
+          <Grid item xs={2} >
           <Slider
+          orientation="vertical"
             min={1}
             max={4}
             className={classes.slider}
@@ -204,9 +210,13 @@ const QualityMap = (props: QualityMapProps) => {
             }}
           />
           <Typography className={classes.title} variant="h6" noWrap>
-            Highway
+            Beach
           </Typography>
+          </Grid>
+
+          <Grid item xs={3} >
           <Slider
+          orientation="vertical"
             min={1}
             max={4}
             className={classes.slider}
@@ -219,9 +229,13 @@ const QualityMap = (props: QualityMapProps) => {
             }}
           />
           <Typography className={classes.title} variant="h6" noWrap>
-            School
+            Highway
           </Typography>
+          </Grid>
+
+          <Grid item xs={2} >
           <Slider
+          orientation="vertical"
             min={1}
             max={4}
             className={classes.slider}
@@ -234,9 +248,13 @@ const QualityMap = (props: QualityMapProps) => {
             }}
           />
           <Typography className={classes.title} variant="h6" noWrap>
-            Train
+            School
           </Typography>
+          </Grid>
+
+          <Grid item xs={2} >
           <Slider
+          orientation="vertical"
             min={1}
             max={4}
             className={classes.slider}
@@ -248,8 +266,14 @@ const QualityMap = (props: QualityMapProps) => {
               setUserRequests({ ...userRequests, train: numToScore(newValue) });
             }}
           />
+          <Typography className={classes.title} variant="h6" noWrap>
+            Train
+          </Typography>
+        </Grid>
+      </Grid>
         </div>
-
+        <br />
+        <br />
         <Typography className={classes.title} variant="h6" noWrap>
           Bedrooms
           </Typography>
@@ -260,14 +284,14 @@ const QualityMap = (props: QualityMapProps) => {
             ))}
           </ButtonGroup>
         </div>
-        <Typography className={classes.title} variant="h6" noWrap >
-          Legend -
+        <Typography className={classes.title} variant="h6">
+          Legend
         </Typography>
-        <Typography className={classes.title} variant="h6" noWrap >
-          The colors represents the annual revenue percentage
+        <div className={classes.title}>
+          The colors represents the percentage increase score
           <br/>
-          While the transperancy represent the feature match
-        </Typography>
+          The transperancy represent the match to your importance level
+        </div>
         <div><ColorBar data={colorBarData} /></div>
       </Grid>
       <Grid item xs={12} sm={8}>

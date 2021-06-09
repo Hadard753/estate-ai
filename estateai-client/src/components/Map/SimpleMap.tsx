@@ -241,7 +241,7 @@ const SimpleMap = (props: SimpleMapProps) => {
   }
   return (
 
-    <Grid container style={{ flex: 1, padding: 5, overflow: 'hidden' }}>
+    <Grid container style={{ flex: 1, padding: 5, overflow: 'hidden', overflowY: "scroll"}}>
 
       <Grid item xs={12} sm={4} style={{ padding: 10 }} >
         <Typography variant="h3" noWrap>
@@ -272,7 +272,7 @@ const SimpleMap = (props: SimpleMapProps) => {
         </div> */}
         <br />
         <Typography className={classes.title} variant="h6" noWrap>
-          Please choose score System
+          Choose scoring System
           </Typography>
         <div className={classes.search}>
           <ButtonGroup size="small" aria-label="small outlined button group">
@@ -283,7 +283,7 @@ const SimpleMap = (props: SimpleMapProps) => {
             ))}
           </ButtonGroup>
         </div>
-          <br />
+          <br />  
         <Typography className={classes.title} variant="h6" noWrap>
           Choose number of Bedrooms
           </Typography>
@@ -294,8 +294,9 @@ const SimpleMap = (props: SimpleMapProps) => {
             ))}
           </ButtonGroup>
         </div>
+        <br />
+        Hover over the neighberhoods to get more information, Scores are A to D
         <Typography className={classes.title} variant="h6" noWrap >
-          <br />
           Legend
           </Typography>
         <div><ColorBar data={colorBarData} /></div>

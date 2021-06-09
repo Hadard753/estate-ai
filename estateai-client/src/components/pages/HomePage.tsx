@@ -58,6 +58,9 @@ export default function HomePage() {
       backgroundColor: theme.palette.background.paper,
       padding: theme.spacing(6),
     },
+    a: {
+      color: 'inherit'
+    },
   }));
 
   const cards = [
@@ -146,7 +149,7 @@ export default function HomePage() {
                     <CardContent className={classes.cardContent}>
                       <img src="https://img.icons8.com/plasticine/2x/heat-map.png"></img>
                       <Typography gutterBottom variant="h5" component="h2" align='center'>
-                        HeatMap Prediction
+                         <a className={classes.a} href="/HeatMap"> HeatMap Prediction </a>
                     </Typography>
                       <Typography variant="body1">
                       You have decided you want to maximize your profit by investing in Real Estate, However, it's unclear where the correct location is in Tel Aviv to do so.<br/>
@@ -164,12 +167,27 @@ export default function HomePage() {
                         <img src="https://cdn0.iconfinder.com/data/icons/real-estate-235/64/x-33-512.png" height="150" width="150"></img>
                       </div>
                       <Typography gutterBottom variant="h5" component="h2" align='center'>
-                        Search by Property
-                    </Typography>
+                      <a className={classes.a} href="/Search"> Search By Property </a>                    </Typography>
                         <Typography variant="body1">
                         You already found a potential asset but you wish to gain further insights?<br/>
                         Using our “Search By Asset” service you can do so, maybe even find a better asset out there?
                         </Typography>
+                    </CardContent>
+                    <CardActions className={classes.cardActions}>
+                    </CardActions>
+                  </Card>
+                </Grid>
+                <Grid item>
+                  <Card className={classes.topCard}>
+                    <CardContent className={classes.cardContent}>
+                      <img src="https://cdn2.iconfinder.com/data/icons/scenarium-vol-5/128/002_home_beach_house_building_realty_sea_real_estate-512.png" height="150" width="150"></img>
+                      <Typography gutterBottom variant="h5" component="h2" align='center'>
+                         <a className={classes.a} href="/LifeStyleMap"> LifeStyle Map </a>
+                    </Typography>
+                      <Typography variant="body1">
+                      Quality<br/>
+                      Map
+                    </Typography>
                     </CardContent>
                     <CardActions className={classes.cardActions}>
                     </CardActions>

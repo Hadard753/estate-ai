@@ -11,33 +11,33 @@ import { forEach } from 'lodash';
 const ReactTooltipAny = ReactTooltip as any;
 
 const OverallScoreDescription = (score: String) => {
-    if(score == "A") return "Highly Recommended"
-    if(score == "B") return "Recommended"
-    if(score == "C") return "Not Recommended"
-    if(score == "D") return "Bad Deal"
+    if(score == "A") return "A - Highly Recommended"
+    if(score == "B") return "B - Recommended"
+    if(score == "C") return "C - Not Recommended"
+    if(score == "D") return "D - Bad Deal"
     if(score == "0") return "No Data"
   }
 const PercentageScoreDescription = (score: String) => {
-    if(score == "A") return "High profit"
-    if(score == "B") return "Profitable"
-    if(score == "C") return "Low profit"
-    if(score == "D") return "Very low profit"
+    if(score == "A") return "A - High profit"
+    if(score == "B") return "B - Profitable"
+    if(score == "C") return "C - Low profit"
+    if(score == "D") return "D - Very low profit"
     if(score == "0") return "No Data"
   }
 
   const PrecisionScoreDescription = (score: String) => {
-    if(score == "A") return "Very Accurate"
-    if(score == "B") return "Somewhat Accurate"
-    if(score == "C") return "Might be accurate"
-    if(score == "D") return "Not Accurate"
+    if(score == "A") return "A - Very Accurate"
+    if(score == "B") return "B - Somewhat Accurate"
+    if(score == "C") return "C - Might be accurate"
+    if(score == "D") return "D - Not Accurate"
     if(score == "0") return "No Data"
   }
 
   const TrendScoreDescription = (score: String) => {
-    if(score == "A") return "Plenty of sales"
-    if(score == "B") return "Above Average"
-    if(score == "C") return "Below Average"
-    if(score == "D") return "Few Sales"
+    if(score == "A") return "A - Plenty of sales"
+    if(score == "B") return "B - Above Average"
+    if(score == "C") return "C - Below Average"
+    if(score == "D") return "D - Few Sales"
     if(score == "0") return "No Data"
   }
   

@@ -10,7 +10,7 @@ import SearchResultPage from './pages/SearchResultPage';
 export const RoutesList = [
     {label: 'Result', path: '/result', component: SearchResultPage},
     {label: 'HeatMap', path: '/HeatMap', component: HeatMap},
-    {label: 'QualityMap', path: '/QualityMap', component: QualityMap},
+    {label: 'QualityMap', path: '/LifeStyleMap', component: QualityMap},
     {label: 'Search', path: '/Search', component: SearchPage},
     {label: 'Home', path: '/', component: HomePage},
 ]
