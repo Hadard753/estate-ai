@@ -1,3 +1,4 @@
+import { Long } from 'bson';
 import { request } from 'express';
 import { system } from 'faker';
 import { Schema } from 'mongoose';
@@ -11,11 +12,10 @@ import { RegisterForm } from '../forms';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
 import { UserProfileDbModel } from '../models';
 import * as responses from '../responses';
+import { AssetScoreService } from '../services/assetscore.service';
 import { AuthService } from '../services/auth.service';
 import { DistancesService } from '../services/distances.service';
 import { HeatMapService } from '../services/heatmap.service';
-import { AssetScoreService } from '../services/assetscore.service';
-import { Long } from 'bson';
 
 @Controller('/')
 export class ApiController {
@@ -160,7 +160,14 @@ export class ApiController {
 
   //getAllDistancesByNeiborhood
   @Get('/distances/combinations/all')
-  async getallcombinationsrequest(@QueryParams('rooms') rooms: string, @QueryParams('score') score: string, @QueryParams('busCurScore') busCurScore: string, @QueryParams('beachCurScore') beachCurScore: string, @QueryParams('highwayCurScore') highwayCurScore: string, @QueryParams('schoolCurScore') schoolCurScore: string, @QueryParams('trainCurScore') trainCurScore: string): Promise<ActionResponse<Object>> {
+  async getallcombinationsrequest(@QueryParams('rooms') rooms: string,
+    @QueryParams('score') score: string,
+    @QueryParams('busCurScore') busCurScore: string,
+    @QueryParams('beachCurScore') beachCurScore: string,
+    @QueryParams('highwayCurScore') highwayCurScore: string,
+    @QueryParams('schoolCurScore') schoolCurScore: string,
+    @QueryParams('trainCurScore') trainCurScore: string
+  ): Promise<ActionResponse<Object>> {
     var results
     if (rooms)
       results = await this.distancesservice.getAllDistancesByNeiborhood(rooms, score, busCurScore, beachCurScore, highwayCurScore, schoolCurScore, trainCurScore);

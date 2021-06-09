@@ -97,12 +97,13 @@ const SearchPage = () => {
         fetch(urlConstants.assetPredictionURL + `?lat=${lat}&long=${lng}`)
             .then((response) => response.json())
             .then((predictions) => {
-                fetch(urlConstants.improvementsURL + `?LATITUDE=${lat}&LONGITUDE=${lng}&rooms=${roomsTextToNumber(rooms)}&score=${predictions.data['PRECENTAGE_SCORE']}`)
+                fetch(urlConstants.distancesURL + `?LATITUDE=${lat}&LONGITUDE=${lng}`)
                 .then((response) => response.json())
-                .then((improvements) => {
-                    fetch(urlConstants.distancesURL + `?LATITUDE=${lat}&LONGITUDE=${lng}`)
+                .then((distances) => {
+                    const {bus, beach, train, highway, school} = distances.data;
+                    fetch(urlConstants.improvementsURL + `?LATITUDE=${lat}&LONGITUDE=${lng}&rooms=${roomsTextToNumber(rooms)}&score=${predictions.data['PRECENTAGE_SCORE']}&busCurScore=${distances.data.bus}&highwayCurScore=${highway}&beachCurScore=${beach}&schoolCurScore=${school}&trainCurScore=${train}`)
                     .then((response) => response.json())
-                    .then((distances) => {
+                    .then((improvements) => {
                         setResults({ distances: distances.data, prediction: predictions.data, pointer: {lat, lng}, improvements: improvements.data });
                         setLoading(false);
                     });
