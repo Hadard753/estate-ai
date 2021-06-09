@@ -97,7 +97,7 @@ const QualityMap = (props: QualityMapProps) => {
     train: 'D',
   });
   const [bedrooms, setBedrooms] = useState("All");
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState("C");
   const classes = useStyles();
   const bedroomsOptions = ["All", "One", "Two", "Three", "Four", "Five"];
   const filterOptions = ["A", "B", "C","All"];
