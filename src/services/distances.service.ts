@@ -5,6 +5,7 @@ import { DatabaseService } from './db.service';
 import { arrayUnique } from 'class-validator';
 import { UniqueItems } from '@tsed/common';
 import { uniqueId } from 'lodash';
+import { AssetScoreService } from './assetscore.service';
 
 export enum ScoreEnum {
     'D',
@@ -44,10 +45,17 @@ export class DistancesService {
     private quartersModel: Model<IQUARTERS, {}>;
     private neiborhoodModel: Model<INEIGHBORHOOD, {}>;
     private neiborhoodDistinctModel: Model<INEIGHBORHOODDISTINCT, {}>;
-    private features: any;
 
-    constructor(private databaseService: DatabaseService) {
-        this.features = ['BUS']
+    constructor(private databaseService: DatabaseService, private assetscoreService: AssetScoreService) {
+
+    }
+
+    async search(LATITUDE: number, LONGITUDE: number, ROOMS: string){
+        var neiborHood = await this.assetscoreService.getAssetScore(ROOMS, LATITUDE, LONGITUDE)
+        var neiborHoodScors = await this.getAllMinDistance(LATITUDE, LONGITUDE)
+        var neiborHoodBetterDistances = await this.getAllDistancesByNeiborhood(ROOMS, neiborHood._doc.GENERAL_SCORE, neiborHoodScors.bus.toString(), neiborHoodScors.beach.toString(), neiborHoodScors.highway.toString(), neiborHoodScors.school.toString(), neiborHoodScors.train.toString())
+        return {neiborHood, neiborHoodScors, neiborHoodBetterDistances}
+
     }
 
     async getAllNeiborhoodsDistances() {

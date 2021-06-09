@@ -8,8 +8,8 @@ export interface ICOORDINATES extends Document {
 }
 
 export interface ISale extends Document {
-  LATITUDE: String;
-  LONGITUDE: String;
+  LAT: String;
+  LONG: String;
   PERCENTAGE_SCORE: String;
   R2_SCORE_GROUP: String;
 }
@@ -21,12 +21,12 @@ export class AssetScoreService {
   constructor(private databaseService: DatabaseService) { 
   }
 
-  async getAssetScore(roomNum: string, lat: number, lon: number) {
+  async getAssetScore(roomNum: string, lat: number, long: number) {
     if (this.saleModel === undefined) {
       const saleSchema: Schema = new Schema(
         { 
-          LATITUDE : {type:String},
-          LONGITUDE : {type:String},
+          LAT : {type:String},
+          LONG : {type:String},
           PERCENTAGE_SCORE :{type:String},
           R2_SCORE_GROUP :{type:String},
         });
@@ -34,29 +34,22 @@ export class AssetScoreService {
       this.saleModel = this.databaseService.db.model<ICOORDINATES>('neighborhood',saleSchema,'neighborhoods');
     }
 
-    const result = this.getMinDist(await this.saleModel.find({}), lat, lon);
+    const result = this.getMinDist(await this.saleModel.find({}), lat, long);
     return result
   }
 
-  getMinDist(coor:ICOORDINATES[],LATITUDE: number, LONGITUDE: number ): any { 
-    var minNi: any = coor[0];
-    const latsS = parseFloat(minNi._doc.LAT);
-    const longsS = parseFloat(minNi._doc.LONG);
-   
-    var minDist = this.calcDistance(LATITUDE,LONGITUDE,latsS,longsS)
-    coor.forEach((doc:any) => {
-          const latS = parseFloat(doc._doc.LAT);
-          const longS = parseFloat(doc._doc.LONG);
-          const dist = this.calcDistance(LATITUDE, LONGITUDE, latS, longS)
-          if (dist < minDist) {
-            minDist = dist;
-            minNi = doc;
-          }
-        }
+//fixed
+  getMinDist(coor: ICOORDINATES[], LATITUDE: number, LONGITUDE: number) {
+    var dists = []
+    var docs = []
+    coor.map((doc: any) => {
+      dists.push(this.calcDistance(LATITUDE, LONGITUDE, parseFloat(doc.LAT), parseFloat(doc.LONG)))
+      docs.push(doc)
+    }
     );
-    return minNi;
-  }
-    
+    return docs[dists.indexOf(Math.min(...dists))];
+}
+
     
   calcDistance(LATITUDE1 : number, LONGITUDE1  : number, LATITUDE2 : number, LONGITUDE2  : number ): number {
         
