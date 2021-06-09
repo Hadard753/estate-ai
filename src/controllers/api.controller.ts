@@ -15,6 +15,7 @@ import { AuthService } from '../services/auth.service';
 import { DistancesService } from '../services/distances.service';
 import { HeatMapService } from '../services/heatmap.service';
 import { AssetScoreService } from '../services/assetscore.service';
+import { Long } from 'bson';
 
 @Controller('/')
 export class ApiController {
@@ -174,6 +175,12 @@ export class ApiController {
     const results = await this.distancesservice.getAllNeiborhoodsDistances();
     return responses.getOkayResponse(results);
   }
+
+  @Get('/search')
+async searchrequest(@QueryParams('roomNum') roomNum: string, @QueryParams('lat') lat: number, @QueryParams('lon') lon: number): Promise<ActionResponse<Object>> {
+  const results = await this.distancesservice.search(lat, lon, roomNum)
+  return responses.getOkayResponse(results);
+}
 
   @Get('/assetscore')
   async assetscorerequest(@QueryParams('roomNum') roomNum: string, @QueryParams('lat') lat: number, @QueryParams('lon') lon: number): Promise<ActionResponse<Object>> {
