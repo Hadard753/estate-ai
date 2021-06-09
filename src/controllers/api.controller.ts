@@ -177,15 +177,15 @@ export class ApiController {
   }
 
   @Get('/search')
-async searchrequest(@QueryParams('roomNum') roomNum: string, @QueryParams('lat') lat: number, @QueryParams('lon') lon: number): Promise<ActionResponse<Object>> {
-  const results = await this.distancesservice.search(lat, lon, roomNum)
+async searchrequest(@QueryParams('roomNum') roomNum: string, @QueryParams('lat') lat: number, @QueryParams('long') long: number): Promise<ActionResponse<Object>> {
+  const results = await this.distancesservice.search(lat, long, roomNum)
   return responses.getOkayResponse(results);
 }
 
   @Get('/assetscore')
-  async assetscorerequest(@QueryParams('roomNum') roomNum: string, @QueryParams('lat') lat: number, @QueryParams('lon') lon: number): Promise<ActionResponse<Object>> {
+  async assetscorerequest(@QueryParams('roomNum') roomNum: string, @QueryParams('lat') lat: number, @QueryParams('long') long: number): Promise<ActionResponse<Object>> {
 
-    const results = await this.assetscoreservice.getAssetScore(roomNum, lat, lon);
+    const results = await this.assetscoreservice.getAssetScore(roomNum, lat, long);
     return responses.getOkayResponse(results);
   }
 

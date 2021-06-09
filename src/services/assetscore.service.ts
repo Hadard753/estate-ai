@@ -21,7 +21,7 @@ export class AssetScoreService {
   constructor(private databaseService: DatabaseService) { 
   }
 
-  async getAssetScore(roomNum: string, lat: number, lon: number) {
+  async getAssetScore(roomNum: string, lat: number, long: number) {
     if (this.saleModel === undefined) {
       const saleSchema: Schema = new Schema(
         { 
@@ -34,12 +34,12 @@ export class AssetScoreService {
       this.saleModel = this.databaseService.db.model<ICOORDINATES>('neighborhood',saleSchema,'neighborhoods');
     }
 
-    const result = this.getMinDist(await this.saleModel.find({}), lat, lon);
+    const result = this.getMinDist(await this.saleModel.find({}), lat, long);
     return result
   }
 
 //fixed
-  getMinDist(coor: ICOORDINATES[], LATITUDE: number, LONGITUDE: number): number {
+  getMinDist(coor: ICOORDINATES[], LATITUDE: number, LONGITUDE: number) {
     var dists = []
     var docs = []
     coor.map((doc: any) => {
@@ -49,11 +49,6 @@ export class AssetScoreService {
     );
     return docs[dists.indexOf(Math.min(...dists))];
 }
-
-
-
-
-
 
     
   calcDistance(LATITUDE1 : number, LONGITUDE1  : number, LATITUDE2 : number, LONGITUDE2  : number ): number {

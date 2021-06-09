@@ -51,10 +51,10 @@ export class DistancesService {
     }
 
     async search(LATITUDE: number, LONGITUDE: number, ROOMS: string){
-        // var neiborHood = await this.assetscoreService.getAssetScore(ROOMS, LATITUDE, LONGITUDE)
-        // var neiborHoodScors = await this.getAllMinDistance(LATITUDE, LONGITUDE)
-        // var neiborHoodBetterDistances = await this.getAllDistancesByNeiborhood(ROOMS, neiborHood.GENERAL_SCORE, neiborHoodScors.bus.toString(), neiborHoodScors.beach.toString(), neiborHoodScors.highway.toString(), neiborHoodScors.school.toString(), neiborHoodScors.train.toString())
-        // return {neiborHood, neiborHoodScors, neiborHoodBetterDistances}
+        var neiborHood = await this.assetscoreService.getAssetScore(ROOMS, LATITUDE, LONGITUDE)
+        var neiborHoodScors = await this.getAllMinDistance(LATITUDE, LONGITUDE)
+        var neiborHoodBetterDistances = await this.getAllDistancesByNeiborhood(ROOMS, neiborHood._doc.GENERAL_SCORE, neiborHoodScors.bus.toString(), neiborHoodScors.beach.toString(), neiborHoodScors.highway.toString(), neiborHoodScors.school.toString(), neiborHoodScors.train.toString())
+        return {neiborHood, neiborHoodScors, neiborHoodBetterDistances}
 
     }
 
