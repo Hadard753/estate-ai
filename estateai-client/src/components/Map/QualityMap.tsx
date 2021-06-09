@@ -3,7 +3,9 @@ import GoogleMapReact from 'google-map-react';
 import React, { useEffect, useState } from 'react';
 import ColorBar from 'react-color-bar';
 
-import { Button, ButtonGroup, Grid, Tooltip, Typography } from '@material-ui/core';
+import {
+    Button, ButtonGroup, CircularProgress, Grid, Tooltip, Typography
+} from '@material-ui/core';
 import Slider from '@material-ui/core/Slider';
 import { fade, makeStyles } from '@material-ui/core/styles';
 
@@ -91,6 +93,7 @@ const QualityMap = (props: QualityMapProps) => {
     school: 'D',
     train: 'D',
   });
+  const [loading, setLoading] = useState(false);
   const [bedrooms, setBedrooms] = useState("All");
   const [filter, setFilter] = useState("C");
   const classes = useStyles();
@@ -98,6 +101,7 @@ const QualityMap = (props: QualityMapProps) => {
   const filterOptions = ["A", "B", "C","All"];
 
   useEffect(() => {
+    setLoading(true);
     Promise.all([
       fetch(urlConstants.heatmapcordURL + "?year=2022"),
       fetch(urlConstants.neighborhoodsDistances)
@@ -117,6 +121,7 @@ const QualityMap = (props: QualityMapProps) => {
           }
         })
         setNeighborhoods(neighborhoodDic);
+        setLoading(false);
       });
   }, [])
 
@@ -315,8 +320,14 @@ const QualityMap = (props: QualityMapProps) => {
         </div>
         <div><ColorBar data={colorBarData} /></div>
       </Grid>
-      <Grid item xs={12} sm={8}>
-        <GoogleMapReact
+      <Grid item container spacing={2} xs={12} sm={8}>
+        {loading ?  <Grid
+                                container
+                                direction="row"
+                                justify="center"
+                                alignItems="center"
+                            ><CircularProgress style={{ width: '120px', height: '120px' }}/></Grid> :
+                            <GoogleMapReact
           bootstrapURLKeys={{ key: 'AIzaSyCULl-nlhWneAnyEm5MJ3SrxaYkp535r7Q' }}
           defaultCenter={props.defaultCenter}
           defaultZoom={props.defaultZoom}
@@ -328,7 +339,6 @@ const QualityMap = (props: QualityMapProps) => {
             filters.forEach(fil => {
               if (fil === score) {
                 shouldRender = true;
-                
               }
             });
             if (shouldRender) {
@@ -348,6 +358,7 @@ const QualityMap = (props: QualityMapProps) => {
             }
           })}
         </GoogleMapReact>
+        }
       </Grid>
     </Grid>
   );

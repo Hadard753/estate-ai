@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ColorBar from 'react-color-bar';
 
 import {
-    Button, CircularProgress, Grid, makeStyles, TextField, Typography
+    Button, ButtonGroup, CircularProgress, Grid, makeStyles, TextField, Typography
 } from '@material-ui/core';
 
 import { urlConstants } from '../../api_urls';
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     form: {
         '& > *': {
             margin: theme.spacing(1),
-            width: '68ch',
+            width: '100%',
         },
     },
     leftPane: {
@@ -45,9 +45,10 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchPage = () => {
     const [results, setResults] = useState({ distances: null, prediction: null, pointer: (null as any), improvements: null });
-    const [search, setSearch] = useState({ lat: 0, lng: 0, rooms: '', size: '', floor: '', totalFloor: ''});
+    const [search, setSearch] = useState({ lat: 0, lng: 0, rooms: 'All', size: '', floor: '', totalFloor: ''});
     const [loading, setLoading] = useState(false);
     const classes = useStyles();
+    const bedroomsOptions = ["All", "One", "Two", "Three", "Four", "Five"];
 
     const searchColorBarData = [
         {
@@ -78,13 +79,25 @@ const SearchPage = () => {
         },
       ];
 
+      const roomsTextToNumber = (text) => {
+        switch(text){
+            case "All": return '';
+            case "One": return 1;
+            case "Two": return 2;
+            case "Three": return 3;
+            case "Four": return 4;
+            case "Five": return 5;
+            default: return '';
+        }
+    }
+
     const handleSearch = () => {
         setLoading(true);
         const { lat, lng, rooms } = search;
         fetch(urlConstants.assetPredictionURL + `?lat=${lat}&long=${lng}`)
             .then((response) => response.json())
             .then((predictions) => {
-                fetch(urlConstants.improvementsURL + `?LATITUDE=${lat}&LONGITUDE=${lng}&rooms=${rooms}&score=${predictions.data['PRECENTAGE_SCORE']}`)
+                fetch(urlConstants.improvementsURL + `?LATITUDE=${lat}&LONGITUDE=${lng}&rooms=${roomsTextToNumber(rooms)}&score=${predictions.data['PRECENTAGE_SCORE']}`)
                 .then((response) => response.json())
                 .then((improvements) => {
                     fetch(urlConstants.distancesURL + `?LATITUDE=${lat}&LONGITUDE=${lng}`)
@@ -100,9 +113,9 @@ const SearchPage = () => {
     return (
         <div style={{ flex: 1 }}>
             <Grid container spacing={3}>
-                <Grid item xs={4}>
+                <Grid item lg={4} md={3}>
                     <Typography variant="h3" noWrap className={classes.leftPane}>
-                        Search By Property
+                        Search
                     </Typography>
                     <br />
                     <Typography variant="h6" className={classes.leftPane}>
@@ -110,8 +123,14 @@ const SearchPage = () => {
                     </Typography>
                     <form className={classes.form} noValidate autoComplete="off">
                         <AutoComplete handleCoordinates={(coordinates) => setSearch({ ...search, ...coordinates })}/>
-                        {/* <TextField value={search.address} onChange={(e) => setSearch({...search, address: e.target.value})} id="address-input" label="Address" variant="outlined" /> */}
-                        <TextField value={search.rooms} onChange={(e) => setSearch({...search, rooms: e.target.value})} type="number" InputProps={{ inputProps: { min: 1, max: 10 } }} id="rooms-input" label="#Room" variant="outlined" />
+                                <Typography className={classes.title} variant="h6" noWrap>
+                                    Bedrooms
+                                </Typography>
+                                <ButtonGroup size="small" aria-label="small outlined button group">
+                                    {bedroomsOptions.map(option => (
+                                        <Button key={option} className={option === search.rooms ? classes.active : ''} onClick={() => setSearch({...search, rooms: option})}>{option}</Button>
+                                    ))}
+                                </ButtonGroup>
                         <Button disabled={ loading || !search.lat } onClick={handleSearch} variant="contained" style={{ backgroundColor: 'green' }}>Search</Button>
                     </form>
                     <div  className={classes.leftPane}>
@@ -121,7 +140,7 @@ const SearchPage = () => {
                     <div><ColorBar data={searchColorBarData} /></div>
                     </div>
                 </Grid>
-                <Grid item container spacing={2} xs={8}>
+                <Grid item container spacing={2} lg={8} md={9}>
                     {loading ?  <Grid
                                 container
                                 direction="row"
@@ -132,7 +151,7 @@ const SearchPage = () => {
                         {results.distances === null ? null : <Distances improvements={results.improvements || {}} data={results.distances || {}} />}
                     </Grid>
                     <Grid item container xs={9}>
-                        <Grid item xs={12} style={{ height: "91ch"}}>
+                        <Grid item xs={12}>
                             {results.prediction === null ? null :
                             <Prediction data={results.prediction || {}} />}
                            {
