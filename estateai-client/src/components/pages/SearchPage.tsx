@@ -92,22 +92,31 @@ const SearchPage = () => {
     }
 
     const handleSearch = () => {
+        // setLoading(true);
+        // const { lat, lng, rooms } = search;
+        // fetch(urlConstants.assetPredictionURL + `?lat=${lat}&long=${lng}`)
+        //     .then((response) => response.json())
+        //     .then((predictions) => {
+        //         fetch(urlConstants.distancesURL + `?LATITUDE=${lat}&LONGITUDE=${lng}`)
+        //         .then((response) => response.json())
+        //         .then((distances) => {
+        //             const {bus, beach, train, highway, school} = distances.data;
+        //             fetch(urlConstants.improvementsURL + `?LATITUDE=${lat}&LONGITUDE=${lng}&rooms=${roomsTextToNumber(rooms)}&score=${predictions.data['PRECENTAGE_SCORE']}&busCurScore=${bus}&highwayCurScore=${highway}&beachCurScore=${beach}&schoolCurScore=${school}&trainCurScore=${train}`)
+        //             .then((response) => response.json())
+        //             .then((improvements) => {
+        //                 setResults({ distances: distances.data, prediction: predictions.data, pointer: {lat, lng}, improvements: improvements.data });
+        //                 setLoading(false);
+        //             });
+        //         });
+        //     });
         setLoading(true);
         const { lat, lng, rooms } = search;
-        fetch(urlConstants.assetPredictionURL + `?lat=${lat}&long=${lng}`)
+        fetch(urlConstants.searchURL + `?lat=${lat}&long=${lng}&roomNum=${roomsTextToNumber(rooms)}`)
             .then((response) => response.json())
-            .then((predictions) => {
-                fetch(urlConstants.distancesURL + `?LATITUDE=${lat}&LONGITUDE=${lng}`)
-                .then((response) => response.json())
-                .then((distances) => {
-                    const {bus, beach, train, highway, school} = distances.data;
-                    fetch(urlConstants.improvementsURL + `?LATITUDE=${lat}&LONGITUDE=${lng}&rooms=${roomsTextToNumber(rooms)}&score=${predictions.data['PRECENTAGE_SCORE']}&busCurScore=${distances.data.bus}&highwayCurScore=${highway}&beachCurScore=${beach}&schoolCurScore=${school}&trainCurScore=${train}`)
-                    .then((response) => response.json())
-                    .then((improvements) => {
-                        setResults({ distances: distances.data, prediction: predictions.data, pointer: {lat, lng}, improvements: improvements.data });
-                        setLoading(false);
-                    });
-                });
+            .then((result) => {
+                const data = result.data;
+                setResults({ distances: data.neiborHoodScors, prediction: data.neiborHood, pointer: {lat, lng}, improvements: data.neiborHoodBetterDistances});
+                setLoading(false);
             });
     }
 
