@@ -95,19 +95,19 @@ export class DistancesService {
 
         switch (ROOMS) {
             case '':
-                return await this.neiborhoodModel.find({ GENERAL_SCORE: SCORE });
+                return await this.neiborhoodModel.find({ GENERAL_SCORE: SCORE, YEAR:'2022' });
             case '1':
-                return await this.neiborhoodModel.find({ ONEBR_GENERAL_SCORE: SCORE });
+                return await this.neiborhoodModel.find({ ONEBR_GENERAL_SCORE: SCORE , YEAR:'2022'});
             case '2':
-                return await this.neiborhoodModel.find({ TWOBR_GENERAL_SCORE: SCORE });
+                return await this.neiborhoodModel.find({ TWOBR_GENERAL_SCORE: SCORE , YEAR:'2022'});
             case '3':
-                return await this.neiborhoodModel.find({ THREEBR_GENERAL_SCORE: SCORE });
+                return await this.neiborhoodModel.find({ THREEBR_GENERAL_SCORE: SCORE, YEAR:'2022' });
             case '4':
-                return await this.neiborhoodModel.find({ FOURBR_GENERAL_SCORE: SCORE });
+                return await this.neiborhoodModel.find({ FOURBR_GENERAL_SCORE: SCORE, YEAR:'2022' });
             case '5':
-                return await this.neiborhoodModel.find({ FIVEBR_GENERAL_SCORE: SCORE });
+                return await this.neiborhoodModel.find({ FIVEBR_GENERAL_SCORE: SCORE, YEAR:'2022' });
             case '6':
-                return await this.neiborhoodModel.find({ SIXBR_GENERAL_SCORE: SCORE });
+                return await this.neiborhoodModel.find({ SIXBR_GENERAL_SCORE: SCORE, YEAR:'2022' });
             default:
                 return;
         }
@@ -258,6 +258,8 @@ var [a,b,c,d,e] = await Promise.all([ this.getDistancesNeiborhoods(toFunc, 'BUS'
             this.getSchoolMinDistance(LATITUDE, LONGITUDE),
             this.getTrainMinDistance(LATITUDE, LONGITUDE)
         ])
+        console.log(LATITUDE)
+        console.log(LONGITUDE)
         // var bus = await this.getBusMinDistance(LATITUDE, LONGITUDE)
         // var beach = await this.getBeachMinDistance(LATITUDE, LONGITUDE)
         // var highway = await this.getHighwayMinDistance(LATITUDE, LONGITUDE)

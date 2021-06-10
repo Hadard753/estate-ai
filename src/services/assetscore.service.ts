@@ -38,6 +38,8 @@ export class AssetScoreService {
     return result
   }
 
+  
+
 //fixed
   getMinDist(coor: ICOORDINATES[], LATITUDE: number, LONGITUDE: number) {
     var dists = []
