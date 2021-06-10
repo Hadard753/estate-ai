@@ -163,7 +163,7 @@ const SearchPage = () => {
                     <Grid item container xs={9}>
                         <Grid item xs={12}>
                             {results.prediction === null ? null :
-                            <Prediction data={results.prediction || {}} />}
+                            <Prediction data={results.prediction || {}} roomNum={search.rooms} />}
                            {
                                 results.pointer !== null &&
                                 <Map
