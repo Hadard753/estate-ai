@@ -1,13 +1,9 @@
-import { arrayUnique } from 'class-validator';
-import { uniqueId } from 'lodash';
-import { Document, Model, Schema } from 'mongoose';
-import { parse } from 'superagent';
-
-import { UniqueItems } from '@tsed/common';
 import { Service } from '@tsed/di';
-
+import { Document, Model, Schema } from 'mongoose';
 import { AssetScoreService } from './assetscore.service';
 import { DatabaseService } from './db.service';
+
+
 
 export enum ScoreEnum {
     'D',
@@ -97,19 +93,19 @@ export class DistancesService {
 
         switch (ROOMS) {
             case '':
-                return await this.neiborhoodModel.find({ GENERAL_SCORE: SCORE, YEAR:'2022' });
+                return await this.neiborhoodModel.find({ PRECENTAGE_SCORE: SCORE, YEAR:'2022' });
             case '1':
-                return await this.neiborhoodModel.find({ ONEBR_GENERAL_SCORE: SCORE , YEAR:'2022'});
+                return await this.neiborhoodModel.find({ ONEBR_PRECENTAGE_SCORE: SCORE , YEAR:'2022'});
             case '2':
-                return await this.neiborhoodModel.find({ TWOBR_GENERAL_SCORE: SCORE , YEAR:'2022'});
+                return await this.neiborhoodModel.find({ TWOBR_PRECENTAGE_SCORE: SCORE , YEAR:'2022'});
             case '3':
-                return await this.neiborhoodModel.find({ THREEBR_GENERAL_SCORE: SCORE, YEAR:'2022' });
+                return await this.neiborhoodModel.find({ THREEBR_PRECENTAGE_SCORE: SCORE, YEAR:'2022' });
             case '4':
-                return await this.neiborhoodModel.find({ FOURBR_GENERAL_SCORE: SCORE, YEAR:'2022' });
+                return await this.neiborhoodModel.find({ FOURBR_PRECENTAGE_SCORE: SCORE, YEAR:'2022' });
             case '5':
-                return await this.neiborhoodModel.find({ FIVEBR_GENERAL_SCORE: SCORE, YEAR:'2022' });
+                return await this.neiborhoodModel.find({ FIVEBR_PRECENTAGE_SCORE: SCORE, YEAR:'2022' });
             case '6':
-                return await this.neiborhoodModel.find({ SIXBR_GENERAL_SCORE: SCORE, YEAR:'2022' });
+                return await this.neiborhoodModel.find({ SIXBR_PRECENTAGE_SCORE: SCORE, YEAR:'2022' });
             default:
                 return;
         }
